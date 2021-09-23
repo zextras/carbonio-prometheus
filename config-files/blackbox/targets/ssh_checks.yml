@@ -1,0 +1,5 @@
+- labels:
+    module: ssh_banner
+  targets:
+   - zimbrone.lorenzo.esxi:22
+   - mail.zextras.rm:22

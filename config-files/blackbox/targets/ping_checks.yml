@@ -1,0 +1,5 @@
+- labels:
+    module: icmp_ipv4
+  targets:
+   - zimbrone.lorenzo.esxi
+   - mail.zextras.rm

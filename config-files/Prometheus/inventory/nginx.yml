@@ -1,0 +1,4 @@
+- labels:
+    job: nginx
+  targets:
+   - zimbrone.lorenzo.esxi:9113

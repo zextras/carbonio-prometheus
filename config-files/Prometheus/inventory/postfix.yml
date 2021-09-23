@@ -1,0 +1,4 @@
+- labels:
+    job: postfix
+  targets:
+   - zimbrone.lorenzo.esxi:9154

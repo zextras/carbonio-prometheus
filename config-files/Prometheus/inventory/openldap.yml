@@ -1,0 +1,4 @@
+- labels:
+    job: openldap
+  targets:
+   - zimbrone.lorenzo.esxi:9330

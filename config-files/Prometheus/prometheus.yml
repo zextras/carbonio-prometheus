@@ -1,0 +1,82 @@
+#Global config
+global:
+  scrape_interval:     35s # Set the scrape interval to every 30 seconds. Default is every 1 minute.
+  evaluation_interval: 35s # Evaluate rules every 60 seconds. The default is every 1 minute.
+  external_labels:
+    cluster: vi
+    replica: zimbrone
+  # scrape_timeout is set to the global default (10s). 
+
+# Alertmanager configuration, it uses two alert manager for HA
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - localhost:9093
+      - 192.168.157.81:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "alert_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: node
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/inventory/node.yml'
+      
+  - job_name: openldap
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/inventory/openldap.yml'
+  
+  - job_name: mysql
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/inventory/mysql.yml'
+
+  - job_name: nginx
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/inventory/nginx.yml'
+    
+  - job_name: postfix
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/inventory/postfix.yml'
+
+  - job_name: thanos
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/inventory/thanos.yml'  
+
+  - job_name: blackbox
+    scrape_interval: 10s
+    metrics_path: /probe
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/blackbox/targets/*.yml'    
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [module]
+        target_label: __param_module
+      - source_labels: [__param_target]
+        action: replace
+        target_label: instance
+        regex: (((http?)(s?)(:?)(/?)(/?))*)([a-zA-Z0-9.]+)(:?)(\d*)
+        replacement: $8
+      - target_label: __address__
+        replacement: 127.0.0.1:9115  # blackbox exporter        

@@ -1,0 +1,7 @@
+- labels:
+    job: node
+  targets:
+   - zimbrone.lorenzo.esxi:9100
+   - monrm.zextras.rm:9100
+   - z8815f.loc:9100
+   - zft3.loc:9100
