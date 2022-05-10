@@ -52,35 +52,40 @@ else
 fi	
 
 # setup systemd
-echo "[Unit]
-Description=Prometheus Alertmanager Service
-Wants=network-online.target
-After=network.target
+if [[ -f "/etc/systemd/system/prometheus-alertmanager.service" ]]; then
+    echo "Systemd already exists."
+	systemctl daemon-reload
+	systemctl start prometheus-alertmanager
+else
+	echo "[Unit]
+	Description=Prometheus Alertmanager Service
+	Wants=network-online.target
+	After=network.target
 
-[Service]
-User=$USER
-Group=$USER
-Type=simple
-EnvironmentFile=$defaultOptions
-ExecStart=/usr/local/bin/alertmanager \$ARGS
-Restart=always
+	[Service]
+	User=$USER
+	Group=$USER
+	Type=simple
+	EnvironmentFile=$defaultOptions
+	ExecStart=/usr/local/bin/alertmanager \$ARGS
+	Restart=always
 
-[Install]
-WantedBy=multi-user.target" > /etc/systemd/system/prometheus-alertmanager.service
+	[Install]
+	WantedBy=multi-user.target" > /etc/systemd/system/prometheus-alertmanager.service
 
-systemctl daemon-reload
-systemctl enable prometheus-alertmanager
-# systemctl start prometheus-alertmanager
+	systemctl daemon-reload
+	systemctl enable prometheus-alertmanager
+	systemctl start prometheus-alertmanager
 
-echo "Setup complete.
-Edit $defaultOptions
-Edit you settings in  $CONFIGDIR/alertmanager.yml:
-Add the following rows in /etc/prometheus/prometheus.yml:
+	echo "Setup complete.
+	Edit $defaultOptions
+	Edit you settings in  $CONFIGDIR/alertmanager.yml:
+	Add the following rows in /etc/prometheus/prometheus.yml:
 
-alerting:
-  alertmanagers:
-  - static_configs:
-    - targets:
-      - localhost:9093
-restart both services: alertmanager and prometheus "
-
+	alerting:
+	  alertmanagers:
+	  - static_configs:
+		- targets:
+		  - localhost:9093
+	restart both services: alertmanager and prometheus "
+fi

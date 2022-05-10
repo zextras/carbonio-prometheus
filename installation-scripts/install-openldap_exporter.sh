@@ -17,18 +17,15 @@ wget $downloadUrl
 fileName="${downloadUrl##*/}"
 
 
-# tar -xvzf $fileName
-# dirName=$(tar -tzf $fileName | head -1 | cut -f1 -d"/")
-# cd $dirName
-
+gzip -d $fileName
 # copy binaries
-cp openldap_exporter-linux /usr/local/bin/
+cp openldap_exporter-linux* /usr/local/bin/openldap_exporter
 
 # set ownership
-chown $USER:$USER /usr/local/bin/openldap_exporter-linux
+chown $USER:$USER /usr/local/bin/openldap_exporter
 
 #Set Executable
-chmod +x /usr/local/bin/openldap_exporter-linux
+chmod +x /usr/local/bin/openldap_exporter
 
 # setup systemd
 echo "[Unit]
@@ -40,15 +37,15 @@ After=network-online.target
 User=$USER
 Group=$USER
 Type=simple
-ExecStart=/usr/local/bin/openldap_exporter-linux \
+ExecStart=/usr/local/bin/openldap_exporter \
 --config /etc/prometheus/openldap_exporter.yml
 
 [Install]
-WantedBy=multi-user.target" > /etc/systemd/system/openldap_exporter-linux.service
+WantedBy=multi-user.target" > /etc/systemd/system/openldap_exporter.service
 
 systemctl daemon-reload
-systemctl enable openldap_exporter-linux
-systemctl start openldap_exporter-linux
+systemctl enable openldap_exporter
+systemctl start openldap_exporter
 
 echo "Setup complete.
 Edit $CONFIGDIR/openldap_exporter.cnf

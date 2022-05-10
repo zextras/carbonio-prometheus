@@ -7,6 +7,26 @@ Only the push proxy require two arguments the url and the kind of installation s
 Once you have installed the exporters on a Zimbra server you can create config using the following commands.
 
 
+### Node exporter on mailstores
+Copy csv2prom.pl parsesoap.sh prom_zmqstat in /usr/local/sbin and schedule execution
+
+/etc/crontab
+
+```
+#Parsing mailbox.csv
+* * * * * root  /usr/local/sbin/csv2prom.pl /opt/zimbra/zmstat/mailboxd.csv
+
+#Parsing threads.csv
+* * * * * root  /usr/local/sbin/csv2prom.pl /opt/zimbra/zmstat/threads.csv
+
+#Postfix stat
+* * * * * root  /usr/local/sbin/prom_zmqstat
+
+#Parsing soap.csv
+* * * * * root  /usr/local/sbin/parsesoap.sh
+```
+
+Create file /etc/default/prometheus-node_exporter and write ARGS='--collector.textfile.directory /tmp/' to allow node exporter to read and expose
 
 ### Openldap exporter config
 
@@ -24,5 +44,4 @@ echo "user=zimbra" >> /etc/prometheus/mysqld_exporter.cnf
 /opt/zimbra/bin/zmlocalconfig -s zimbra_mysql_password | awk {'print "password=" $3'} >> /etc/prometheus/mysqld_exporter.cnf
 /opt/zimbra/bin/zmlocalconfig -s mysql_bind_address | awk {'print "host=" $3'} >> /etc/prometheus/mysqld_exporter.cnf
 /opt/zimbra/bin/zmlocalconfig -s mysql_port | awk {'print "port=" $3'} >> /etc/prometheus/mysqld_exporter.cnf
-
 

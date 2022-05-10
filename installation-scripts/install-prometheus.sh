@@ -68,7 +68,7 @@ else
 	" > $defaultOptions
 fi	
 
-# To work with thanso
+# To work with thanos
 #  --storage.tsdb.max-block-duration=2h \
 #  --storage.tsdb.min-block-duration=2h \
 # To allow reload config without restart service
@@ -76,26 +76,34 @@ fi
 #  --web.enable-lifecycle
 
 # setup systemd
-echo "[Unit]
-Description=Prometheus
-Wants=network-online.target
-After=network-online.target
+if [[ -f "/etc/systemd/system/prometheus.service" ]]; then
+    echo "Systemd already exists."
+	systemctl start prometheus
+else
+	echo "[Unit]
+	Description=Prometheus
+	Wants=network-online.target
+	After=network-online.target
 
-[Service]
-User=$USER
-Group=$USER
-Type=simple
-EnvironmentFile=$defaultOptions
-ExecStart=/usr/local/bin/prometheus \$ARGS
+	[Service]
+	User=$USER
+	Group=$USER
+	Type=simple
+	EnvironmentFile=$defaultOptions
+	ExecStart=/usr/local/bin/prometheus \$ARGS
+	LimitNOFILE=65535
 
-[Install]
-WantedBy=multi-user.target" > /etc/systemd/system/prometheus.service
+	[Install]
+	WantedBy=multi-user.target" > /etc/systemd/system/prometheus.service
+	systemctl daemon-reload
+	systemctl enable prometheus
+	systemctl start prometheus
+	echo "Setup complete.
+	Set your default in file $defaultOptions
+	Edit you settings in  $CONFIGDIR/prometheus.yml"
+fi
 
-systemctl daemon-reload
-systemctl enable prometheus
-# systemctl start prometheus
 
-echo "Setup complete.
-Set your default in file $defaultOptions
-Edit you settings in  $CONFIGDIR/prometheus.yml"
+
+
 
