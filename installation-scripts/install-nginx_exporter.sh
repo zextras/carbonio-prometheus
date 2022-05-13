@@ -33,7 +33,7 @@ cp nginx-prometheus-exporter /usr/local/bin/
 chown $USER:$USER /usr/local/bin/nginx-prometheus-exporter
 
 echo "SSL_VERIFY=false
-ARGS='-nginx.scrape-uri=http://localhost/nginx_status'" > $defaultOptions
+ARGS='-nginx.scrape-uri=https://localhost/nginx_status'" > $defaultOptions
 
 # setup systemd
 echo "[Unit]

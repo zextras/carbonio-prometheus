@@ -8,7 +8,7 @@ fi
 CONFIGDIR="/etc/prometheus"
 USER="prometheus"
 
-defaultOptions="/etc/default/prometheus-node_exporter"
+defaultOptions="/etc/default/node_exporter"
 touch $defaultOptions
 
 # create user
