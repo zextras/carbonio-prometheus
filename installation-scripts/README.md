@@ -7,7 +7,7 @@ Only the push proxy require two arguments the url and the kind of installation s
 Once you have installed the exporters on a Zimbra server you can create config using the following commands.
 
 
-### Node exporter on mailstores
+### Node exporter on Zimbra mailstores
 Copy csv2prom.pl parsesoap.sh prom_zmqstat in /usr/local/sbin and schedule execution
 
 /etc/crontab
@@ -27,6 +27,16 @@ Copy csv2prom.pl parsesoap.sh prom_zmqstat in /usr/local/sbin and schedule execu
 ```
 
 Create file /etc/default/prometheus-node_exporter and write ARGS='--collector.textfile.directory /tmp/' to allow node exporter to read and expose
+
+### Node exporter on Carbonio servers
+
+Carbonio mailbox and mta save Prometheus metrics in /opt/zextras/zmstat/prometheus/, the files must be exposed by node exporter using the following options 
+
+echo '--collector.textfile.directory /opt/zextras/zmstat/prometheus/' > /etc/default/node_exporter
+
+Add the node exporte user  to the zextras group
+
+usermod -a -G zextras prometheus
 
 ### Openldap exporter config
 
