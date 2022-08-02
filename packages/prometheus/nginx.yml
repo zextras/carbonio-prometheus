@@ -1,0 +1,4 @@
+# - labels:
+#     job: nginx
+#   targets:
+#     - serverhostname:9113

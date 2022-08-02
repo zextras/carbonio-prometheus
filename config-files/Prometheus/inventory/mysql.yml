@@ -1,6 +1,0 @@
-- labels:
-    job: mysql
-  targets:
-   - zimbrone.lorenzo.esxi:9104
-   - z8815f.loc:9104
-   - zft3.loc:9104

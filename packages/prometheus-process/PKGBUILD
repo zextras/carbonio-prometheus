@@ -1,0 +1,71 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-prometheus-process-exporter"
+pkgver="0.7.10"
+pkgrel="1"
+pkgdesc="Process exporter for open-source systems monitoring and alerting toolkit"
+pkgdesclong=(
+  "Process exporter for open-source systems monitoring and alerting toolkit"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "https://github.com/ncabatoff/process-exporter/releases/download/v${pkgver}/process-exporter-${pkgver}.linux-amd64.tar.gz"
+  "process.default"
+  "process.service"
+  "process.yml"
+)
+hashsums=(
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+)
+
+depends=(
+  "systemd"
+)
+
+makedepends:apt=(
+  "libsystemd-dev"
+)
+
+makedepends:yum=(
+  "systemd-devel"
+)
+
+conflicts=(
+  "prometheus-process-exporter"
+)
+
+package() {
+  cd "${srcdir}/process-exporter-${pkgver}.linux-amd64"
+  
+  install -Dm755 process-exporter \
+    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-process-exporter"
+
+  install -Dm644 "${srcdir}"/process.service \
+    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-process-exporter.service
+  install -Dm644 "${srcdir}"/process.default \
+    "${pkgdir}"/etc/default/carbonio-prometheus-process-exporter
+  install -Dm644 "${srcdir}"/process.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/carbonio-prometheus-process-exporter.yml
+}
+
+postinst() {
+  if hash systemctl 2>/dev/null; then
+    systemctl daemon-reload 2>/dev/null || true
+  fi
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+  echo "Please enable the relative exporter job within"
+  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
+  echo ""
+  echo "Don't forget to enable the systemd unit service"
+}

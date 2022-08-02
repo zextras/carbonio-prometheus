@@ -1,0 +1,68 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-prometheus-mysqld-exporter"
+pkgver="0.14.0"
+pkgrel="1"
+pkgdesc="Mysqld exporter for open-source systems monitoring and alerting toolkit"
+pkgdesclong=(
+  "Mysqld manager exporter for open-source systems monitoring and alerting toolkit"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-amd64.tar.gz"
+  "mysqld.default"
+  "mysqld.service"
+  "mysqld_exporter.cnf"
+)
+hashsums=(
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+)
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+  'prometheus-mysqld-exporter'
+)
+
+
+package() {
+  cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
+  
+  install -Dm755 mysqld_exporter \
+    "${pkgdir}"/opt/zextras/common/bin/carbonio-prometheus-mysqld-exporter
+
+  install -Dm644 "${srcdir}"/mysqld.service \
+    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-mysqld-exporter.service
+  install -Dm644 "${srcdir}"/mysqld.default \
+    "${pkgdir}"/etc/default/carbonio-prometheus-mysqld-exporter
+  install -Dm644 "${srcdir}"/mysqld_exporter.cnf \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/carbonio-prometheus-mysqld-exporter.cnf
+}
+
+postinst() {
+  if hash systemctl 2>/dev/null; then
+    systemctl daemon-reload 2>/dev/null || true
+  fi
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+  echo "Please enable the relative exporter job within"
+  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
+  echo ""
+  echo "Add the required parameters for MySQL connection here"
+  echo "/opt/zextras/common/etc/prometheus/mysql_exporter.cnf"
+  echo "Don't forget to enable the systemd unit service"
+  echo ""
+}
+

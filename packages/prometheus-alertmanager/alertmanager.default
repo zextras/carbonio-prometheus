@@ -1,0 +1,1 @@
+ARGS="--config.file /opt/zextras/common/etc/prometheus/alertmanager.yml --storage.path /var/lib/alertmanager/data"

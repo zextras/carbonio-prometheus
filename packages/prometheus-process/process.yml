@@ -1,0 +1,18 @@
+process_names:
+  - comm:
+      - amavis-mc
+      - carbonio*
+      - clamd
+      - consul
+      - envoy
+      - freshclam
+      - gunicorn
+      - java
+      - memcached
+      - nginx
+      - opendkim
+      - saslauthd
+      - slapd
+      - soffice.bin
+      - sshd
+      - zm*

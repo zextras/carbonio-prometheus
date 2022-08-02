@@ -1,0 +1,92 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-prometheus"
+pkgver="2.36.2"
+pkgrel="1"
+pkgdesc="An open-source systems monitoring and alerting toolkit"
+pkgdesclong=(
+  "An open-source systems monitoring and alerting toolkit"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "https://github.com/prometheus/prometheus/releases/download/v2.36.2/prometheus-2.36.2.linux-amd64.tar.gz"
+  "prometheus.default"
+  "prometheus.service"
+  "prometheus.sysusers"
+  "prometheus.yml"
+  "mysql.yml"
+  "nginx.yml"
+  "node.yml"
+  "openldap.yml"
+)
+hashsums=(
+  "3f558531c6a575d8372b576b7e76578a98e2744da6b89982ea7021b6f000cddd"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+)
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+  "prometheus"
+)
+
+package() {
+  cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
+  
+  install -Dm755 prometheus \
+    "${pkgdir}"/opt/zextras/common/bin/carbonio-prometheus
+  install -Dm755 promtool "\
+    ${pkgdir}"/opt/zextras/common/bin/promtool
+
+  install -dm750 -o210 -g210 "${pkgdir}"/var/lib/prometheus
+  install -dm750 -o210 -g210 "${pkgdir}"/opt/zextras/common/etc/template
+
+
+  install -Dm640 -g210 "${srcdir}"/prometheus.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/prometheus.yml
+  install -Dm640 -g210 "${srcdir}"/mysql.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/mysql.yml
+  install -Dm640 -g210 "${srcdir}"/nginx.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/nginx.yml
+  install -Dm640 -g210 "${srcdir}"/node.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/node.yml
+  install -Dm640 -g210 "${srcdir}"/openldap.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/openldap.yml
+
+  install -Dm644 "${srcdir}"/prometheus.service \
+    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus.service
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}"/usr/lib/sysusers.d/carbonio-prometheus.conf
+  install -Dm644 "${srcdir}"/prometheus.default \
+    "${pkgdir}"/etc/default/carbonio-prometheus
+}
+
+postinst() {
+  if hash systemctl 2>/dev/null; then
+    systemctl daemon-reload 2>/dev/null || true
+  fi
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+}
+

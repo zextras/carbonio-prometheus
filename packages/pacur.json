@@ -1,0 +1,35 @@
+{
+    "name": "Prometheus exporter",
+    "Description": "Prometheus exporter tools",
+    "build_dir": "/tmp/",
+    "output": "artifacts",
+    "Projects": [
+        {
+            "name": "prometheus"
+        },
+        {
+            "name": "prometheus-alertmanager"
+        },
+        {
+            "name": "prometheus-blackbox"
+        },
+        {
+            "name": "prometheus-consul"
+        },
+        {
+            "name": "prometheus-mysqld"
+        },
+        {
+            "name": "prometheus-nginx"
+        },
+        {
+            "name": "prometheus-node"
+        },
+        {
+            "name": "prometheus-openldap"
+        },
+        {
+            "name": "prometheus-process"
+        }
+    ]
+}

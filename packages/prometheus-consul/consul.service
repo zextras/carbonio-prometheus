@@ -1,0 +1,15 @@
+[Unit]
+Description=Carbonio Prometheus Consul exporter
+Wants=network-online.target
+After=network.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+EnvironmentFile=/etc/default/carbonio-prometheus-consul-exporter
+ExecStart=/opt/zextras/common/bin/carbonio-prometheus-consul-exporter $ARGS
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

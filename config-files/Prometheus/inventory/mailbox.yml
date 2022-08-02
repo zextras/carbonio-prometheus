@@ -1,5 +1,0 @@
-- labels:
-    job: mailbox
-  targets:
-   - zimbrone.lorenzo.esxi:9273
-

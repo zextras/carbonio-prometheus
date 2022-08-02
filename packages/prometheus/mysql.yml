@@ -1,0 +1,4 @@
+# - labels:
+#     job: mysql
+#   targets:
+#     - serverhostname:9104

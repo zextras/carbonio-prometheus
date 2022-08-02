@@ -1,0 +1,4 @@
+ldapAddr: {{ ldap_url }}
+ldapUser: {{ zimbra_ldap_userdn }}
+ldapPass: {{ zimbra_ldap_password }}
+interval: 1m

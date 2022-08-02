@@ -1,5 +1,0 @@
-- labels:
-    module: https_2xx
-  targets:
-   - https://zimbrone.lorenzo.esxi
-   - https://mail.zextras.rm

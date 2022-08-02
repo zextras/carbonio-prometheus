@@ -1,0 +1,47 @@
+global:
+  smtp_smarthost: "10.66.64.94:25"
+  smtp_from: "lorenzo@zimbrone.lorenzo.esxi"
+  smtp_require_tls: true
+
+templates:
+  - "/etc/prometheus/template/*.tmpl"
+
+route:
+  group_by: ["alertname", "job", "istance"]
+  repeat_interval: 1m
+  group_interval: 2m
+  receiver: "default"
+  routes:
+    - match:
+        severity: warning
+      receiver: warning
+
+    - match:
+        severity: critical
+      receiver: critical
+
+receivers:
+  - name: "default"
+    email_configs:
+      - send_resolved: false
+        to: "monitor@zimbra.mon"
+        headers:
+          subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
+        html: '{{ template "email.tmpl" . }}'
+        require_tls: false
+  - name: "warning"
+    email_configs:
+      - send_resolved: false
+        to: "monitor@zimbra.mon"
+        headers:
+          subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
+        html: '{{ template "email.tmpl" . }}'
+        require_tls: false
+  - name: "critical"
+    email_configs:
+      - send_resolved: false
+        to: "monitor@zimbra.mon"
+        headers:
+          subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
+        html: '{{ template "email.tmpl" . }}'
+        require_tls: false

@@ -1,0 +1,1 @@
+ARGS='--collector.textfile.directory /opt/zextras/zmstat/prometheus/'

@@ -1,0 +1,59 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-prometheus-node-exporter"
+pkgver="1.3.1"
+pkgrel="1"
+pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
+pkgdesclong=(
+  "Node exporter for open-source systems monitoring and alerting toolkit"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz"
+  "node.default"
+  "node.service"
+)
+hashsums=(
+  "skip"
+  "skip"
+  "skip"
+)
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+  "prometheus-node-exporter"
+)
+
+package() {
+  cd "${srcdir}/node_exporter-${pkgver}.linux-amd64"
+
+  install -Dm755 node_exporter \
+    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-node-exporter"
+
+  install -Dm644 "${srcdir}"/node.service \
+    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-node-exporter.service
+  install -Dm644 "${srcdir}"/node.default \
+    "${pkgdir}"/etc/default/carbonio-prometheus-node-exporter
+}
+
+postinst() {
+  if hash systemctl 2>/dev/null; then
+    systemctl daemon-reload 2>/dev/null || true
+  fi
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+  echo "Please enable the relative exporter job within"
+  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
+  echo ""
+  echo "Don't forget to enable the systemd unit service"
+}
