@@ -18,8 +18,10 @@ sources=(
   "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${pkgver}/nginx-prometheus-exporter_${pkgver}_linux_amd64.tar.gz"
   "nginx.default"
   "nginx.service"
+  "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -35,12 +37,12 @@ conflicts=(
 
 package() {
   install -Dm755 "${srcdir}/nginx-prometheus-exporter" \
-    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-nginx-exporter"
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm644 "${srcdir}"/nginx.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-nginx-exporter.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/nginx.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus-nginx-exporter
+    "${pkgdir}/etc/default/${pkgname}"
 }
 
 postinst() {
@@ -50,6 +52,10 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""

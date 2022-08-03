@@ -22,9 +22,11 @@ sources=(
   "htp_checks.yml"
   "ping_checks.yml"
   "ssh_checks.yml"
+  "prometheus.sysusers"
 )
 
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -46,15 +48,15 @@ package() {
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64"
 
   install -Dm755 blackbox_exporter \
-    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-blackbox-exporter"
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm644 "${srcdir}"/blackbox.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-blackbox-exporter.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/blackbox.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus-blackbox-exporter
+    "${pkgdir}/etc/default/${pkgname}"
 
   install -Dm644 -g210 "${srcdir}"/blackbox.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/carbonio-prometheus-blackbox-exporter.yml
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 
   install -Dm644 "${srcdir}"/htp_checks.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml
@@ -71,6 +73,10 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""

@@ -19,8 +19,10 @@ sources=(
   "mysqld.default"
   "mysqld.service"
   "mysqld_exporter.cnf"
+  "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -35,19 +37,21 @@ conflicts=(
   'prometheus-mysqld-exporter'
 )
 
-
 package() {
   cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
-  
+
   install -Dm755 mysqld_exporter \
-    "${pkgdir}"/opt/zextras/common/bin/carbonio-prometheus-mysqld-exporter
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm644 "${srcdir}"/mysqld.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-mysqld-exporter.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/mysqld.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus-mysqld-exporter
+    "${pkgdir}/etc/default/${pkgname}"
   install -Dm644 "${srcdir}"/mysqld_exporter.cnf \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/carbonio-prometheus-mysqld-exporter.cnf
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
+
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
 }
 
 postinst() {
@@ -57,6 +61,10 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""
@@ -65,4 +73,3 @@ postinst() {
   echo "Don't forget to enable the systemd unit service"
   echo ""
 }
-

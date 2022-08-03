@@ -18,15 +18,16 @@ sources=(
   "https://github.com/prometheus/alertmanager/releases/download/v0.24.0/alertmanager-0.24.0.linux-amd64.tar.gz"
   "alertmanager.default"
   "alertmanager.service"
+  "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
 )
 
 depends=(
-  "carbonio-prometheus"
   "systemd"
 )
 
@@ -38,16 +39,16 @@ package() {
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
   
   install -Dm755 alertmanager \
-    "${pkgdir}"/opt/zextras/common/bin/carbonio-prometheus-alertmanager 
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
   install -Dm755 amtool \
     "${pkgdir}"/opt/zextras/common/bin/amtool
   install -Dm640 -g210 -t "${pkgdir}"/opt/zextras/common/etc/prometheus alertmanager.yml
   install -dm750 -o210 -g210 "${pkgdir}"/var/lib/alertmanager/data
 
   install -Dm644 "${srcdir}"/alertmanager.service \
-    "${pkgdir}"/usr/lib/systemd/system/prometheus-alertmanager.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/alertmanager.default \
-    "${pkgdir}"/etc/default/prometheus-alertmanager
+    "${pkgdir}"/etc/default/"${pkgname}"
 }
 
 postinst() {
@@ -57,6 +58,10 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""

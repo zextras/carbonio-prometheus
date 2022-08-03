@@ -18,8 +18,10 @@ sources=(
   "https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz"
   "node.default"
   "node.service"
+  "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -37,12 +39,12 @@ package() {
   cd "${srcdir}/node_exporter-${pkgver}.linux-amd64"
 
   install -Dm755 node_exporter \
-    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-node-exporter"
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm644 "${srcdir}"/node.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-node-exporter.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/node.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus-node-exporter
+    "${pkgdir}/etc/default/${pkgname}"
 }
 
 postinst() {
@@ -52,6 +54,10 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""

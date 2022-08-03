@@ -19,8 +19,10 @@ sources=(
   "process.default"
   "process.service"
   "process.yml"
+  "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -50,11 +52,11 @@ package() {
     "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-process-exporter"
 
   install -Dm644 "${srcdir}"/process.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-process-exporter.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/process.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus-process-exporter
+    "${pkgdir}/etc/default/${pkgname}"
   install -Dm644 "${srcdir}"/process.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/carbonio-prometheus-process-exporter.yml
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 }
 
 postinst() {
@@ -64,6 +66,10 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""

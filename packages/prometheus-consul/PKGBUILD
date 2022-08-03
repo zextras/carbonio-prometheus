@@ -18,26 +18,33 @@ sources=(
   "https://github.com/prometheus/consul_exporter/releases/download/v${pkgver}/consul_exporter-${pkgver}.linux-amd64.tar.gz"
   "consul.default"
   "consul.service"
+  "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
 )
 
 depends=(
+  "carbonio-prometheus"
   "systemd"
 )
-install 
+
+conflicts=(
+  'prometheus-consul-exporter'
+)
+
 package() {
   cd "${srcdir}/consul_exporter-${pkgver}.linux-amd64"
-  install -Dm755 "${srcdir}/consul-exporter" \
-    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-consul-exporter"
+  install -Dm755 consul_exporter \
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm644 "${srcdir}"/consul.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-consul-exporter.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/consul.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus-consul-exporter
+    "${pkgdir}/etc/default/${pkgname}"
 }
 
 postinst() {

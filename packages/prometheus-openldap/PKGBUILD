@@ -19,8 +19,10 @@ sources=(
   "openldap.default"
   "openldap.service"
   "openldap.yml"
+  "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -28,22 +30,25 @@ hashsums=(
 )
 
 depends=(
-  "carbonio-prometheus"
   "systemd"
+)
+
+conflicts=(
+  'prometheus-openldap-exporter'
 )
 
 package() {
   cd "${srcdir}"
   gunzip -f openldap_exporter-linux-amd64.gz
   install -Dm755 openldap_exporter-linux-amd64 \
-    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-openldap-exporter"
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm644 ../openldap.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus-openldap-exporter.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 ../openldap.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus-openldap-exporter
+    "${pkgdir}/etc/default/${pkgname}"
   install -Dm644 ../openldap.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 }
 
 postinst() {
@@ -53,6 +58,10 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""
