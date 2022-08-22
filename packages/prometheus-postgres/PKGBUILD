@@ -1,0 +1,72 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-prometheus-openldap-exporter"
+pkgver="2.2.1"
+pkgrel="1"
+pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
+pkgdesclong=(
+  "OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
+  "openldap.default"
+  "openldap.service"
+  "openldap.yml"
+  "prometheus.sysusers"
+)
+hashsums=(
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+)
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+  'prometheus-openldap-exporter'
+)
+
+package() {
+  cd "${srcdir}"
+  gunzip -f openldap_exporter-linux-amd64.gz
+  install -Dm755 openldap_exporter-linux-amd64 \
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
+
+  install -Dm644 ../openldap.service \
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm644 ../openldap.default \
+    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 ../openldap.yml \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+}
+
+postinst() {
+  if hash systemctl 2>/dev/null; then
+    systemctl daemon-reload 2>/dev/null || true
+  fi
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
+  echo "Please enable the relative exporter job within"
+  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
+  echo ""
+  echo "Add the required parameters for OpenLDAP connection here"
+  echo "/opt/zextras/common/etc/prometheus/openldap.yml"
+  echo ""
+  echo "Don't forget to enable the systemd unit service"
+}

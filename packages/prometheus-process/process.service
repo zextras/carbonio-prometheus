@@ -4,8 +4,8 @@ Wants=network-online.target
 After=network.target
 
 [Service]
-User=prometheus
-Group=prometheus
+User=carbonio-prometheus
+Group=carbonio-prometheus
 Type=simple
 EnvironmentFile=/etc/default/carbonio-prometheus-process-exporter
 ExecStart=/opt/zextras/common/bin/carbonio-prometheus-process-exporter $ARGS

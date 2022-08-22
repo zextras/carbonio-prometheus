@@ -4,8 +4,8 @@ Wants=network-online.target
 After=network.target
 
 [Service]
-User=prometheus
-Group=prometheus
+User=carbonio-prometheus
+Group=carbonio-prometheus
 Type=simple
 Environment=SSL_VERIFY=false
 EnvironmentFile=/etc/default/carbonio-prometheus-nginx-exporter
