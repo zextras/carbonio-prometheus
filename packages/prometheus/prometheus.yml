@@ -49,6 +49,16 @@ scrape_configs:
       - files:
           - "/opt/zextras/common/etc/prometheus/inventory/nginx.yml"
 
+  - job_name: consul
+    file_sd_configs:
+      - files:
+          - "/opt/zextras/common/etc/prometheus/inventory/consul.yml"
+
+  - job_name: process
+    file_sd_configs:
+      - files:
+          - "/opt/zextras/common/etc/prometheus/inventory/process.yml"
+
   # - job_name: thanos
   # file_sd_configs:
   # - files:

@@ -24,6 +24,8 @@ sources=(
   "nginx.yml"
   "node.yml"
   "openldap.yml"
+  "consul.yml"
+  "process.yml"
 )
 hashsums=(
   "3f558531c6a575d8372b576b7e76578a98e2744da6b89982ea7021b6f000cddd"
@@ -70,6 +72,10 @@ package() {
     "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/node.yml
   install -Dm640 -g210 "${srcdir}"/openldap.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/openldap.yml
+  install -Dm640 -g210 "${srcdir}"/process.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/process.yml
+  install -Dm640 -g210 "${srcdir}"/consul.yml \
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/consul.yml
 
   install -Dm644 "${srcdir}"/prometheus.service \
     "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus.service

@@ -1,5 +1,5 @@
 [Unit]
-Description=Carbonio Prometheus OpenLDAP exporter
+Description=Carbonio Prometheus Postgres exporter
 Wants=network-online.target
 After=network.target
 
@@ -8,8 +8,8 @@ User=carbonio-prometheus
 Group=carbonio-prometheus
 Type=simple
 Environment=SSL_VERIFY=false
-EnvironmentFile=/etc/default/carbonio-prometheus-openldap-exporter
-ExecStart=/opt/zextras/common/bin/carbonio-prometheus-openldap-exporter $ARGS
+EnvironmentFile=/etc/default/carbonio-prometheus-postgres-exporter
+ExecStart=/opt/zextras/common/bin/carbonio-prometheus-postgres-exporter $ARGS
 Restart=always
 
 [Install]

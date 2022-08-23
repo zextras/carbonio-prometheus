@@ -2,12 +2,12 @@ targets=(
   "centos"
   "ubuntu"
 )
-pkgname="carbonio-prometheus-openldap-exporter"
-pkgver="2.2.1"
+pkgname="carbonio-prometheus-Postgres-exporter"
+pkgver="0.11.1"
 pkgrel="1"
-pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
+pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
-  "OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
+  "Postgres exporter for open-source systems monitoring and alerting toolkit"
 )
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -15,10 +15,10 @@ section="mail"
 priority="optional"
 arch="amd64"
 sources=(
-  "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
-  "openldap.default"
-  "openldap.service"
-  "openldap.yml"
+  "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
+  "postgres.default"
+  "postgres.service"
+  "postgres.yml"
   "prometheus.sysusers"
 )
 hashsums=(
@@ -34,21 +34,24 @@ depends=(
 )
 
 conflicts=(
-  'prometheus-openldap-exporter'
+  'prometheus-postgres-exporter'
 )
 
 package() {
-  cd "${srcdir}"
-  gunzip -f openldap_exporter-linux-amd64.gz
-  install -Dm755 openldap_exporter-linux-amd64 \
+  cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
+
+  install -Dm755 postgres_exporter \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
-  install -Dm644 ../openldap.service \
+  install -Dm644 "${srcdir}"/postgres_exporter.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 ../openldap.default \
+  install -Dm644 "${srcdir}"/postgres_exporter.default \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 ../openldap.yml \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+  install -Dm644 "${srcdir}"/postgres_exporter.cnf \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
+
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
 }
 
 postinst() {
@@ -66,7 +69,7 @@ postinst() {
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""
   echo "Add the required parameters for OpenLDAP connection here"
-  echo "/opt/zextras/common/etc/prometheus/openldap.yml"
+  echo "/opt/zextras/common/etc/prometheus/postgres.yml"
   echo ""
   echo "Don't forget to enable the systemd unit service"
 }
