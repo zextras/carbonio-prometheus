@@ -32,6 +32,9 @@
             "name": "prometheus-openldap"
         },
         {
+            "name": "prometheus-postgres"
+        },
+        {
             "name": "prometheus-process"
         }
     ]
