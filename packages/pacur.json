@@ -5,6 +5,9 @@
     "output": "artifacts",
     "Projects": [
         {
+            "name": "grafana-settings"
+        },
+        {
             "name": "prometheus"
         },
         {
