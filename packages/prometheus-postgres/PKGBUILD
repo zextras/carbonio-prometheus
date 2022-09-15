@@ -16,9 +16,9 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
-  "postgres.default"
-  "postgres.service"
-  "postgres.yml"
+  "postgres_exporter.default"
+  "postgres_exporter.service"
+  "postgres_exporter.yml"
   "prometheus.sysusers"
 )
 hashsums=(
