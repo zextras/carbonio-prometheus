@@ -1,1 +1,1 @@
-ARGS="--config /opt/zextras/common/etc/prometheus/openldap.yml"
+DATA_SOURCE_NAME="postgresql://carbonio-prometheus:carbonio-mon@localhost:5432/postgres?sslmode=disable"
