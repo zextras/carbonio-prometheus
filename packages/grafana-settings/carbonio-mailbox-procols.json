@@ -62,7 +62,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -144,7 +144,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_soap_ms_avg\n",
@@ -157,7 +157,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_pop_ms_avg",
@@ -170,7 +170,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_imap_ms_avg",
@@ -186,7 +186,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -272,7 +272,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_lmtp_conn",
@@ -284,7 +284,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_lmtp_rcvd_msgs",
@@ -296,7 +296,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_lmtp_dlvd_msgs",
@@ -308,7 +308,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_lmtp_rcvd_rcpt",
@@ -324,7 +324,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -410,7 +410,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_soap_sessions{job=\"node\"}",
@@ -426,7 +426,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -512,7 +512,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_soap_count{job=\"node\"}",
@@ -529,7 +529,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -615,7 +615,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_imap_count",
@@ -627,7 +627,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_imap_conn",
@@ -639,7 +639,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_imap_ssl_conn",
@@ -655,7 +655,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -740,7 +740,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_imap_threads",
@@ -752,7 +752,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_imap_ssl_threads",
@@ -768,7 +768,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -855,7 +855,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_pop_count",
@@ -866,7 +866,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_pop_conn",
@@ -878,7 +878,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_pop_ssl_conn",
@@ -894,7 +894,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -976,7 +976,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_pop_threads",
@@ -988,7 +988,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mailboxd_pop_ssl_threads",

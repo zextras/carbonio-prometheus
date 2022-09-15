@@ -66,7 +66,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -111,7 +111,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -122,7 +122,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -133,7 +133,7 @@
           "refId": "C",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -144,7 +144,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -155,7 +155,7 @@
           "refId": "E",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -166,7 +166,7 @@
           "refId": "F",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -177,7 +177,7 @@
           "refId": "G",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -188,7 +188,7 @@
           "refId": "H",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -231,7 +231,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -275,7 +275,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -286,7 +286,7 @@
           "refId": "C",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -297,7 +297,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -308,7 +308,7 @@
           "refId": "E",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -319,7 +319,7 @@
           "refId": "F",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -330,7 +330,7 @@
           "refId": "G",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -341,7 +341,7 @@
           "refId": "H",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -384,7 +384,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -429,7 +429,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -440,7 +440,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -451,7 +451,7 @@
           "refId": "H",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -494,7 +494,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -539,7 +539,7 @@
           "refId": "F",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -550,7 +550,7 @@
           "refId": "I",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -597,7 +597,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "carbonio"
+          "uid": "carbonio-prometheus"
         },
         "definition": "label_values(openldap_scrape, instance)",
         "hide": 0,

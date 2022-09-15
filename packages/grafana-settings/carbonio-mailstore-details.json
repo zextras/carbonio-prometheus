@@ -99,7 +99,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -151,7 +151,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -161,7 +161,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -213,7 +213,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -223,7 +223,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -275,7 +275,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -285,7 +285,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -337,7 +337,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -347,7 +347,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -399,7 +399,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -409,7 +409,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -461,7 +461,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -471,7 +471,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -553,7 +553,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -566,7 +566,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -577,7 +577,7 @@
           "refId": "C",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -587,7 +587,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -669,7 +669,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -682,7 +682,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -694,7 +694,7 @@
           "refId": "C",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -706,7 +706,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -718,7 +718,7 @@
           "refId": "E",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -730,7 +730,7 @@
           "refId": "F",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -742,7 +742,7 @@
           "refId": "G",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -769,7 +769,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -851,7 +851,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -868,7 +868,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -950,7 +950,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -967,7 +967,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1052,7 +1052,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1064,7 +1064,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1076,7 +1076,7 @@
           "refId": "C",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -1086,7 +1086,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1171,7 +1171,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1183,7 +1183,7 @@
           "refId": "E",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -1193,7 +1193,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1274,7 +1274,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1286,7 +1286,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1298,7 +1298,7 @@
           "refId": "C",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -1308,7 +1308,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1390,7 +1390,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1402,7 +1402,7 @@
           "refId": "E",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -1412,7 +1412,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1494,7 +1494,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1506,7 +1506,7 @@
           "refId": "F",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1518,7 +1518,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1530,7 +1530,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -1555,7 +1555,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1639,7 +1639,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1650,7 +1650,7 @@
           "refId": "B",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1661,7 +1661,7 @@
           "refId": "C",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1672,7 +1672,7 @@
           "refId": "D",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1683,7 +1683,7 @@
           "refId": "E",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1694,7 +1694,7 @@
           "refId": "F",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1705,7 +1705,7 @@
           "refId": "G",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1716,7 +1716,7 @@
           "refId": "H",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         },
         {
@@ -1727,7 +1727,7 @@
           "refId": "I",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -1737,7 +1737,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1823,7 +1823,7 @@
           "refId": "A",
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           }
         }
       ],
@@ -1841,7 +1841,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "carbonio"
+          "uid": "carbonio-prometheus"
         },
         "definition": "label_values(mailboxd_mbox_get_count, instance)",
         "hide": 0,

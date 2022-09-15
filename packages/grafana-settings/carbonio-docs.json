@@ -96,7 +96,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "Currently opened documents",
       "fieldConfig": {
@@ -145,7 +145,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_active_views_active_count_total{instance=~'$instance'}",
@@ -161,7 +161,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "Total number of views (active or expired) of all documents (active and expired)",
       "fieldConfig": {
@@ -209,7 +209,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_all_views_all_count_total{instance=~'$instance'}",
@@ -225,7 +225,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "Total number of views (active or expired) of all documents (active and expired).",
       "fieldConfig": {
@@ -273,7 +273,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_all_views_all_count_total{instance=~'$instance'}",
@@ -289,7 +289,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "Total number of all views (active or expired) of expired documents",
       "fieldConfig": {
@@ -337,7 +337,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_expired_views_all_count_total{instance=~'$instance'}",
@@ -353,7 +353,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "Total number of expired views of all active documents",
       "fieldConfig": {
@@ -405,7 +405,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_active_views_expired_count_total{instance=~'$instance'}",
@@ -421,7 +421,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "Total number of bytes received from clients by all documents (active or expired)",
       "fieldConfig": {
@@ -470,7 +470,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_all_received_from_client_total_bytes{instance=~'$instance'}/1048576",
@@ -485,7 +485,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "Total number of bytes sent to clients by all documents (active or expired)",
       "fieldConfig": {
@@ -534,7 +534,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_all_sent_to_clients_total_bytes{instance=~'$instance'}/1048576",
@@ -576,7 +576,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -627,7 +627,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "coolwsd_count{instance=~'$instance'}",
@@ -643,7 +643,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -694,7 +694,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "coolwsd_thread_count{instance=~'$instance'}",
@@ -710,7 +710,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -761,7 +761,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "forkit_count{instance=~'$instance'}",
@@ -777,7 +777,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -828,7 +828,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "forkit_thread_count{instance=~'$instance'}",
@@ -844,7 +844,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -896,7 +896,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "kit_count{instance=~'$instance'}",
@@ -912,7 +912,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -964,7 +964,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "kit_assigned_count{instance=~'$instance'}",
@@ -980,7 +980,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1032,7 +1032,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "kit_unassigned_count{instance=~'$instance'}",
@@ -1048,7 +1048,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1100,7 +1100,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "kit_thread_count_total{instance=~'$instance'}",
@@ -1142,7 +1142,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1215,7 +1215,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "document_active_views_active_count_total{instance=~'$instance'}",
@@ -1230,7 +1230,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -1309,7 +1309,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_all_view_load_duration_total_milliseconds{instance=~'$instance'}[1m])/1000",
@@ -1320,7 +1320,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_active_view_load_duration_total_milliseconds{instance=~'$instance'}[1m])/1000",
@@ -1332,7 +1332,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_expired_view_load_duration_total_milliseconds{instance=~'$instance'}[1m])/1000",
@@ -1348,7 +1348,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1426,7 +1426,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(coolwsd_cpu_time_seconds{instance=~\"$instance\"}[3m])",
@@ -1438,7 +1438,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(forkit_cpu_time_seconds{instance=~\"$instance\"}[3m])",
@@ -1450,7 +1450,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(kit_cpu_time_total_seconds{instance=~\"$instance\"}[3m])",
@@ -1466,7 +1466,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1540,7 +1540,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "coolwsd_memory_used_bytes{instance=~'$instance'}/1048576",
@@ -1551,7 +1551,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "forkit_memory_used_bytes{instance=~'$instance'}/1048576",
@@ -1563,7 +1563,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "kit_memory_used_total_bytes{instance=~'$instance'}/1048576",
@@ -1579,7 +1579,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1649,7 +1649,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "global_memory_free_bytes{instance=~'$instance'}/1048576",
@@ -1660,7 +1660,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "forkit_memory_used_bytes{instance=~'$instance'}/1048576",
@@ -1672,7 +1672,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "kit_memory_used_total_bytes{instance=~'$instance'}/1048576",
@@ -1688,7 +1688,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1758,7 +1758,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_all_sent_to_clients_total_bytes{instance=~\"$instance\"}[1m])/1048576",
@@ -1769,7 +1769,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_active_sent_to_clients_total_bytes{instance=~\"$instance\"}[1m])/1048576",
@@ -1781,7 +1781,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_expired_sent_to_clients_total_bytes{instance=~\"$instance\"}[1m])/1048576",
@@ -1797,7 +1797,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1867,7 +1867,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_all_received_from_client_total_bytes{instance=~\"$instance\"}[1m])/1048576",
@@ -1878,7 +1878,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_active_received_from_client_total_bytes{instance=~\"$instance\"}[1m])/1048576",
@@ -1890,7 +1890,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(document_expired_received_from_client_total_bytes{instance=~\"$instance\"}[1m])/1048576",
@@ -1914,7 +1914,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "carbonio"
+          "uid": "carbonio-prometheus"
         },
         "definition": "label_values(coolwsd_count, instance)",
         "hide": 0,

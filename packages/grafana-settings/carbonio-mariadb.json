@@ -100,7 +100,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -152,7 +152,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mysql_global_status_innodb_data_read{instance=~'$instance.*'}/(1024*1024)",
@@ -168,7 +168,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -220,7 +220,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mysql_global_status_innodb_data_written{instance=~'$instance.*'}/(1024*1024)",
@@ -237,7 +237,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -288,7 +288,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mysql_global_status_slow_queries{instance=~'$instance.*'}",
@@ -304,7 +304,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -352,7 +352,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mysql_global_status_max_used_connections{instance=~'$instance.*'}",
@@ -371,7 +371,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -419,7 +419,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "mysql_global_variables_max_connections{instance=~'$instance.*'}",
@@ -462,7 +462,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -541,7 +541,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(mysql_global_status_innodb_data_reads{instance=~'$instance.*'}[2m])",
@@ -553,7 +553,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(mysql_global_status_innodb_data_writes{instance=~'$instance.*'}[2m])",
@@ -573,7 +573,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "decimals": 1,
       "fill": 1,
@@ -616,7 +616,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "rate(mysql_global_status_slow_queries{instance=~'$instance.*'}[1m])",
@@ -665,7 +665,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -707,7 +707,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "topk(5, rate(mysql_global_status_commands_total{instance=~'$instance.*'}[5m]))",
           "interval": "",
@@ -750,7 +750,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -832,7 +832,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{instance=\"$instance\", command=\"admin_commands\"}[5m])",
           "interval": "",
@@ -842,7 +842,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"commit\"}[5m])",
           "hide": false,
@@ -853,7 +853,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"delete\"}[5m])",
           "hide": false,
@@ -864,7 +864,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"insert\"}[5m])",
           "hide": false,
@@ -875,7 +875,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"insert_select\"}[5m])",
           "hide": false,
@@ -886,7 +886,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"replace\"}[5m])",
           "hide": false,
@@ -897,7 +897,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"rollback\"}[5m])",
           "hide": false,
@@ -908,7 +908,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"select\"}[5m])",
           "hide": false,
@@ -919,7 +919,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "rate(mysql_global_status_commands_total{ instance=~'$instance.*', command=\"update\"}[5m])",
           "hide": false,
@@ -938,7 +938,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -987,7 +987,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "irate(mysql_global_status_innodb_data_reads{instance=~'$instance.*'}[10m])",
           "format": "time_series",
@@ -999,7 +999,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "irate(mysql_global_status_innodb_data_writes{instance=~'$instance.*'}[10m])",
@@ -1045,7 +1045,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1125,7 +1125,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "irate(mysql_global_status_bytes_received{instance=~'$instance.*'}[5m])",
           "format": "time_series",
@@ -1137,7 +1137,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "expr": "irate(mysql_global_status_bytes_sent{instance=~'$instance.*'}[5m])",
           "format": "time_series",
@@ -1164,7 +1164,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "carbonio"
+          "uid": "carbonio-prometheus"
         },
         "definition": "label_values(mysql_up, instance)",
         "hide": 0,

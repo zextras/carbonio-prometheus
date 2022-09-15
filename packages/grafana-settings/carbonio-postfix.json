@@ -94,7 +94,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -143,7 +143,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "postfix_queue_stat{instance=\"$instance\",queue=\"$queue\"}",
@@ -184,7 +184,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -261,7 +261,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "postfix_queue_stat{instance=\"$instance\"}",
@@ -276,7 +276,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "carbonio"
+        "uid": "carbonio-prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -353,7 +353,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "carbonio"
+            "uid": "carbonio-prometheus"
           },
           "exemplar": true,
           "expr": "postfix_queue_stat_size{instance=~\"$instance\"}",
@@ -376,7 +376,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "carbonio"
+          "uid": "carbonio-prometheus"
         },
         "definition": "label_values(postfix_queue_stat, instance)",
         "hide": 0,
@@ -398,7 +398,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "carbonio"
+          "uid": "carbonio-prometheus"
         },
         "definition": "label_values(postfix_queue_stat, queue)",
         "hide": 1,
