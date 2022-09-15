@@ -2,7 +2,7 @@ targets=(
   "centos"
   "ubuntu"
 )
-pkgname="carbonio-prometheus-Postgres-exporter"
+pkgname="carbonio-prometheus-postgres-exporter"
 pkgver="0.11.1"
 pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
@@ -45,10 +45,10 @@ package() {
 
   install -Dm644 "${srcdir}"/postgres_exporter.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/postgres_exporter.default \
+  install -Dm644 "${srcdir}"/${pkgname}.default \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}"/postgres_exporter.cnf \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
+  install -Dm644 "${srcdir}"/postgres_exporter.yml \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
@@ -68,7 +68,7 @@ postinst() {
   echo "Please enable the relative exporter job within"
   echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""
-  echo "Add the required parameters for OpenLDAP connection here"
+  echo "Create role for carbonio-pometheus on Postgres"
   echo "/opt/zextras/common/etc/prometheus/postgres.yml"
   echo ""
   echo "Don't forget to enable the systemd unit service"
