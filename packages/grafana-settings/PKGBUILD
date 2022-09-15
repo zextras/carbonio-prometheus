@@ -49,44 +49,34 @@ depends=(
 
 package() {
   install -Dm644 "${srcdir}"/carbonio-prometheus.yml \
-    "/etc/grafana/provisioning/datasources/carbonio-prometheus.yml"  
+    "${pkgdir}"/etc/grafana/provisioning/datasources/carbonio-prometheus.yml
   install -Dm644 "${srcdir}"/carbonio-dashboards.yml \
-    "/etc/grafana/provisioning/dashboards/carbonio-dashboards.yml"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-dashboards.yml
   install -Dm644 "${srcdir}"/carbonio-directory-server.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-directory-server.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-directory-server.json
   install -Dm644 "${srcdir}"/carbonio-docs.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-docs.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-docs.json
   install -Dm644 "${srcdir}"/carbonio-mailbox-procols.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-mailbox-procols.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-mailbox-procols.json
   install -Dm644 "${srcdir}"/carbonio-mailstore-details.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-mailstore-details.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-mailstore-details.json
   install -Dm644 "${srcdir}"/carbonio-mariadb.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-mariadb.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-mariadb.json
   install -Dm644 "${srcdir}"/carbonio-node.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-node.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-node.json
   install -Dm644 "${srcdir}"/carbonio-postfix.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-postfix.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-postfix.json
   install -Dm644 "${srcdir}"/carbonio-process.json \
-    "/etc/grafana/provisioning/dashboards/carbonio-process.json"
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-process.json
   install -Dm644 "${srcdir}"/carbonio.json \
-    "/etc/grafana/provisioning/dashboards/carbonio.json"  
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio.json
   install -Dm644 "${srcdir}"/grafana.ini \
-    "/etc/grafana/grafana.ini"
+    "${pkgdir}"/etc/grafana/grafana.ini
 }
 
 postinst() {
-  if hash systemctl 2>/dev/null; then
-    systemctl daemon-reload 2>/dev/null || true
-  fi
-  if hash initctl 2>/dev/null; then
-    initctl reload-configuration 2>/dev/null || true
-  fi
-
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  echo "Please enable the relative exporter job within"
-  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
-  echo ""
-  echo "Don't forget to reload"
+  echo "Don't forget to reload Grafana"
 }
