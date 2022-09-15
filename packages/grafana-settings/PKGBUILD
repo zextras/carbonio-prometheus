@@ -49,9 +49,9 @@ depends=(
 
 package() {
   install -Dm644 "${srcdir}"/carbonio-prometheus.yml \
-    "/etc/grafana/provisioning/datasources/"  
+    "/etc/grafana/provisioning/datasources/carbonio-prometheus.yml"  
   install -Dm644 "${srcdir}"/carbonio-dashboards.yml \
-    "/etc/grafana/provisioning/dashboards/"
+    "/etc/grafana/provisioning/dashboards/carbonio-dashboards.yml"
   install -Dm644 "${srcdir}"/carbonio-directory-server.json \
     "/etc/grafana/provisioning/dashboards/carbonio-directory-server.json"
   install -Dm644 "${srcdir}"/carbonio-docs.json \
