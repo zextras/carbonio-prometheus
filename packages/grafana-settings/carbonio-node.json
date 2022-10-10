@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
+      "name": "DS_CARBONIO-PROMETHEUS",
+      "label": "carbonio-prometheus",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -28,7 +28,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.1.2"
+      "version": "9.1.7"
     },
     {
       "type": "datasource",
@@ -85,7 +85,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -95,6 +95,15 @@
       },
       "id": 261,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Quick CPU / Mem / Disk",
       "type": "row"
     },
@@ -164,19 +173,19 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "(((count(count(node_cpu_seconds_total{instance=~\"$instance.*\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=~\"$instance.*\",job=\"$job\"}[5m])))) * 100) / count(count(node_cpu_seconds_total{instance=~\"$instance.*\",job=\"$job\"}) by (cpu))",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
-          "step": 900,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 900
         }
       ],
       "title": "CPU Busy",
@@ -248,19 +257,19 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "avg(node_load5{instance=~\"$instance.*\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=~\"$instance.*\",job=\"$job\"}) by (cpu)) * 100",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
           "refId": "A",
-          "step": 900,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 900
         }
       ],
       "title": "Sys Load (5m avg)",
@@ -332,18 +341,18 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "avg(node_load15{instance=~\"$instance.*\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=~\"$instance.*\",job=\"$job\"}) by (cpu)) * 100",
           "hide": false,
           "intervalFactor": 1,
           "refId": "A",
-          "step": 900,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 900
         }
       ],
       "title": "Sys Load (15m avg)",
@@ -407,31 +416,31 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "((node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_MemFree_bytes{instance=~\"$instance.*\",job=\"$job\"}) / (node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} )) * 100",
           "format": "time_series",
           "hide": true,
           "intervalFactor": 1,
           "refId": "A",
-          "step": 900,
+          "step": 900
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "100 - ((node_memory_MemAvailable_bytes{instance=~\"$instance.*\",job=\"$job\"} * 100) / node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
           "refId": "B",
-          "step": 900,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 900
         }
       ],
       "title": "RAM Used",
@@ -503,17 +512,17 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
-          "expr": "((node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=~\"$instance.*\",job=\"$job\"}) / (node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} )) * 100",
-          "intervalFactor": 1,
-          "refId": "A",
-          "step": 900,
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
+          },
+          "expr": "((node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=~\"$instance.*\",job=\"$job\"}) / (node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} )) * 100",
+          "intervalFactor": 1,
+          "refId": "A",
+          "step": 900
         }
       ],
       "title": "SWAP Used",
@@ -585,18 +594,18 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "100 - ((node_filesystem_avail_bytes{instance=~\"$instance.*\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"} * 100) / node_filesystem_size_bytes{instance=~\"$instance.*\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A",
-          "step": 900,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 900
         }
       ],
       "title": "Root FS Used",
@@ -665,19 +674,19 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "count(count(node_cpu_seconds_total{instance=~\"$instance.*\",job=\"$job\"}) by (cpu))",
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
-          "step": 900,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 900
         }
       ],
       "title": "CPU Cores",
@@ -748,17 +757,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
-          "expr": "node_time_seconds{instance=~\"$instance.*\",job=\"$job\"} - node_boot_time_seconds{instance=~\"$instance.*\",job=\"$job\"}",
-          "intervalFactor": 2,
-          "refId": "A",
-          "step": 1800,
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
+          },
+          "expr": "node_time_seconds{instance=~\"$instance.*\",job=\"$job\"} - node_boot_time_seconds{instance=~\"$instance.*\",job=\"$job\"}",
+          "intervalFactor": 2,
+          "refId": "A",
+          "step": 1800
         }
       ],
       "title": "Uptime",
@@ -832,19 +841,19 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_filesystem_size_bytes{instance=~\"$instance.*\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
           "refId": "A",
-          "step": 900,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 900
         }
       ],
       "title": "RootFS Total",
@@ -914,17 +923,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
-          "expr": "node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"}",
-          "intervalFactor": 1,
-          "refId": "A",
-          "step": 900,
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
+          },
+          "expr": "node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"}",
+          "intervalFactor": 1,
+          "refId": "A",
+          "step": 900
         }
       ],
       "title": "RAM Total",
@@ -994,17 +1003,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.7",
       "targets": [
         {
-          "expr": "node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"}",
-          "intervalFactor": 1,
-          "refId": "A",
-          "step": 900,
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
+          },
+          "expr": "node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"}",
+          "intervalFactor": 1,
+          "refId": "A",
+          "step": 900
         }
       ],
       "title": "SWAP Total",
@@ -1014,7 +1023,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -1024,6 +1033,15 @@
       },
       "id": 263,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Basic CPU / Mem / Net / Disk",
       "type": "row"
     },
@@ -1927,66 +1945,66 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "RAM Total",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_MemFree_bytes{instance=~\"$instance.*\",job=\"$job\"} - (node_memory_Cached_bytes{instance=~\"$instance.*\",job=\"$job\"} + node_memory_Buffers_bytes{instance=~\"$instance.*\",job=\"$job\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "RAM Used",
           "refId": "B",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_Cached_bytes{instance=~\"$instance.*\",job=\"$job\"} + node_memory_Buffers_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "RAM Cache + Buffer",
           "refId": "C",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_MemFree_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "RAM Free",
           "refId": "D",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "(node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=~\"$instance.*\",job=\"$job\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "SWAP Used",
           "refId": "E",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "Memory Basic",
@@ -2421,28 +2439,28 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_bytes_total{instance=~\"$instance.*\",job=\"$job\"}[5m])*8",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "recv {{device}}",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_network_transmit_bytes_total{instance=~\"$instance.*\",job=\"$job\"}[5m])*8",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "trans {{device}} ",
           "refId": "B",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "Network Traffic Basic",
@@ -2533,16 +2551,16 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "100 - ((node_filesystem_avail_bytes{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'} * 100) / node_filesystem_size_bytes{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{mountpoint}}",
           "refId": "A",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "Disk Space Used Basic",
@@ -2552,7 +2570,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -2562,6 +2580,15 @@
       },
       "id": 265,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "CPU / Memory / Net / Disk",
       "type": "row"
     },
@@ -2806,113 +2833,113 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode=\"system\",instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "interval": "10s",
           "intervalFactor": 2,
           "legendFormat": "System - Processes executing in kernel mode",
           "refId": "A",
-          "step": 20,
+          "step": 20
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='user',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "User - Normal processes executing in user mode",
           "refId": "B",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='nice',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Nice - Niced processes executing in user mode",
           "refId": "C",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Idle - Waiting for something to happen",
           "refId": "D",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='iowait',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Iowait - Waiting for I/O to complete",
           "refId": "E",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='irq',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Irq - Servicing interrupts",
           "refId": "F",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='softirq',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Softirq - Servicing softirqs",
           "refId": "G",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='steal',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Steal - Time spent in other operating systems when running in a virtualized environment",
           "refId": "H",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='guest',instance=~\"$instance.*\",job=\"$job\"}[5m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Guest - Time spent running a virtual CPU for a guest operating system",
           "refId": "I",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "CPU",
@@ -3308,120 +3335,120 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_memory_MemTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_MemFree_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_Buffers_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_Cached_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_Slab_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_PageTables_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_SwapCached_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Apps - Memory used by user-space applications",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_PageTables_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "PageTables - Memory used to map between virtual and physical memory addresses",
           "refId": "B",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_SwapCached_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "SwapCache - Memory that keeps track of pages that have been fetched from swap but not yet been modified",
           "refId": "C",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_Slab_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Slab - Memory used by the kernel to cache data structures for its own use (caches like inode, dentry, etc)",
           "refId": "D",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_Cached_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Cache - Parked file data (file content) cache",
           "refId": "E",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_Buffers_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Buffers - Block device (e.g. harddisk) cache",
           "refId": "F",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_MemFree_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Unused - Free memory unassigned",
           "refId": "G",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "(node_memory_SwapTotal_bytes{instance=~\"$instance.*\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=~\"$instance.*\",job=\"$job\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Swap - Swap space used",
           "refId": "H",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_memory_HardwareCorrupted_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Hardware Corrupted - Amount of RAM that the kernel identified as corrupted / not working",
           "refId": "I",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "Memory Stack",
@@ -3438,8 +3465,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "bits out (-) / in (+)",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -3473,8 +3498,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3575,28 +3599,28 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_bytes_total{instance=~\"$instance.*\",job=\"$job\"}[5m])*8",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_network_transmit_bytes_total{instance=~\"$instance.*\",job=\"$job\"}[5m])*8",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Transmit",
           "refId": "B",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "Network Traffic",
@@ -3614,8 +3638,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "bytes",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -3650,8 +3672,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3691,16 +3712,16 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_filesystem_size_bytes{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'} - node_filesystem_avail_bytes{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{mountpoint}}",
           "refId": "A",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "Disk Space Used",
@@ -3722,8 +3743,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -3908,26 +3927,26 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_disk_reads_completed_total{instance=~\"$instance.*\",job=\"$job\",device=~\"$diskdevices\"}[5m])",
           "intervalFactor": 4,
           "legendFormat": "{{device}} - Reads completed",
           "refId": "A",
-          "step": 480,
+          "step": 480
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_disk_writes_completed_total{instance=~\"$instance.*\",job=\"$job\",device=~\"$diskdevices\"}[5m])",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Writes completed",
           "refId": "B",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "thresholds": [],
@@ -3973,8 +3992,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "bytes read (-) / write (+)",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -4139,30 +4156,30 @@
       "pluginVersion": "8.1.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_disk_read_bytes_total{instance=~\"$instance.*\",job=\"$job\",device=~\"$diskdevices\"}[5m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Successfully read bytes",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_disk_written_bytes_total{instance=~\"$instance.*\",job=\"$job\",device=~\"$diskdevices\"}[5m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Successfully written bytes",
           "refId": "B",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "title": "I/O Usage Read / Write",
@@ -4281,17 +4298,17 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_disk_io_time_seconds_total{instance=~\"$instance.*\",job=\"$job\",device=~\"$diskdevices\"} [5m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Time spent doing I/Os",
           "refId": "A",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "thresholds": [],
@@ -4331,7 +4348,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -4409,28 +4426,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_Inactive_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Inactive - Memory which has been less recently used.  It is more eligible to be reclaimed for other purposes",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Active_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Active - Memory that has been used more recently and usually not reclaimed unless absolutely necessary",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -4542,28 +4559,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_Committed_AS_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Committed_AS - Amount of memory presently allocated on the system",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_CommitLimit_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "CommitLimit - Amount of  memory currently available to be allocated on the system",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -4666,56 +4683,56 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_Inactive_file_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Inactive_file - File-backed memory on inactive LRU list",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Inactive_anon_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Inactive_anon - Anonymous and swap cache on inactive LRU list, including tmpfs (shmem)",
               "refId": "B",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Active_file_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Active_file - File-backed memory on active LRU list",
               "refId": "C",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Active_anon_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Active_anon - Anonymous and swap cache on active least-recently-used (LRU) list, including tmpfs",
               "refId": "D",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -4819,40 +4836,40 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_Writeback_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Writeback - Memory which is actively being written back to disk",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_WritebackTmp_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "WritebackTmp - Memory used by FUSE for temporary writeback buffers",
               "refId": "B",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Dirty_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Dirty - Memory which is waiting to get written back to the disk",
               "refId": "C",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -4966,54 +4983,54 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_Mapped_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Mapped - Used memory in mapped pages files which have been mmaped, such as libraries",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Shmem_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Shmem - Used shared memory (shared between several processes, thus including RAM disks)",
               "refId": "B",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_ShmemHugePages_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "ShmemHugePages - Memory used by shared memory (shmem) and tmpfs allocated  with huge pages",
               "refId": "C",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_ShmemPmdMapped_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "ShmemPmdMapped - Ammount of shared (shmem/tmpfs) memory backed by huge pages",
               "refId": "D",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -5119,28 +5136,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_SUnreclaim_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "SUnreclaim - Part of Slab, that cannot be reclaimed on memory pressure",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_SReclaimable_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "SReclaimable - Part of Slab, that might be reclaimed, such as caches",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -5243,43 +5260,43 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_VmallocChunk_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "VmallocChunk - Largest contigious block of vmalloc area which is free",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_VmallocTotal_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "VmallocTotal - Total size of vmalloc memory area",
               "refId": "B",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_VmallocUsed_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "VmallocUsed - Amount of vmalloc area which is used",
               "refId": "C",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -5382,16 +5399,16 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_Bounce_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Bounce - Memory used for block device bounce buffers",
               "refId": "A",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -5499,28 +5516,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_AnonHugePages_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "AnonHugePages - Memory in anonymous huge pages",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_AnonPages_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "AnonPages - Memory in user pages not backed by files",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -5623,29 +5640,29 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_KernelStack_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "KernelStack - Kernel memory stack. This is not reclaimable",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Percpu_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "PerCPU - Per CPU memory allocated dynamically by loadable modules",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -5748,40 +5765,40 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_HugePages_Free{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "HugePages_Free - Huge pages in the pool that are not yet allocated",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_HugePages_Rsvd{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "HugePages_Rsvd - Huge pages for which a commitment to allocate from the pool has been made, but no allocation has yet been made",
               "refId": "B",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_HugePages_Surp{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "HugePages_Surp - Huge pages in the pool above the value in /proc/sys/vm/nr_hugepages",
               "refId": "C",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -5885,28 +5902,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_HugePages_Total{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "HugePages - Total size of the pool of huge pages",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Hugepagesize_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Hugepagesize - Huge Page size",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -6012,42 +6029,42 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_DirectMap1G_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "DirectMap1G - Amount of pages mapped as this size",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_DirectMap2M_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "DirectMap2M - Amount of pages mapped as this size",
               "refId": "B",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_DirectMap4k_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "DirectMap4K - Amount of pages mapped as this size",
               "refId": "C",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -6150,28 +6167,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_Unevictable_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Unevictable - Amount of unevictable memory that can't be swapped out for a variety of reasons",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_memory_Mlocked_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "MLocked - Size of pages locked to memory using the mlock() system call",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -6275,16 +6292,16 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_memory_NFS_Unstable_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "NFS Unstable - Memory in NFS pages sent to the server, but not yet commited to the storage",
               "refId": "A",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -6320,6 +6337,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Memory Meminfo",
       "type": "row"
     },
@@ -6327,7 +6353,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -6337,6 +6363,15 @@
       },
       "id": 267,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Memory Vmstat",
       "type": "row"
     },
@@ -6454,28 +6489,28 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_vmstat_pgpgin{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Pagesin - Page in operations",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_vmstat_pgpgout{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Pagesout - Page out operations",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -6623,28 +6658,28 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_vmstat_pswpin{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Pswpin - Pages swapped in",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_vmstat_pswpout{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Pswpout - Pages swapped out",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -6814,40 +6849,40 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_vmstat_pgfault{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Pgfault - Page major and minor fault operations",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_vmstat_pgmajfault{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Pgmajfault - Major page fault operations",
           "refId": "B",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_vmstat_pgfault{instance=~\"$instance.*\",job=\"$job\"}[5m])  - irate(node_vmstat_pgmajfault{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Pgminfault - Minor page fault operations",
           "refId": "C",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -7014,17 +7049,17 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_vmstat_oom_kill{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "oom killer invocations ",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -7065,7 +7100,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -7075,6 +7110,15 @@
       },
       "id": 293,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "System Timesync",
       "type": "row"
     },
@@ -7191,6 +7235,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_timex_estimated_error_seconds{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -7198,13 +7246,13 @@
           "intervalFactor": 2,
           "legendFormat": "Estimated error in seconds",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_timex_offset_seconds{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -7212,13 +7260,13 @@
           "intervalFactor": 2,
           "legendFormat": "Time offset in between local system and reference clock",
           "refId": "B",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_timex_maxerror_seconds{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -7226,11 +7274,7 @@
           "intervalFactor": 2,
           "legendFormat": "Maximum error in seconds",
           "refId": "C",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "thresholds": [],
@@ -7373,17 +7417,17 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_timex_loop_time_constant{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Phase-locked loop time adjust",
           "refId": "A",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "thresholds": [],
@@ -7530,30 +7574,30 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_timex_sync_status{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Is clock synchronized to a reliable server (1 = yes, 0 = no)",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_timex_frequency_adjustment_ratio{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Local clock frequency adjustment",
           "refId": "B",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "thresholds": [],
@@ -7695,30 +7739,30 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_timex_tick_seconds{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Seconds between clock ticks",
           "refId": "A",
-          "step": 240,
+          "step": 240
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_timex_tai_offset_seconds{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "International Atomic Time (TAI) offset",
           "refId": "B",
-          "step": 240,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 240
         }
       ],
       "thresholds": [],
@@ -7756,7 +7800,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -7813,28 +7857,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_procs_blocked{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Processes blocked waiting for I/O to complete",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_procs_running{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Processes in runnable state",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -7918,17 +7962,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_processes_state{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{ state }}",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8012,17 +8056,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_forks_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Processes forks second",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8110,56 +8154,56 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(process_virtual_memory_bytes{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "hide": false,
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Processes virtual memory size in bytes",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "process_resident_memory_max_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "hide": false,
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Maximum amount of virtual memory available in bytes",
               "refId": "B",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(process_virtual_memory_bytes{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "hide": false,
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Processes virtual memory size in bytes",
               "refId": "C",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(process_virtual_memory_max_bytes{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "hide": false,
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Maximum amount of virtual memory available in bytes",
               "refId": "D",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8248,30 +8292,30 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_processes_pids{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Number of PIDs",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_processes_max_processes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "PIDs limit",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8361,30 +8405,30 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_schedstat_running_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "CPU {{ cpu }} - seconds spent running a process",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_schedstat_waiting_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "CPU {{ cpu }} - seconds spent by processing waiting for this CPU",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8474,30 +8518,30 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_processes_threads{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Allocated threads",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_processes_max_threads{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Threads limit",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8535,6 +8579,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "System Processes",
       "type": "row"
     },
@@ -8542,7 +8595,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -8599,29 +8652,29 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_context_switches_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Context switches",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_intr_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Interrupts",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8703,40 +8756,40 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_load1{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 4,
               "legendFormat": "Load 1m",
               "refId": "A",
-              "step": 480,
+              "step": 480
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_load5{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 4,
               "legendFormat": "Load 5m",
               "refId": "B",
-              "step": 480,
+              "step": 480
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_load15{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 4,
               "legendFormat": "Load 15m",
               "refId": "C",
-              "step": 480,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 480
             }
           ],
           "thresholds": [],
@@ -8830,17 +8883,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_interrupts_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{ type }} - {{ info }}",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -8922,17 +8975,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_schedstat_timeslices_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "CPU {{ cpu }}",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9015,16 +9068,16 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_entropy_available_bits{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Entropy available to random number generators",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9108,17 +9161,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(process_cpu_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Time spent",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9207,28 +9260,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "process_max_fds{instance=~\"$instance.*\",job=\"$job\"}",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Maximum open file descriptors",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "process_open_fds{instance=~\"$instance.*\",job=\"$job\"}",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Open file descriptors",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9266,6 +9319,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "System Misc",
       "type": "row"
     },
@@ -9273,7 +9335,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -9342,19 +9404,23 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_hwmon_temp_celsius{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{ chip }} {{ sensor }} temp",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_hwmon_temp_crit_alarm_celsius{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": true,
@@ -9362,26 +9428,26 @@
               "intervalFactor": 2,
               "legendFormat": "{{ chip }} {{ sensor }} Critical Alarm",
               "refId": "B",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_hwmon_temp_crit_celsius{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{ chip }} {{ sensor }} Critical",
               "refId": "C",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_hwmon_temp_crit_hyst_celsius{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": true,
@@ -9389,13 +9455,13 @@
               "intervalFactor": 2,
               "legendFormat": "{{ chip }} {{ sensor }} Critical Historical",
               "refId": "D",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_hwmon_temp_max_celsius{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": true,
@@ -9403,11 +9469,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{ chip }} {{ sensor }} Max",
               "refId": "E",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9497,6 +9559,10 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_cooling_device_cur_state{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
@@ -9504,24 +9570,20 @@
               "intervalFactor": 2,
               "legendFormat": "Current {{ name }} in {{ type }}",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_cooling_device_max_state{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Max {{ name }} in {{ type }}",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9603,6 +9665,10 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_power_supply_online{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": false,
@@ -9610,11 +9676,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{ power_supply }} online",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9651,6 +9713,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Hardware Misc",
       "type": "row"
     },
@@ -9658,7 +9729,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -9714,17 +9785,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_systemd_socket_accepted_connections_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{ name }} Connections",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9826,69 +9897,69 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_systemd_units{instance=~\"$instance.*\",job=\"$job\",state=\"activating\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Activating",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_systemd_units{instance=~\"$instance.*\",job=\"$job\",state=\"active\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Active",
               "refId": "B",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_systemd_units{instance=~\"$instance.*\",job=\"$job\",state=\"deactivating\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Deactivating",
               "refId": "C",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_systemd_units{instance=~\"$instance.*\",job=\"$job\",state=\"failed\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Failed",
               "refId": "D",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_systemd_units{instance=~\"$instance.*\",job=\"$job\",state=\"inactive\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Inactive",
               "refId": "E",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -9923,6 +9994,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Systemd",
       "type": "row"
     },
@@ -9930,7 +10010,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -10096,26 +10176,26 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_reads_completed_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - Reads completed",
               "refId": "A",
-              "step": 8,
+              "step": 8
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_disk_writes_completed_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "intervalFactor": 2,
               "legendFormat": "{{device}} - Writes completed",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -10286,28 +10366,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_read_bytes_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - Read bytes",
               "refId": "A",
-              "step": 8,
+              "step": 8
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_disk_written_bytes_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{device}} - Written bytes",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -10478,28 +10558,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_read_time_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "hide": false,
               "intervalFactor": 4,
               "legendFormat": "{{device}} - Read time",
               "refId": "A",
-              "step": 8,
+              "step": 8
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_disk_write_time_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{device}} - Write time",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -10666,15 +10746,15 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_io_time_weighted_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - IO time weighted",
               "refId": "A",
-              "step": 8,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 8
             }
           ],
           "thresholds": [],
@@ -10846,26 +10926,26 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_reads_merged_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "intervalFactor": 2,
               "legendFormat": "{{device}} - Read merged",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_disk_writes_merged_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "intervalFactor": 2,
               "legendFormat": "{{device}} - Write merged",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -11032,27 +11112,27 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_io_time_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - IO time",
               "refId": "A",
-              "step": 8,
+              "step": 8
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_disk_discard_time_seconds_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "interval": "",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - discard time",
               "refId": "B",
-              "step": 8,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 8
             }
           ],
           "thresholds": [],
@@ -11220,15 +11300,15 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_io_now{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - IO now",
               "refId": "A",
-              "step": 8,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 8
             }
           ],
           "thresholds": [],
@@ -11414,28 +11494,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "irate(node_disk_discards_completed_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "interval": "",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - Discards completed",
               "refId": "A",
-              "step": 8,
+              "step": 8
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "irate(node_disk_discards_merged_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{device}} - Discards merged",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -11472,6 +11552,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Storage Disk",
       "type": "row"
     },
@@ -11479,7 +11568,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -11539,6 +11628,10 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_filesystem_avail_bytes{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
               "hide": false,
@@ -11546,37 +11639,33 @@
               "legendFormat": "{{mountpoint}} - Available",
               "metric": "",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_filesystem_free_bytes{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}} - Free",
               "refId": "B",
-              "step": 2,
+              "step": 2
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_filesystem_size_bytes{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}} - Size",
               "refId": "C",
-              "step": 2,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -11662,17 +11751,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_filesystem_files_free{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}} - Free file nodes",
               "refId": "A",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -11757,28 +11846,28 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_filefd_maximum{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 4,
               "legendFormat": "Max open files",
               "refId": "A",
-              "step": 8,
+              "step": 8
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_filefd_allocated{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Open files",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -11862,17 +11951,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_filesystem_files{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}} - File nodes total",
               "refId": "A",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -11960,29 +12049,29 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_filesystem_readonly{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}} - ReadOnly",
               "refId": "A",
-              "step": 4,
+              "step": 4
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_filesystem_device_error{instance=~\"$instance.*\",job=\"$job\",device!~'rootfs',fstype!~'tmpfs'}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}} - Device error",
               "refId": "B",
-              "step": 4,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -12021,6 +12110,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Storage Filesystem",
       "type": "row"
     },
@@ -12028,7 +12126,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -12038,6 +12136,15 @@
       },
       "id": 272,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Network Traffic",
       "type": "row"
     },
@@ -12160,30 +12267,30 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_packets_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_network_transmit_packets_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Transmit",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -12335,28 +12442,28 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_errs_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive errors",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_network_transmit_errs_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Rransmit errors",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -12508,28 +12615,28 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_drop_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive drop",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_network_transmit_drop_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Transmit drop",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -12681,28 +12788,28 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_compressed_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive compressed",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_network_transmit_compressed_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Transmit compressed",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -12854,16 +12961,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_multicast_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive multicast",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -13015,28 +13122,28 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_fifo_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive fifo",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_network_transmit_fifo_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Transmit fifo",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -13189,17 +13296,17 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_receive_frame_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Receive frame",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -13348,16 +13455,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_transmit_carrier_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Statistic transmit_carrier",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -13509,16 +13616,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_network_transmit_colls_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{device}} - Transmit colls",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -13667,28 +13774,28 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_nf_conntrack_entries{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "NF conntrack entries",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_nf_conntrack_entries_limit{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "NF conntrack limit",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -13833,16 +13940,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_arp_entries{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ device }} - ARP entries",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -13985,16 +14092,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_network_mtu_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ device }} - Bytes",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -14138,16 +14245,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_network_speed_bytes{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ device }} - Speed",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -14291,16 +14398,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_network_transmit_queue_length{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ device }} -   Interface transmit queue length",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -14455,30 +14562,30 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_softnet_processed_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "CPU {{cpu}} - Processed",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_softnet_dropped_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "CPU {{cpu}} - Dropped",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -14627,17 +14734,17 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_softnet_times_squeezed_total{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "CPU {{cpu}} - Squeezed",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -14786,27 +14893,27 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_network_up{operstate=\"up\",instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{interface}} - Operational state UP",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_network_carrier{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{device}} - Physical link state",
-          "refId": "B",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -14844,7 +14951,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -14904,32 +15011,36 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_sockstat_TCP_alloc{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "TCP_alloc - Allocated sockets",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_TCP_inuse{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "TCP_inuse - Tcp sockets currently in use",
               "refId": "B",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_TCP_mem{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "hide": true,
@@ -14937,37 +15048,33 @@
               "intervalFactor": 2,
               "legendFormat": "TCP_mem - Used memory for tcp",
               "refId": "C",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_TCP_orphan{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "TCP_orphan - Orphan sockets",
               "refId": "D",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_TCP_tw{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "TCP_tw - Sockets wating close",
               "refId": "E",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -15052,43 +15159,43 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_sockstat_UDPLITE_inuse{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "UDPLITE_inuse - Udplite sockets currently in use",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_UDP_inuse{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "UDP_inuse - Udp sockets currently in use",
               "refId": "B",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_UDP_mem{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "UDP_mem - Used memory for udp",
               "refId": "C",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -15173,17 +15280,17 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_sockstat_sockets_used{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "Sockets_used - Sockets currently in use",
               "refId": "A",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -15268,30 +15375,30 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_sockstat_TCP_mem_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "mem_bytes - TCP sockets in that state",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_UDP_mem_bytes{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "mem_bytes - UDP sockets in that state",
               "refId": "B",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -15376,43 +15483,43 @@
           "steppedLine": false,
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "carbonio-prometheus"
+              },
               "expr": "node_sockstat_FRAG_inuse{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "FRAG_inuse - Frag sockets currently in use",
               "refId": "A",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_FRAG_memory{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "FRAG_memory - Used memory for frag",
               "refId": "B",
-              "step": 240,
+              "step": 240
+            },
+            {
               "datasource": {
                 "type": "prometheus",
                 "uid": "carbonio-prometheus"
-              }
-            },
-            {
+              },
               "expr": "node_sockstat_RAW_inuse{instance=~\"$instance.*\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "RAW_inuse - Raw sockets currently in use",
               "refId": "C",
-              "step": 240,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "carbonio-prometheus"
-              }
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -15450,6 +15557,15 @@
           }
         }
       ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Network Sockstat",
       "type": "row"
     },
@@ -15457,7 +15573,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -15467,6 +15583,15 @@
       },
       "id": 274,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Network Netstat",
       "type": "row"
     },
@@ -15591,29 +15716,29 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_IpExt_InOctets{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "InOctets - Received octets",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_IpExt_OutOctets{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "OutOctets - Sent octets",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -15763,17 +15888,17 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_Ip_Forwarding{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Forwarding - IP forwarding",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -15928,30 +16053,30 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_Icmp_InMsgs{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "InMsgs -  Messages which the entity received. Note that this counter includes all those counted by icmpInErrors",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Icmp_OutMsgs{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "OutMsgs - Messages which this entity attempted to send. Note that this counter includes all those counted by icmpOutErrors",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -16103,17 +16228,17 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_Icmp_InErrors{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "InErrors - Messages which the entity received but determined as having ICMP-specific errors (bad ICMP checksums, bad length, etc.)",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -16269,30 +16394,30 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_Udp_InDatagrams{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "InDatagrams - Datagrams received",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Udp_OutDatagrams{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "OutDatagrams - Datagrams sent",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -16439,66 +16564,66 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_Udp_InErrors{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "InErrors - UDP Datagrams that could not be delivered to an application",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Udp_NoPorts{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "NoPorts - UDP Datagrams received on a port with no listener",
           "refId": "B",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_UdpLite_InErrors{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "interval": "",
           "legendFormat": "InErrors Lite - UDPLite Datagrams that could not be delivered to an application",
-          "refId": "C",
+          "refId": "C"
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Udp_RcvbufErrors{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "RcvbufErrors - UDP buffer errors received",
           "refId": "D",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Udp_SndbufErrors{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "SndbufErrors - UDP buffer errors send",
           "refId": "E",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -16656,6 +16781,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_Tcp_InSegs{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "instant": false,
@@ -16663,24 +16792,20 @@
           "intervalFactor": 2,
           "legendFormat": "InSegs - Segments received, including those received in error. This count includes segments received on currently established connections",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Tcp_OutSegs{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "OutSegs - Segments sent, including those on current connections but excluding those containing only retransmitted octets",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -16829,6 +16954,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_TcpExt_ListenOverflows{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "hide": false,
@@ -16836,13 +16965,13 @@
           "intervalFactor": 2,
           "legendFormat": "ListenOverflows - Times the listen queue of a socket overflowed",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_TcpExt_ListenDrops{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "hide": false,
@@ -16850,44 +16979,40 @@
           "intervalFactor": 2,
           "legendFormat": "ListenDrops - SYNs to LISTEN sockets ignored",
           "refId": "B",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_TcpExt_TCPSynRetrans{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "TCPSynRetrans - SYN-SYN/ACK retransmits to break down retransmissions in SYN, fast/timeout retransmits",
           "refId": "C",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Tcp_RetransSegs{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "interval": "",
           "legendFormat": "RetransSegs - Segments retransmitted - that is, the number of TCP segments transmitted containing one or more previously transmitted octets",
-          "refId": "D",
+          "refId": "D"
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Tcp_InErrs{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "interval": "",
           "legendFormat": "InErrs - Segments received in error (e.g., bad TCP checksums)",
-          "refId": "E",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "refId": "E"
         }
       ],
       "thresholds": [],
@@ -17041,6 +17166,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_netstat_Tcp_CurrEstab{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -17048,13 +17177,13 @@
           "intervalFactor": 2,
           "legendFormat": "CurrEstab - TCP connections for which the current state is either ESTABLISHED or CLOSE- WAIT",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_netstat_Tcp_MaxConn{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -17062,11 +17191,7 @@
           "intervalFactor": 2,
           "legendFormat": "MaxConn - Limit on the total number of TCP connections the entity can support (Dinamic is \"-1\")",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -17223,6 +17348,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_TcpExt_SyncookiesFailed{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "hide": false,
@@ -17230,13 +17359,13 @@
           "intervalFactor": 2,
           "legendFormat": "SyncookiesFailed - Invalid SYN cookies received",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_TcpExt_SyncookiesRecv{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "hide": false,
@@ -17244,13 +17373,13 @@
           "intervalFactor": 2,
           "legendFormat": "SyncookiesRecv - SYN cookies received",
           "refId": "B",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_TcpExt_SyncookiesSent{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "hide": false,
@@ -17258,11 +17387,7 @@
           "intervalFactor": 2,
           "legendFormat": "SyncookiesSent - SYN cookies sent",
           "refId": "C",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -17408,30 +17533,30 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "irate(node_netstat_Tcp_ActiveOpens{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "ActiveOpens - TCP connections that have made a direct transition to the SYN-SENT state from the CLOSED state",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "irate(node_netstat_Tcp_PassiveOpens{instance=~\"$instance.*\",job=\"$job\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "PassiveOpens - TCP connections that have made a direct transition to the SYN-RCVD state from the LISTEN state",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -17470,7 +17595,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "vf1_ANw7z"
+        "uid": "P4D9F980556C08F80"
       },
       "gridPos": {
         "h": 1,
@@ -17480,6 +17605,15 @@
       },
       "id": 279,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P4D9F980556C08F80"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Node Exporter",
       "type": "row"
     },
@@ -17593,6 +17727,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_scrape_collector_duration_seconds{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -17600,11 +17738,7 @@
           "intervalFactor": 2,
           "legendFormat": "{{collector}} - Scrape duration",
           "refId": "A",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -17753,6 +17887,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "carbonio-prometheus"
+          },
           "expr": "node_scrape_collector_success{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -17760,13 +17898,13 @@
           "intervalFactor": 2,
           "legendFormat": "{{collector}} - Scrape success",
           "refId": "A",
-          "step": 4,
+          "step": 4
+        },
+        {
           "datasource": {
             "type": "prometheus",
             "uid": "carbonio-prometheus"
-          }
-        },
-        {
+          },
           "expr": "node_textfile_scrape_error{instance=~\"$instance.*\",job=\"$job\"}",
           "format": "time_series",
           "hide": false,
@@ -17774,11 +17912,7 @@
           "intervalFactor": 2,
           "legendFormat": "{{collector}} - Scrape textfile error (1 = true)",
           "refId": "B",
-          "step": 4,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "carbonio-prometheus"
-          }
+          "step": 4
         }
       ],
       "thresholds": [],
@@ -17822,21 +17956,39 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "carbonio-prometheus",
+          "value": "carbonio-prometheus"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "datasource",
+        "multi": false,
+        "name": "DS_PROMETHEUS",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "hide": 2,
         "label": "Job",
         "name": "job",
-        "query": "job",
+        "query": "node",
         "skipUrlSync": false,
         "type": "constant",
         "current": {
-          "value": "job",
-          "text": "job",
+          "value": "node",
+          "text": "node",
           "selected": false
         },
         "options": [
           {
-            "value": "job",
-            "text": "job",
+            "value": "node",
+            "text": "node",
             "selected": false
           }
         ]
@@ -17920,8 +18072,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "Node Exporter Full",
-  "uid": "vg2qUSI7k",
-  "version": 7,
+  "title": "Carbonio Node",
+  "uid": "carbonio-node",
+  "version": 1,
   "weekStart": ""
 }
