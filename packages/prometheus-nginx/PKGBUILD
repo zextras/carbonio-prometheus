@@ -18,9 +18,11 @@ sources=(
   "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${pkgver}/nginx-prometheus-exporter_${pkgver}_linux_amd64.tar.gz"
   "nginx.default"
   "nginx.service"
+  "nginx-consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -38,11 +40,12 @@ conflicts=(
 package() {
   install -Dm755 "${srcdir}/nginx-prometheus-exporter" \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
-
   install -Dm644 "${srcdir}"/nginx.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/nginx.default \
     "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 "${srcdir}"/nginx-consul.json \
+    "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
 }
 
 postinst() {
