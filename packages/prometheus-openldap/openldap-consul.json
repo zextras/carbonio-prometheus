@@ -1,0 +1,6 @@
+{
+  "service": {
+    "name": "carbonio-prometheus-openldap-exporter",
+    "port": 9330
+  }
+}

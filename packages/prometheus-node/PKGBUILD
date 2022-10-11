@@ -17,10 +17,12 @@ arch="amd64"
 sources=(
   "https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz"
   "node.default"
+  "node-consul.json"
   "node.service"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -47,6 +49,8 @@ package() {
     "${pkgdir}"/usr/lib/sysusers.d/carbonio-prometheus-node-exporter.conf
   install -Dm644 "${srcdir}"/node.default \
     "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 "${srcdir}"/node-consul.json \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"	
 }
 
 postinst() {

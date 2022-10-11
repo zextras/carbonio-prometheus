@@ -19,9 +19,11 @@ sources=(
   "openldap.default"
   "openldap.service"
   "openldap.yml"
+  "openldap-consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -49,6 +51,8 @@ package() {
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm644 ../openldap.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+  install -Dm644 "${srcdir}"/openldap-consul.json \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {

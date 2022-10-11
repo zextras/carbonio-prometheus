@@ -1,4 +1,0 @@
-# - labels:
-#     job: consul
-#   targets:
-#     - serverhostname:9107

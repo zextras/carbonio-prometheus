@@ -1,0 +1,6 @@
+{
+  "service": {
+    "name": "carbonio-nginx-promtheus-exporter",
+    "port": 9113
+  }
+}

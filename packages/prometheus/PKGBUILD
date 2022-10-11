@@ -20,21 +20,9 @@ sources=(
   "prometheus.service"
   "prometheus.sysusers"
   "prometheus.yml"
-  "mysql.yml"
-  "nginx.yml"
-  "node.yml"
-  "openldap.yml"
-  "consul.yml"
-  "process.yml"
 )
 hashsums=(
   "3f558531c6a575d8372b576b7e76578a98e2744da6b89982ea7021b6f000cddd"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
   "skip"
   "skip"
   "skip"
@@ -64,25 +52,13 @@ package() {
 
   install -Dm640 -g210 "${srcdir}"/prometheus.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/prometheus.yml
-  install -Dm640 -g210 "${srcdir}"/mysql.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/mysql.yml
-  install -Dm640 -g210 "${srcdir}"/nginx.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/nginx.yml
-  install -Dm640 -g210 "${srcdir}"/node.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/node.yml
-  install -Dm640 -g210 "${srcdir}"/openldap.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/openldap.yml
-  install -Dm640 -g210 "${srcdir}"/process.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/process.yml
-  install -Dm640 -g210 "${srcdir}"/consul.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/inventory/consul.yml
 
   install -Dm644 "${srcdir}"/prometheus.service \
-    "${pkgdir}"/usr/lib/systemd/system/carbonio-prometheus.service
+    "${pkgdir}"/usr/lib/systemd/system/${pkgname}.service
   install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}"/usr/lib/sysusers.d/carbonio-prometheus.conf
+    "${pkgdir}"/usr/lib/sysusers.d/${pkgname}.conf
   install -Dm644 "${srcdir}"/prometheus.default \
-    "${pkgdir}"/etc/default/carbonio-prometheus
+    "${pkgdir}"/etc/default/${pkgname}
 }
 
 postinst() {

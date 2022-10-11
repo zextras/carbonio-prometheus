@@ -1,0 +1,6 @@
+{
+  "service": {
+    "name": "carbonio-prometheus-postgres-exporter",
+    "port": 9187
+  }
+}

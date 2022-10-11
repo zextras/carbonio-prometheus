@@ -1,0 +1,6 @@
+{
+  "service": {
+    "name": "carbonio-prometheus-node-exporter",
+    "port": 9100
+  }
+}

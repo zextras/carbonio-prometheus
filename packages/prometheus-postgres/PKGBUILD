@@ -19,9 +19,11 @@ sources=(
   "postgres_exporter.default"
   "postgres_exporter.service"
   "postgres_exporter.yml"
+  "postgres_consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -52,6 +54,8 @@ package() {
 
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
+  install -Dm644 "${srcdir}"/postgres_consul.json \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {

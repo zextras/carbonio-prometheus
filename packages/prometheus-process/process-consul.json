@@ -1,0 +1,6 @@
+{
+  "service": {
+    "name": "carbonio-prometheus-process-exporter",
+    "port": 9256
+  }
+}

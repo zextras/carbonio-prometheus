@@ -1,4 +1,0 @@
-# - labels:
-#     job: node
-#   targets:
-#     - serverhostname:9100

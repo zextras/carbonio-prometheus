@@ -29,45 +29,103 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
 
-  - job_name: node
-    file_sd_configs:
-      - files:
-          - "/opt/zextras/common/etc/prometheus/inventory/node.yml"
+  - job_name: 'ldap'
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{% consultoken %}'
+      services:
+        - 'carbonio-prometheus-openldap-exporter'
+    relabel_configs:
+        - source_labels: ['__meta_consul_node']
+          regex: "agent-(.+)-{% consulhostsdomain %}"
+          replacement: '$1.{% hostsdomain %}'
+          target_label: instance
+          
+  - job_name: 'postgres'
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{% consultoken %}'
+      services:
+        - 'carbonio-prometheus-postgres-exporter'
+    relabel_configs:
+        - source_labels: ['__meta_consul_node']
+          regex: "agent-(.+)-{% consulhostsdomain %}"
+          replacement: '$1.{% hostsdomain %}'
+          target_label: instance
+          
+  - job_name: 'node'
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{% consultoken %}'
+      services:
+        - 'carbonio-prometheus-node-exporter'
+    relabel_configs:
+        - source_labels: ['__meta_consul_node']
+          regex: "agent-(.+)-{% consulhostsdomain %}"
+          replacement: '$1.{% hostsdomain %}'
+          target_label: instance
+          
+  - job_name: 'mysql'
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{% consultoken %}'
+      services:
+        - 'carbonio-prometheus-mysqld-exporter'        
+    relabel_configs:
+        - source_labels: ['__meta_consul_node']
+          regex: "agent-(.+)-{% consulhostsdomain %}"
+          replacement: '$1.{% hostsdomain %}'
+          target_label: instance
+          
+  - job_name: 'process'
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{% consultoken %}'
+      services:
+        - 'carbonio-prometheus-process-exporter'
+    relabel_configs:
+        - source_labels: ['__meta_consul_node']
+          regex: "agent-(.+)-{% consulhostsdomain %}"
+          replacement: '$1.{% hostsdomain %}'
+          target_label: instance
+          
+  - job_name: 'nginx'
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{% consultoken %}'
+      services:
+        - 'carbonio-prometheus-nginx-exporter'
+    relabel_configs:
+        - source_labels: ['__meta_consul_node']
+          regex: "agent-(.+)-{% consulhostsdomain %}"
+          replacement: '$1.{% hostsdomain %}'
+          target_label: instance
+          
+  - job_name: 'consul'
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{% consultoken %}'
+      services:
+        - 'carbonio-prometheus-consul-exporter'
+    relabel_configs:
+        - source_labels: ['__meta_consul_node']
+          regex: "agent-(.+)-{% consulhostsdomain %}"
+          replacement: '$1.{% hostsdomain %}'
+          target_label: instance
+          
+  - job_name: consulservices
+    consul_sd_configs:
+        - server: 'localhost:8500'
+        - token: '{% consultoken %}'
+    relabel_configs:
+      - source_labels: [ __meta_consul_address, __meta_consul_service_metadata_prom_port]
+        separator: ":"
+        target_label: __address__
+  # - job_name: thanos
+  # file_sd_configs:
+  # - files:
+  # - '/opt/zextras/common/etc/prometheus/inventory/thanos.yml'
 
-  - job_name: openldap
-    file_sd_configs:
-      - files:
-          - "/opt/zextras/common/etc/prometheus/inventory/openldap.yml"
-
-  - job_name: mysql
-    file_sd_configs:
-      - files:
-          - "/opt/zextras/common/etc/prometheus/inventory/mysql.yml"
-
-  - job_name: nginx
-    file_sd_configs:
-      - files:
-          - "/opt/zextras/common/etc/prometheus/inventory/nginx.yml"
-
-  - job_name: consul
-    file_sd_configs:
-      - files:
-          - "/opt/zextras/common/etc/prometheus/inventory/consul.yml"
-
-  - job_name: process
-    file_sd_configs:
-      - files:
-          - "/opt/zextras/common/etc/prometheus/inventory/process.yml"
-
-  # - job_name: consulservices
-    # consul_sd_configs:
-        # - server: 'consul-server-host:8500'
-        # - token: 'consul-bootstrap-token'
-    # relabel_configs:
-      # - source_labels: [ __meta_consul_address, __meta_consul_service_metadata_prom_port]
-        # separator: ":"
-        # target_label: __address__
-        
   # - job_name: blackbox
   # scrape_interval: 10s
   # metrics_path: /probe

@@ -18,10 +18,12 @@ sources=(
   "https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-amd64.tar.gz"
   "mysqld.default"
   "mysqld.service"
-  "mysqld_exporter.cnf"
+  "mysqld-exporter.cnf"
+  "mysqld-consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -47,11 +49,13 @@ package() {
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/mysqld.default \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}"/mysqld_exporter.cnf \
+  install -Dm644 "${srcdir}"/mysqld-exporter.cnf \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
 
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
+  install -Dm644 "${srcdir}"/mysqld-consul.json \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {

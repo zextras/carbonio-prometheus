@@ -1,0 +1,6 @@
+{
+  "service": {
+    "name": "carbonio-prometheus-consul-exporter",
+    "port": 9107
+  }
+}

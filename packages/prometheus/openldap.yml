@@ -1,4 +1,0 @@
-# - labels:
-#     job: openldap
-#   targets:
-#     - serverhostname:9330

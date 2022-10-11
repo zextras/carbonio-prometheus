@@ -18,9 +18,11 @@ sources=(
   "https://github.com/prometheus/consul_exporter/releases/download/v${pkgver}/consul_exporter-${pkgver}.linux-amd64.tar.gz"
   "consul.default"
   "consul.service"
+  "consul-consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -46,6 +48,8 @@ package() {
     "${pkgdir}"/usr/lib/sysusers.d/carbonio-prometheus-consul-exporter.conf
   install -Dm644 "${srcdir}"/consul.default \
     "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 "${srcdir}"/consul-consul.json \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {
