@@ -16,7 +16,7 @@ priority="optional"
 arch="amd64"
 sources=(
   "carbonio-dashboards.yml"
-  "carbonio-directory-server.json"
+  "carbonio-directory.json"
   "carbonio-docs.json"
   "carbonio-mailbox-procols.json"
   "carbonio-mailstore-details.json"
@@ -52,8 +52,8 @@ package() {
     "${pkgdir}"/etc/grafana/provisioning/datasources/carbonio-prometheus.yml
   install -Dm644 "${srcdir}"/carbonio-dashboards.yml \
     "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-dashboards.yml
-  install -Dm644 "${srcdir}"/carbonio-directory-server.json \
-    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-directory-server.json
+  install -Dm644 "${srcdir}"/carbonio-directory.json \
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-directory.json
   install -Dm644 "${srcdir}"/carbonio-docs.json \
     "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-docs.json
   install -Dm644 "${srcdir}"/carbonio-mailbox-procols.json \
