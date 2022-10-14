@@ -1,5 +1,5 @@
 [client]
 user={{ zimbra_mysql_user }}
-password={{ mysql_root_password }}
+password={{ mysql_zimbra_password }}
 host={{ mysql_bind_address }}
 port={{ mysql_port }}

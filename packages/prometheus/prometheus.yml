@@ -37,8 +37,8 @@ scrape_configs:
         - 'carbonio-prometheus-openldap-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "agent-(.+)-{% consulhostsdomain %}"
-          replacement: '$1.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
+          replacement: '$2.{% hostsdomain %}'
           target_label: instance
           
   - job_name: 'postgres'
@@ -49,8 +49,8 @@ scrape_configs:
         - 'carbonio-prometheus-postgres-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "agent-(.+)-{% consulhostsdomain %}"
-          replacement: '$1.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
+          replacement: '$2.{% hostsdomain %}'
           target_label: instance
           
   - job_name: 'node'
@@ -61,8 +61,8 @@ scrape_configs:
         - 'carbonio-prometheus-node-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "agent-(.+)-{% consulhostsdomain %}"
-          replacement: '$1.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
+          replacement: '$2.{% hostsdomain %}'
           target_label: instance
           
   - job_name: 'mysql'
@@ -73,8 +73,8 @@ scrape_configs:
         - 'carbonio-prometheus-mysqld-exporter'        
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "agent-(.+)-{% consulhostsdomain %}"
-          replacement: '$1.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
+          replacement: '$2.{% hostsdomain %}'
           target_label: instance
           
   - job_name: 'process'
@@ -85,8 +85,8 @@ scrape_configs:
         - 'carbonio-prometheus-process-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "agent-(.+)-{% consulhostsdomain %}"
-          replacement: '$1.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
+          replacement: '$2.{% hostsdomain %}'
           target_label: instance
           
   - job_name: 'nginx'
@@ -97,8 +97,8 @@ scrape_configs:
         - 'carbonio-prometheus-nginx-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "agent-(.+)-{% consulhostsdomain %}"
-          replacement: '$1.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
+          replacement: '$2.{% hostsdomain %}'
           target_label: instance
           
   - job_name: 'consul'
@@ -109,8 +109,8 @@ scrape_configs:
         - 'carbonio-prometheus-consul-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "agent-(.+)-{% consulhostsdomain %}"
-          replacement: '$1.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
+          replacement: '$2.{% hostsdomain %}'
           target_label: instance
           
   - job_name: consulservices
