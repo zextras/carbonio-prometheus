@@ -32,91 +32,91 @@ scrape_configs:
   - job_name: 'ldap'
     consul_sd_configs:
     - server: 'localhost:8500'
-    - token: '{% consultoken %}'
+    - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-openldap-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
-          replacement: '$2.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+          replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
   - job_name: 'postgres'
     consul_sd_configs:
     - server: 'localhost:8500'
-    - token: '{% consultoken %}'
+    - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-postgres-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
-          replacement: '$2.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+          replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
   - job_name: 'node'
     consul_sd_configs:
     - server: 'localhost:8500'
-    - token: '{% consultoken %}'
+    - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-node-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
-          replacement: '$2.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+          replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
   - job_name: 'mysql'
     consul_sd_configs:
     - server: 'localhost:8500'
-    - token: '{% consultoken %}'
+    - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-mysqld-exporter'        
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
-          replacement: '$2.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+          replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
   - job_name: 'process'
     consul_sd_configs:
     - server: 'localhost:8500'
-    - token: '{% consultoken %}'
+    - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-process-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
-          replacement: '$2.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+          replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
   - job_name: 'nginx'
     consul_sd_configs:
     - server: 'localhost:8500'
-    - token: '{% consultoken %}'
+    - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-nginx-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
-          replacement: '$2.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+          replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
   - job_name: 'consul'
     consul_sd_configs:
     - server: 'localhost:8500'
-    - token: '{% consultoken %}'
+    - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-consul-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
-          regex: "(agent|server)-(.+)-{% consulhostsdomain %}"
-          replacement: '$2.{% hostsdomain %}'
+          regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+          replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
   - job_name: consulservices
     consul_sd_configs:
         - server: 'localhost:8500'
-        - token: '{% consultoken %}'
+        - token: '{{ consultoken }}'
     relabel_configs:
       - source_labels: [ __meta_consul_address, __meta_consul_service_metadata_prom_port]
         separator: ":"

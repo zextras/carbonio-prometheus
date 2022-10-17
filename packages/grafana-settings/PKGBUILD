@@ -18,7 +18,7 @@ sources=(
   "carbonio-dashboards.yml"
   "carbonio-directory.json"
   "carbonio-docs.json"
-  "carbonio-mailbox-procols.json"
+  "carbonio-mailstore-protocols.json"
   "carbonio-mailstore-details.json"
   "carbonio-mariadb.json"
   "carbonio-node.json"
@@ -56,8 +56,8 @@ package() {
     "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-directory.json
   install -Dm644 "${srcdir}"/carbonio-docs.json \
     "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-docs.json
-  install -Dm644 "${srcdir}"/carbonio-mailbox-procols.json \
-    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-mailbox-procols.json
+  install -Dm644 "${srcdir}"/carbonio-mailstore-protocols.json \
+    "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-mailstore-protocols.json
   install -Dm644 "${srcdir}"/carbonio-mailstore-details.json \
     "${pkgdir}"/etc/grafana/provisioning/dashboards/carbonio-mailstore-details.json
   install -Dm644 "${srcdir}"/carbonio-mariadb.json \
