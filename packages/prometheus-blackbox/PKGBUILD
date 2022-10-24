@@ -19,7 +19,7 @@ sources=(
   "blackbox.default"
   "blackbox.service"
   "blackbox.yml"
-  "htp_checks.yml"
+  "http_checks.yml"
   "ping_checks.yml"
   "ssh_checks.yml"
   "prometheus.sysusers"
