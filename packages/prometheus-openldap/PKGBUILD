@@ -18,7 +18,7 @@ sources=(
   "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
   "openldap.default"
   "openldap.service"
-  "openldap.yml"
+  "carbonio-prometheus-openldap-exporter.yml"
   "openldap-consul.json"
   "prometheus.sysusers"
 )
@@ -49,7 +49,7 @@ package() {
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 ../openldap.default \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 ../openldap.yml \
+  install -Dm644 ../carbonio-prometheus-openldap-exporter.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
   install -Dm644 "${srcdir}"/openldap-consul.json \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
@@ -72,10 +72,10 @@ postinst() {
   zmsetvars
   
   
-  echo "ldapAddr: $ldap_host:$ldap_port" > /opt/zextras/common/etc/prometheus/openldap.yml
-  echo "ldapUser: $zimbra_ldap_userdn >> /opt/zextras/common/etc/prometheus/openldap.yml
-  echo "ldapPass: $zimbra_ldap_password  >> /opt/zextras/common/etc/prometheus/openldap.yml
-  echo "interval: 1m" >> /opt/zextras/common/etc/prometheus/openldap.yml
+  echo "ldapAddr: $ldap_host:$ldap_port" > /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
+  echo "ldapUser: $zimbra_ldap_userdn >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
+  echo "ldapPass: $zimbra_ldap_password  >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
+  echo "interval: 1m" >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
   
   echo "======================================================"
   echo "Carbonio LDAP Exporter installed successfully!"

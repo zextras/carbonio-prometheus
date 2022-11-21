@@ -3,7 +3,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-blackbox-exporter"
-pkgver="0.21.1"
+pkgver="0.22.0"
 pkgrel="1"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
@@ -57,7 +57,6 @@ package() {
 
   install -Dm644 -g210 "${srcdir}"/blackbox.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
-
   install -Dm644 "${srcdir}"/http_checks.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml
   install -Dm644 "${srcdir}"/ping_checks.yml \
