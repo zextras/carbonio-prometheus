@@ -42,7 +42,7 @@ package() {
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
   install -Dm755 amtool \
     "${pkgdir}"/opt/zextras/common/bin/amtool
-  install -Dm640 -g210 -t "${pkgdir}"/opt/zextras/common/etc/prometheus alertmanager.yml
+  install -Dm640 -g210 -t "${pkgdir}"/opt/zextras/common/etc/${pkgname}.yml
   install -dm750 -o210 -g210 "${pkgdir}"/var/lib/alertmanager/data
 
   install -Dm644 "${srcdir}"/alertmanager.service \

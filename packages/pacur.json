@@ -17,9 +17,6 @@
             "name": "prometheus-alertmanager"
         },
         {
-            "name": "prometheus-blackbox"
-        },
-        {
             "name": "prometheus-consul"
         },
         {
