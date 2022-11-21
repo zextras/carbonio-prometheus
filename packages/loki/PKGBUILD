@@ -1,0 +1,69 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-loki"
+pkgver="2.6.1"
+pkgdesc="Like Prometheus but for logs "
+pkgdesclong=(
+  "Log aggregation system"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "https://github.com/grafana/loki/releases/download/v${pkgver}/loki-linux-amd64.zip"
+  "loki.default"
+  "loki.service"
+  "loki.sysusers"
+)
+hashsums=(
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+)
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+  "loki"
+)
+
+package() {
+  cd "${srcdir}/loki-${pkgver}.linux-amd64"
+  
+  install -Dm755 loki \
+    "${pkgdir}"/opt/zextras/common/bin/carbonio-loki
+  install -Dm755 promtool "\
+    ${pkgdir}"/opt/zextras/common/bin/promtool
+
+  install -dm750 -o210 -g210 "${pkgdir}"/var/lib/loki
+  install -dm750 -o210 -g210 "${pkgdir}"/opt/zextras/common/etc/
+
+  install -Dm640 -g210 "${srcdir}"/loki.yml \
+    "${pkgdir}"/opt/zextras/common/etc/loki/loki.yml
+
+  install -Dm644 "${srcdir}"/loki.service \
+    "${pkgdir}"/usr/lib/systemd/system/${pkgname}.service
+  install -Dm644 "${srcdir}"/loki.sysusers \
+    "${pkgdir}"/usr/lib/sysusers.d/${pkgname}.conf
+  install -Dm644 "${srcdir}"/loki.default \
+    "${pkgdir}"/etc/default/${pkgname}
+}
+
+postinst() {
+  if hash systemctl 2>/dev/null; then
+    systemctl daemon-reload 2>/dev/null || true
+  fi
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+}
+
