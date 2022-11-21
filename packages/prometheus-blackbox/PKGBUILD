@@ -58,7 +58,7 @@ package() {
   install -Dm644 -g210 "${srcdir}"/blackbox.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 
-  install -Dm644 "${srcdir}"/htp_checks.yml \
+  install -Dm644 "${srcdir}"/http_checks.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml
   install -Dm644 "${srcdir}"/ping_checks.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ping_checks.yml

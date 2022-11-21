@@ -48,7 +48,6 @@ package() {
   install -dm750 -o210 -g210 "${pkgdir}"/var/lib/prometheus
   install -dm750 -o210 -g210 "${pkgdir}"/opt/zextras/common/etc/template
 
-
   install -Dm640 -g210 "${srcdir}"/prometheus.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/prometheus.yml
 
