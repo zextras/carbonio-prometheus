@@ -1,0 +1,38 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-loki-settings"
+pkgver="0.1.0"
+pkgrel="1"
+pkgdesc="Grafana Loki settings for logs"
+pkgdesclong=(
+  "Default config to collect Carbonio log"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "config.yml"
+)
+hashsums=(
+  "skip"
+)
+
+depends=(
+  "loki"
+)
+
+package() {
+  install -Dm644 "${srcdir}"/config.yml \
+    "${pkgdir}"/etc/loki/config.yml
+}
+
+postinst() {
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
+  echo "Don't forget to reload Loki"
+}
