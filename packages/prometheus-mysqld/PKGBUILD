@@ -22,6 +22,7 @@ sources=(
   "mysqld-consul.json"
   "prometheus.sysusers"
 )
+
 hashsums=(
   "skip"
   "skip"

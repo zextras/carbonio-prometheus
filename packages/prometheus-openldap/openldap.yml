@@ -1,4 +1,1 @@
-ldapAddr: {{ ldap_host:ldap_port }}
-ldapUser: {{ zimbra_ldap_userdn }}
-ldapPass: {{ zimbra_ldap_password }}
-interval: 1m
+
