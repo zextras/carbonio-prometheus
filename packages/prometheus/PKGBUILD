@@ -44,7 +44,7 @@ package() {
     "${pkgdir}/opt/zextras/common/bin/prometheus"
   install -Dm755 promtool \
     "${pkgdir}/opt/zextras/common/bin/promtool"
-  cp -r "${srcdir}/consoles*" \
+  cp -r "${srcdir}/prometheus-${pkgver}.linux-amd64/consoles*" \
     "${pkgdir}/opt/zextras/common/etc/prometheus/"
 
   install -dm750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
