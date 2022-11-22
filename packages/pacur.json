@@ -11,9 +11,6 @@
             "name": "prometheus"
         },
         {
-            "name": "prometheus-alertmanager"
-        },
-        {
             "name": "prometheus-consul"
         },
         {
