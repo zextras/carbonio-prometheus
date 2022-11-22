@@ -45,6 +45,11 @@ package() {
   install -Dm755 promtool \
     "${pkgdir}/opt/zextras/common/bin/promtool"
 
+  install -Dm640 -g210 "${srcdir}/consoles" \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/consoles"
+  install -Dm640 -g210 "${srcdir}/console_libraries" \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/console_libraries"
+
   install -dm750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
   install -Dm640 -g210 "${srcdir}/prometheus.yml" \
