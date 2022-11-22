@@ -69,16 +69,16 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-mysqld-exporter.service >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
   fi
 
   source /opt/zextras/bin/zmshutil || exit 1
   zmsetvars
 
-  echo "user= $zimbra_mysql_user" >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-mysqld-exporter.cnf
-  echo "password= $mysql_zimbra_password >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-mysqld-exporter.cnf
-  echo "host= $mysql_bind_address  >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-mysqld-exporter.cnf
-  echo "port= $mysql_port" >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-mysqld-exporter.cnf
+  echo "user= $zimbra_mysql_user" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  echo "password= $mysql_zimbra_password" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  echo "host= $mysql_bind_address"  >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  echo "port= $mysql_port" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
   
   echo "======================================================"
   echo "Carbonio Mysql Exporter installed successfully!"
@@ -88,8 +88,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable carbonio-prometheus-mysqld-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-mysqld-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
   fi
 }
 
