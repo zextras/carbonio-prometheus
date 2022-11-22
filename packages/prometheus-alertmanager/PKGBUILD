@@ -42,10 +42,16 @@ package() {
     "${pkgdir}/opt/zextras/common/bin/alertmanager"
   install -Dm755 amtool \
     "${pkgdir}/opt/zextras/common/bin/amtool"
-	
-  install -Dm640 -g210 -t "${pkgdir}/opt/zextras/common/etc/${pkgname}.yml"
-  install -dm750 -o210 -g210 "${pkgdir}/var/lib/alertmanager/data"
 
+  install -dm750 -o210 -g210 "${pkgdir}/var/lib/alertmanager/data"
+  install -dm750 -o210 -g210 "${pkgdir}/opt/zextras/common/etc/prometheus/email-templates"
+
+  install -Dm640 -g210 "${srcdir}/alertmanager.yml" \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/alertmanager.yml"
+  install -Dm640 -g210 "${srcdir}/email.tmpl" \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/email.tmpl"
+  install -Dm640 -g210 "${srcdir}/alert_rules.yml" \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/alert_rules.yml"
   install -Dm644 "${srcdir}"/alertmanager.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/alertmanager.default \
@@ -63,7 +69,20 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  echo "Please enable configure /opt/zextras/common/etc/prometheus/prometheus.yml"
+  echo "Please configure in /opt/zextras/common/etc/prometheus/prometheus.yml"
   echo ""
   echo "Don't forget to enable the systemd unit service"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable ${pkgname} >/dev/null 2>&1 || :
+    systemctl stop ${pkgname} >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
 }
