@@ -44,14 +44,14 @@ package() {
     "${pkgdir}/opt/zextras/common/bin/prometheus"
   install -Dm755 promtool \
     "${pkgdir}/opt/zextras/common/bin/promtool"
-  cp -r "${srcdir}/prometheus-${pkgver}.linux-amd64/consoles*" \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/"
 
   install -dm750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
   install -Dm640 -g210 "${srcdir}/prometheus.yml" \
     "${pkgdir}/opt/zextras/common/etc/prometheus/prometheus.yml"
-
+  cp -r consoles* \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/"
+	
   install -Dm644 "${srcdir}/prometheus.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}/prometheus.sysusers" \
