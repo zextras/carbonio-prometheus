@@ -7,7 +7,7 @@ pkgver="0.1.0"
 pkgrel="1"
 pkgdesc="Grafana Loki settings for logs"
 pkgdesclong=(
-  "Default config to collect Carbonio log"
+  "Default config to collect Carbonio logs"
 )
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -26,8 +26,8 @@ depends=(
 )
 
 package() {
-  install -Dm644 "${srcdir}"/config.yml \
-    "${pkgdir}"/etc/loki/config.yml
+  install -Dm644 "${srcdir}/config.yml" \
+    "${pkgdir}/etc/loki/config.yml"
 }
 
 postinst() {

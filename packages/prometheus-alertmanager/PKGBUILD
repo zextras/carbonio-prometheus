@@ -16,11 +16,17 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus/alertmanager/releases/download/v${pkgver}/alertmanager-${pkgver}.linux-amd64.tar.gz"
+  "alertmanager.yml"
+  "email.tmpl"
+  "alert_rules.yml"
   "alertmanager.default"
   "alertmanager.service"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
+  "skip"
+  "skip"
   "skip"
   "skip"
   "skip"

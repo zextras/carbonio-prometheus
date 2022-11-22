@@ -11,6 +11,9 @@
             "name": "prometheus"
         },
         {
+            "name": "loki-settings"
+        },
+        {
             "name": "prometheus-alertmanager"
         },
         {
