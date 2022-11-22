@@ -45,17 +45,17 @@ package() {
   install -Dm755 promtool \
     "${pkgdir}/opt/zextras/common/bin/promtool"
 
-  install -dm750 -o210 -g210 "${pkgdir}"/var/lib/prometheus
-  install -dm750 -o210 -g210 "${pkgdir}"/opt/zextras/common/etc/template
+  install -dm750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
+  install -dm750 -o210 -g210 "${pkgdir}/opt/zextras/common/etc/template"
 
-  install -Dm640 -g210 "${srcdir}"/prometheus.yml \
+  install -Dm640 -g210 "${srcdir}/prometheus.yml" \
     "${pkgdir}/opt/zextras/common/etc/prometheus/prometheus.yml"
 
-  install -Dm644 "${srcdir}"/prometheus.service \
+  install -Dm644 "${srcdir}/prometheus.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
+  install -Dm644 "${srcdir}/prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
-  install -Dm644 "${srcdir}"/prometheus.default \
+  install -Dm644 "${srcdir}/prometheus.default" \
     "${pkgdir}/etc/default/${pkgname}"
 }
 
