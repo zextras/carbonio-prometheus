@@ -39,19 +39,28 @@ conflicts=(
   'prometheus-openldap-exporter'
 )
 
+backup=(
+  "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+  "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"
+)
+
 package() {
   cd "${srcdir}"
   gunzip -f openldap_exporter-linux-amd64.gz
   install -Dm755 openldap_exporter-linux-amd64 \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
-  install -Dm644 ../openldap.service \
+  install -Dm644 "${srcdir}/openldap.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 ../openldap.default \
+  install -Dm644 "${srcdir}/openldap.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 ../carbonio-prometheus-openldap-exporter.yml \
+  install -Dm644 "${srcdir}/carbonio-prometheus-openldap-exporter.yml" \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
-  install -Dm644 "${srcdir}"/openldap-consul.json \
+
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
+  install -Dm644 "${srcdir}/openldap-consul.json" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 

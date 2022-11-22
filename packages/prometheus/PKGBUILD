@@ -37,6 +37,11 @@ conflicts=(
   "prometheus"
 )
 
+backup=(
+  "${pkgdir}/opt/zextras/common/etc/prometheus/prometheus.yml"
+)
+
+
 package() {
   cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
   

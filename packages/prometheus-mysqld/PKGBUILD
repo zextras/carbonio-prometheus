@@ -40,6 +40,10 @@ conflicts=(
   'prometheus-mysqld-exporter'
 )
 
+backup(
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
+)
+
 package() {
   cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
 

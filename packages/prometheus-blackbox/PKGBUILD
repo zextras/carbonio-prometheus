@@ -44,6 +44,13 @@ conflicts=(
   "prometheus-blackbox-exporter"
 )
 
+backup=(
+    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ping_checks.yml
+    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ssh_checks.yml
+)
+
 package() {
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64"
 
@@ -63,6 +70,8 @@ package() {
     "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ping_checks.yml
   install -Dm644 "${srcdir}"/ssh_checks.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ssh_checks.yml
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
 }
 
 

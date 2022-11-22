@@ -37,6 +37,10 @@ conflicts=(
   'prometheus-consul-exporter'
 )
 
+#backup=(
+#)
+
+
 package() {
   cd "${srcdir}/consul_exporter-${pkgver}.linux-amd64"
   
@@ -45,10 +49,10 @@ package() {
 
   install -Dm644 "${srcdir}/consul.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}"/usr/lib/sysusers.d/carbonio-prometheus-consul-exporter.conf
   install -Dm644 "${srcdir}/consul.default" \
     "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
   install -Dm644 "${srcdir}/consul-consul.json" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }

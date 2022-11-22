@@ -47,6 +47,10 @@ conflicts=(
   "prometheus-process-exporter"
 )
 
+backup=(
+   "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+)
+
 package() {
   cd "${srcdir}/process-exporter-${pkgver}.linux-amd64"
   
@@ -59,8 +63,12 @@ package() {
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm644 "${srcdir}"/process.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+	
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
   install -Dm644 "${srcdir}"/process-consul.json \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"
+	
 }
 
 postinst() {

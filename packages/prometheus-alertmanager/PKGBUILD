@@ -41,6 +41,12 @@ conflicts=(
   "prometheus-alertmanager"
 )
 
+backup=(
+    "${pkgdir}/opt/zextras/common/etc/prometheus/alertmanager.yml"
+    "${pkgdir}/opt/zextras/common/etc/prometheus/email.tmpl"
+    "${pkgdir}/opt/zextras/common/etc/prometheus/alert_rules.yml"
+)
+
 package() {
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
   
@@ -62,6 +68,8 @@ package() {
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/alertmanager.default \
     "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
 }
 
 

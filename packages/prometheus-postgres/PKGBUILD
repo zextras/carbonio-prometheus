@@ -39,6 +39,11 @@ conflicts=(
   'prometheus-postgres-exporter'
 )
 
+backup=(
+  "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+)
+
 package() {
   cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
 

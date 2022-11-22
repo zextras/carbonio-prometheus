@@ -37,6 +37,10 @@ conflicts=(
   "prometheus-nginx-exporter"
 )
 
+backup=(
+   "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
+)
+
 package() {
   install -Dm755 "${srcdir}/nginx-prometheus-exporter" \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
@@ -44,6 +48,9 @@ package() {
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/nginx.default \
     "${pkgdir}/etc/default/${pkgname}"
+	
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
   install -Dm644 "${srcdir}"/nginx-consul.json \
     "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
 }

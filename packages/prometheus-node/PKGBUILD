@@ -33,6 +33,10 @@ depends=(
   "systemd"
 )
 
+backup=(
+  "${pkgdir}/etc/default/${pkgname}"
+)
+
 conflicts=(
   "prometheus-node-exporter"
 )
@@ -45,10 +49,11 @@ package() {
 
   install -Dm644 "${srcdir}"/node.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}"/usr/lib/sysusers.d/carbonio-prometheus-node-exporter.conf
   install -Dm644 "${srcdir}"/node.default \
     "${pkgdir}/etc/default/${pkgname}"
+	
+  install -Dm644 "${srcdir}"/prometheus.sysusers \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
   install -Dm644 "${srcdir}"/node-consul.json \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"	
 }
