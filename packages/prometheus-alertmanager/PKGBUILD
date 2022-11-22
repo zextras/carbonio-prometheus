@@ -58,12 +58,39 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+}
+
+
+postinst() {
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
 
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  echo "Please enable the relative exporter job within"
-  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
-  echo ""
-  echo "Don't forget to enable the systemd unit service"
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+  fi
+
+  echo "======================================================"
+  echo "Carbonio Prometheus Alert Manager installed successfully!"
+  echo "You have to enable it in prometheus.yml"
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable ${pkgname} >/dev/null 2>&1 || :
+    systemctl stop ${pkgname} >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
 }
