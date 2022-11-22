@@ -18,7 +18,7 @@ sources=(
   "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
   "openldap.default"
   "openldap.service"
-  "openldap.yml"
+  "carbonio-prometheus-openldap-exporter.yml"
   "openldap-consul.json"
   "prometheus.sysusers"
 )
