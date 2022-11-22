@@ -59,9 +59,6 @@ package() {
 }
 
 postinst() {
-  if hash systemctl 2>/dev/null; then
-    systemctl daemon-reload 2>/dev/null || true
-  fi
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
@@ -69,11 +66,27 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  echo "Please enable the relative exporter job within"
-  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
-  echo ""
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+  fi
+
+  echo "======================================================"
+  echo "Carbonio Postgres Exporter installed successfully!"
   echo "Create role for carbonio-pometheus on Postgres"
-  echo "/opt/zextras/common/etc/prometheus/postgres.yml"
-  echo ""
-  echo "Don't forget to enable the systemd unit service"
+  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
 }

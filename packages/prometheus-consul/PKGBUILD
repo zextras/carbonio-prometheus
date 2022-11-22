@@ -39,28 +39,48 @@ conflicts=(
 
 package() {
   cd "${srcdir}/consul_exporter-${pkgver}.linux-amd64"
+  
   install -Dm755 consul_exporter \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
-  install -Dm644 "${srcdir}"/consul.service \
+  install -Dm644 "${srcdir}/consul.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}"/usr/lib/sysusers.d/carbonio-prometheus-consul-exporter.conf
-  install -Dm644 "${srcdir}"/consul.default \
+  install -Dm644 "${srcdir}/consul.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}"/consul-consul.json \
+  install -Dm644 "${srcdir}/consul-consul.json" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {
-  if hash systemctl 2>/dev/null; then
-    systemctl daemon-reload 2>/dev/null || true
-  fi
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-  echo "Please enable the relative exporter job within"
-  echo "/opt/zextras/common/etc/prometheus/prometheus.yml"
-  echo ""
-  echo "Don't forget to enable the systemd unit service"
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+  fi
+ 
+  echo "======================================================"
+  echo "Carbonio Consul Exporter installed successfully!"
+  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
 }

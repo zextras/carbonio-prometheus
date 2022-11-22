@@ -51,7 +51,7 @@ package() {
   cd "${srcdir}/process-exporter-${pkgver}.linux-amd64"
   
   install -Dm755 process-exporter \
-    "${pkgdir}/opt/zextras/common/bin/carbonio-prometheus-process-exporter"
+    "${pkgdir}/opt/zextras/common/bin/process-exporter"
 
   install -Dm644 "${srcdir}"/process.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
@@ -73,7 +73,7 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -84,8 +84,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
   fi
 }
 
