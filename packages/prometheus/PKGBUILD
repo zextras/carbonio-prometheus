@@ -39,14 +39,13 @@ conflicts=(
 
 package() {
   cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
+  
   install -Dm755 prometheus \
     "${pkgdir}/opt/zextras/common/bin/prometheus"
   install -Dm755 promtool \
     "${pkgdir}/opt/zextras/common/bin/promtool"
-  install -Dm640 -g210 "${srcdir}/consoles" \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/consoles"
-  install -Dm640 -g210 "${srcdir}/console_libraries" \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/console_libraries"
+  cp -r "${srcdir}/consoles*" \
+    "${pkgdir}/opt/zextras/common/etc/prometheus/"
 
   install -dm750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
