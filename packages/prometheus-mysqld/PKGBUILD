@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus-mysqld-exporter"
 pkgver="0.14.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Mysqld exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Mysqld manager exporter for open-source systems monitoring and alerting toolkit"
@@ -41,6 +41,7 @@ conflicts=(
 )
 
 backup(
+	"/etc/default/${pkgname}"
     "/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
 )
 
