@@ -45,10 +45,10 @@ conflicts=(
 )
 
 backup=(
-    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ping_checks.yml
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ssh_checks.yml
+    "/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+    "/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml"
+    "/opt/zextras/common/etc/prometheus/blackbox-targets/ping_checks.yml"
+    "/opt/zextras/common/etc/prometheus/blackbox-targets/ssh_checks.yml"
 )
 
 package() {

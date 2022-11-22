@@ -41,7 +41,7 @@ conflicts=(
 )
 
 backup(
-    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
+    "/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
 )
 
 package() {

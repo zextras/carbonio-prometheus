@@ -38,7 +38,7 @@ conflicts=(
 )
 
 backup=(
-  "${pkgdir}/opt/zextras/common/etc/prometheus/prometheus.yml"
+  "/opt/zextras/common/etc/prometheus/prometheus.yml"
 )
 
 

@@ -34,7 +34,7 @@ depends=(
 )
 
 backup=(
-  "${pkgdir}/etc/default/${pkgname}"
+  "/etc/default/${pkgname}"
 )
 
 conflicts=(

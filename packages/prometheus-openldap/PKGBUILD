@@ -40,9 +40,9 @@ conflicts=(
 )
 
 backup=(
-  "${pkgdir}/etc/default/${pkgname}"
-  "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
-  "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"
+  "/etc/default/${pkgname}"
+  "/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+  "/etc/zextras/service-discover/${pkgname}.json"
 )
 
 package() {

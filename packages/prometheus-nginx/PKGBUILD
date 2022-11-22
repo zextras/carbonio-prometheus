@@ -38,7 +38,7 @@ conflicts=(
 )
 
 backup=(
-   "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
+   "/etc/zextras/service-discover/${pkgname}.json"
 )
 
 package() {

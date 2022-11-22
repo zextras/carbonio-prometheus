@@ -42,9 +42,9 @@ conflicts=(
 )
 
 backup=(
-    "${pkgdir}/opt/zextras/common/etc/prometheus/alertmanager.yml"
-    "${pkgdir}/opt/zextras/common/etc/prometheus/email.tmpl"
-    "${pkgdir}/opt/zextras/common/etc/prometheus/alert_rules.yml"
+    "/opt/zextras/common/etc/prometheus/alertmanager.yml"
+    "/opt/zextras/common/etc/prometheus/email.tmpl"
+    "/opt/zextras/common/etc/prometheus/alert_rules.yml"
 )
 
 package() {
