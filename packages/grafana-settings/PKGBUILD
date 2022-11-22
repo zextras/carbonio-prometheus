@@ -3,7 +3,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-grafana-settings"
-pkgver="0.7.10"
+pkgver="0.1"
 pkgrel="1"
 pkgdesc="Grafana settings and dashboards to display Carbonio Stats"
 pkgdesclong=(

@@ -3,7 +3,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus"
-pkgver="2.39.1"
+pkgver="2.40.2"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "An open-source systems monitoring and alerting toolkit"
@@ -75,7 +75,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Prometheus installed successfully!"
-  echo "You have to enable customize your configutration in /opt/zextras/common/etc/prometheus/prometheus.yml"
+  echo "You have to complete config editing /opt/zextras/common/etc/prometheus/prometheus.yml"
   echo "======================================================"
 }
 

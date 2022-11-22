@@ -67,11 +67,6 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  if [ -d /run/systemd/system ]; then
-    systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-  fi
-
   source /opt/zextras/bin/zmshutil || exit 1
   zmsetvars
 
@@ -79,6 +74,12 @@ postinst() {
   echo "password= $mysql_zimbra_password" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
   echo "host= $mysql_bind_address"  >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
   echo "port= $mysql_port" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+  fi
   
   echo "======================================================"
   echo "Carbonio Mysql Exporter installed successfully!"

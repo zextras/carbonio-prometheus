@@ -3,7 +3,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-loki-settings"
-pkgver="0.1.0"
+pkgver="0.1"
 pkgrel="1"
 pkgdesc="Grafana Loki settings for logs"
 pkgdesclong=(

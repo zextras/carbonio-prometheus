@@ -59,6 +59,7 @@ postinst() {
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"

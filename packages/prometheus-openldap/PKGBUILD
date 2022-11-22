@@ -63,19 +63,19 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  if [ -d /run/systemd/system ]; then
-    systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-openldap-exporter.service >/dev/null 2>&1 || :
-  fi
-
   source /opt/zextras/bin/zmshutil || exit 1
   zmsetvars
+    
+  echo "ldapAddr: $ldap_host:$ldap_port" > /opt/zextras/common/etc/prometheus/${pkgname}.yml
+  echo "ldapUser: $zimbra_ldap_userdn >> /opt/zextras/common/etc/prometheus/${pkgname}.yml
+  echo "ldapPass: $zimbra_ldap_password  >> /opt/zextras/common/etc/prometheus/${pkgname}.yml
+  echo "interval: 1m" >> /opt/zextras/common/etc/prometheus/${pkgname}.yml
   
-  
-  echo "ldapAddr: $ldap_host:$ldap_port" > /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
-  echo "ldapUser: $zimbra_ldap_userdn >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
-  echo "ldapPass: $zimbra_ldap_password  >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
-  echo "interval: 1m" >> /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+  fi
   
   echo "======================================================"
   echo "Carbonio LDAP Exporter installed successfully!"
@@ -85,8 +85,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable carbonio-prometheus-openldap-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-openldap-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
   fi
 }
 
