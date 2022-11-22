@@ -39,17 +39,17 @@ package() {
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
   
   install -Dm755 alertmanager \
-    "${pkgdir}"/opt/zextras/common/bin/alertmanager
+    "${pkgdir}/opt/zextras/common/bin/alertmanager"
   install -Dm755 amtool \
-    "${pkgdir}"/opt/zextras/common/bin/amtool
+    "${pkgdir}/opt/zextras/common/bin/amtool"
 	
-  install -Dm640 -g210 -t "${pkgdir}"/opt/zextras/common/etc/${pkgname}.yml
-  install -dm750 -o210 -g210 "${pkgdir}"/var/lib/alertmanager/data
+  install -Dm640 -g210 -t "${pkgdir}/opt/zextras/common/etc/${pkgname}.yml"
+  install -dm750 -o210 -g210 "${pkgdir}/var/lib/alertmanager/data"
 
   install -Dm644 "${srcdir}"/alertmanager.service \
-    "${pkgdir}"/usr/lib/systemd/system/${pkgname}.service
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/alertmanager.default \
-    "${pkgdir}"/etc/default/${pkgname}
+    "${pkgdir}/etc/default/${pkgname}"
 }
 
 postinst() {
