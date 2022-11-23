@@ -5,7 +5,34 @@
     "output": "artifacts",
     "Projects": [
         {
+            "name": "grafana-settings"
+        },
+        {
+            "name": "prometheus"
+        },
+        {
+            "name": "loki-settings"
+        },
+        {
+            "name": "prometheus-alertmanager"
+        },
+        {
+            "name": "prometheus-consul"
+        },
+        {
+            "name": "prometheus-nginx"
+        },
+        {
+            "name": "prometheus-node"
+        },
+        {
             "name": "prometheus-openldap"
+        },
+        {
+            "name": "prometheus-postgres"
+        },
+        {
+            "name": "prometheus-process"
         },
 		{
             "name": "prometheus-mysqld"
