@@ -8,7 +8,7 @@ User=carbonio-prometheus
 Group=carbonio-prometheus
 Type=simple
 EnvironmentFile=/etc/default/carbonio-prometheus-consul-exporter
-ExecStart=/opt/zextras/common/bin/consul-exporter $ARGS
+ExecStart=/opt/zextras/common/bin/carbonio-prometheus-consul-exporter $ARGS
 Restart=always
 
 [Install]

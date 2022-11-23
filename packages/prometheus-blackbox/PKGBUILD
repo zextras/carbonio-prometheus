@@ -16,9 +16,9 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus/blackbox_exporter/releases/download/v${pkgver}/blackbox_exporter-${pkgver}.linux-amd64.tar.gz"
-  "blackbox.default"
-  "blackbox.service"
-  "blackbox.yml"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}.yml"
   "http_checks.yml"
   "ping_checks.yml"
   "ssh_checks.yml"
@@ -57,12 +57,12 @@ package() {
   install -Dm755 blackbox_exporter \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
-  install -Dm644 "${srcdir}"/blackbox.service \
+  install -Dm644 "${srcdir}"/${pkgname}.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/blackbox.default \
+  install -Dm644 "${srcdir}"/${pkgname}.default \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm644 -g210 "${srcdir}"/blackbox.yml \
+  install -Dm644 -g210 "${srcdir}"/${pkgname}.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
   install -Dm644 "${srcdir}"/http_checks.yml \
     "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml
