@@ -54,7 +54,7 @@ package() {
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/opt/zextras/common/bin/set-${pkgname}"
+    "${pkgdir}/opt/zextras/common/bin/set-${pkgname}.sh"
 
   install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
