@@ -16,13 +16,15 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
-  "postgres_exporter.default"
-  "postgres_exporter.service"
-  "postgres_exporter.yml"
-  "postgres_consul.json"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}.yml"
+  "${pkgname}-consul.json"
+  "set-${pkgname}-consul.sh"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -50,11 +52,14 @@ package() {
   install -Dm755 postgres_exporter \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
-  install -Dm644 "${srcdir}"/postgres_exporter.service \
+  install -Dm755 "${srcdir}/set-${pkgname}.sh" \
+    "${pkgdir}/opt/zextras/common/bin/set-${pkgname}.sh"
+	
+  install -Dm644 "${srcdir}"/${pkgname}.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/postgres_exporter.default \
+  install -Dm644 "${srcdir}"/${pkgname}.default \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}"/postgres_exporter.yml \
+  install -Dm644 "${srcdir}"/${pkgname}.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 
   install -Dm644 "${srcdir}"/prometheus.sysusers \
@@ -70,6 +75,8 @@ postinst() {
 
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
+
+  /opt/zextras/common/bin/set-${pkgname}.sh 
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :

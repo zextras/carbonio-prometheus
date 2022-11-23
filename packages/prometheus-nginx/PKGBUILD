@@ -16,9 +16,9 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${pkgver}/nginx-prometheus-exporter_${pkgver}_linux_amd64.tar.gz"
-  "nginx.default"
-  "nginx.service"
-  "nginx-consul.json"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}-consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
@@ -44,14 +44,14 @@ backup=(
 package() {
   install -Dm755 "${srcdir}/nginx-prometheus-exporter" \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
-  install -Dm644 "${srcdir}"/nginx.service \
+  install -Dm644 "${srcdir}"/${pkgname}.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/nginx.default \
+  install -Dm644 "${srcdir}"/${pkgname}.default \
     "${pkgdir}/etc/default/${pkgname}"
 	
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
-  install -Dm644 "${srcdir}"/nginx-consul.json \
+  install -Dm644 "${srcdir}"/${pkgname}-consul.json \
     "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
 }
 

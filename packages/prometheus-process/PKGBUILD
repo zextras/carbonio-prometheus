@@ -16,10 +16,10 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/ncabatoff/process-exporter/releases/download/v${pkgver}/process-exporter-${pkgver}.linux-amd64.tar.gz"
-  "process.default"
-  "process.service"
-  "process.yml"
-  "process-consul.json"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}.yml"
+  "${pkgname}-consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
@@ -58,16 +58,16 @@ package() {
   install -Dm755 process-exporter \
     "${pkgdir}/opt/zextras/common/bin/process-exporter"
 
-  install -Dm644 "${srcdir}"/process.service \
+  install -Dm644 "${srcdir}"/${pkgname}.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/process.default \
+  install -Dm644 "${srcdir}"/${pkgname}.default \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}"/process.yml \
+  install -Dm644 "${srcdir}"/${pkgname}.yml \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 	
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
-  install -Dm644 "${srcdir}"/process-consul.json \
+  install -Dm644 "${srcdir}"/${pkgname}-consul.json \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"
 	
 }

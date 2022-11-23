@@ -19,8 +19,8 @@ sources=(
   "alertmanager.yml"
   "email.tmpl"
   "alert_rules.yml"
-  "alertmanager.default"
-  "alertmanager.service"
+  "${pkgname}.default"
+  "${pkgname}.service"
   "prometheus.sysusers"
 )
 hashsums=(
@@ -64,9 +64,9 @@ package() {
     "${pkgdir}/opt/zextras/common/etc/prometheus/email.tmpl"
   install -Dm640 -g210 "${srcdir}/alert_rules.yml" \
     "${pkgdir}/opt/zextras/common/etc/prometheus/alert_rules.yml"
-  install -Dm644 "${srcdir}"/alertmanager.service \
+  install -Dm644 "${srcdir}"/${pkgname}.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/alertmanager.default \
+  install -Dm644 "${srcdir}"/${pkgname}.default \
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
