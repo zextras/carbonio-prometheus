@@ -20,9 +20,11 @@ sources=(
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.json"
+  "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -52,7 +54,7 @@ package() {
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/opt/zextras/common/bin/set-${pkgname}.sh"
+    "${pkgdir}/opt/zextras/common/bin/set-${pkgname}"
 
   install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"

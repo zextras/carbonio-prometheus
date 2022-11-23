@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pkgname="carbonio-prometheus-mysqld-exporter"
+pkgname="carbonio-prometheus-openldap-exporter"
 source /opt/zextras/bin/zmshutil || exit 1
 zmsetvars
 
