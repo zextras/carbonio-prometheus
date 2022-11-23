@@ -4,6 +4,9 @@
     "build_dir": "/tmp/",
     "output": "artifacts",
     "Projects": [
+        {
+            "name": "prometheus-openldap"
+        },
 		{
             "name": "prometheus-mysqld"
         }
