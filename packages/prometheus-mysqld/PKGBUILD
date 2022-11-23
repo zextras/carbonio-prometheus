@@ -16,10 +16,10 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-amd64.tar.gz"
-  "mysqld.default"
-  "mysqld.service"
-  "mysqld-exporter.cnf"
-  "mysqld-consul.json"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}.cnf"
+  "${pkgname}-consul.json"
   "prometheus.sysusers"
 )
 
@@ -51,16 +51,18 @@ package() {
   install -Dm755 mysqld_exporter \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
-  install -Dm644 "${srcdir}"/mysqld.service \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/mysqld.default \
+	
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}"/mysqld-exporter.cnf \
+	
+  install -Dm644 "${srcdir}/${pkgname}.cnf" \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
 
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
-  install -Dm644 "${srcdir}"/mysqld-consul.json \
+  install -Dm644 "${srcdir}/prometheus.sysusers" \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm644 "${srcdir}/${pkgname}-consul.json" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
@@ -72,13 +74,13 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  source /opt/zextras/bin/zmshutil || exit 1
-  zmsetvars
-
-  echo "user= $zimbra_mysql_user" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
-  echo "password= $mysql_zimbra_password" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
-  echo "host= $mysql_bind_address"  >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
-  echo "port= $mysql_port" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #source /opt/zextras/bin/zmshutil || exit 1
+  #zmsetvars
+  #
+  #echo "user= $zimbra_mysql_user" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #echo "password= $mysql_zimbra_password" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #echo "host= $mysql_bind_address"  >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #echo "port= $mysql_port" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
