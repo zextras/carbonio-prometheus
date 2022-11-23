@@ -20,7 +20,7 @@ sources=(
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.json"
-  "set-${pkgname}-consul.sh"
+  "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
 hashsums=(
