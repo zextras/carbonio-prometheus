@@ -32,6 +32,7 @@ scrape_configs:
   - job_name: 'ldap'
     consul_sd_configs:
     - server: 'localhost:8500'
+      datacenter: 'dc1'
     - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-openldap-exporter'
@@ -44,6 +45,7 @@ scrape_configs:
   - job_name: 'postgres'
     consul_sd_configs:
     - server: 'localhost:8500'
+      datacenter: 'dc1'
     - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-postgres-exporter'
@@ -56,6 +58,7 @@ scrape_configs:
   - job_name: 'node'
     consul_sd_configs:
     - server: 'localhost:8500'
+      datacenter: 'dc1'
     - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-node-exporter'
@@ -68,6 +71,7 @@ scrape_configs:
   - job_name: 'mysql'
     consul_sd_configs:
     - server: 'localhost:8500'
+      datacenter: 'dc1'
     - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-mysqld-exporter'        
@@ -80,6 +84,7 @@ scrape_configs:
   - job_name: 'process'
     consul_sd_configs:
     - server: 'localhost:8500'
+      datacenter: 'dc1'
     - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-process-exporter'
@@ -92,6 +97,7 @@ scrape_configs:
   - job_name: 'nginx'
     consul_sd_configs:
     - server: 'localhost:8500'
+      datacenter: 'dc1'
     - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-nginx-exporter'
@@ -104,6 +110,7 @@ scrape_configs:
   - job_name: 'consul'
     consul_sd_configs:
     - server: 'localhost:8500'
+      datacenter: 'dc1'
     - token: '{{ consultoken }}'
       services:
         - 'carbonio-prometheus-consul-exporter'
@@ -113,14 +120,14 @@ scrape_configs:
           replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
-  - job_name: consulservices
-    consul_sd_configs:
-        - server: 'localhost:8500'
-        - token: '{{ consultoken }}'
-    relabel_configs:
-      - source_labels: [ __meta_consul_address, __meta_consul_service_metadata_prom_port]
-        separator: ":"
-        target_label: __address__
+  #- job_name: consulservices
+  #  consul_sd_configs:
+  #      - server: 'localhost:8500'
+  #      - token: '{{ consultoken }}'
+  #  relabel_configs:
+  #    - source_labels: [ __meta_consul_address, __meta_consul_service_metadata_prom_port]
+  #      separator: ":"
+  #      target_label: __address__
   # - job_name: thanos
   # file_sd_configs:
   # - files:
