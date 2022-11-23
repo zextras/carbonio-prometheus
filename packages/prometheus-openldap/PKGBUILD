@@ -16,10 +16,10 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
-  "openldap.default"
-  "openldap.service"
-  "carbonio-prometheus-openldap-exporter.yml"
-  "openldap-consul.json"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}.yml"
+  "${pkgname}-consul.json"
   "prometheus.sysusers"
 )
 hashsums=(
@@ -51,16 +51,18 @@ package() {
   install -Dm755 openldap_exporter-linux-amd64 \
     "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
-  install -Dm644 "${srcdir}/openldap.service" \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}/openldap.default" \
+	
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}/carbonio-prometheus-openldap-exporter.yml" \
+	
+  install -Dm644 "${srcdir}/${pkgname}" \
     "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
 
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
-  install -Dm644 "${srcdir}/openldap-consul.json" \
+  install -Dm644 "${srcdir}/prometheus.sysusers" \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
+  install -Dm644 "${srcdir}/${pkgname}-consul.json" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
