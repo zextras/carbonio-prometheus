@@ -64,7 +64,7 @@ package() {
 
   install -Dm644 "${srcdir}"/prometheus.sysusers \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
-  install -Dm644 "${srcdir}"/postgres_consul.json \
+  install -Dm644 "${srcdir}"/${pkgname}-consul.json \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
