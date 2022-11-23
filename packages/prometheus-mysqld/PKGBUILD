@@ -46,10 +46,11 @@ backup(
 )
 
 package() {
-  #cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
-  #
-  #install -Dm755 mysqld_exporter \
-  #  "${pkgdir}/opt/zextras/common/bin/${pkgname}"
+  cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
+  echo "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
+  
+  install -Dm755 mysqld_exporter \
+    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
 
   install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
@@ -74,13 +75,13 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  source /opt/zextras/bin/zmshutil || exit 1
-  zmsetvars
-  
-  echo "user= $zimbra_mysql_user" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
-  echo "password= $mysql_zimbra_password" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
-  echo "host= $mysql_bind_address"  >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
-  echo "port= $mysql_port" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #source /opt/zextras/bin/zmshutil || exit 1
+  #zmsetvars
+  #
+  #echo "user= $zimbra_mysql_user" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #echo "password= $mysql_zimbra_password" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #echo "host= $mysql_bind_address"  >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
+  #echo "port= $mysql_port" >> /opt/zextras/common/etc/prometheus/${pkgname}.cnf
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
