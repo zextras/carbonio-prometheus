@@ -4,38 +4,8 @@
     "build_dir": "/tmp/",
     "output": "artifacts",
     "Projects": [
-        {
-            "name": "grafana-settings"
-        },
-        {
-            "name": "prometheus"
-        },
-        {
-            "name": "loki-settings"
-        },
-        {
-            "name": "prometheus-alertmanager"
-        },
-        {
-            "name": "prometheus-consul"
-        },
-        {
+		{
             "name": "prometheus-mysqld"
-        },
-        {
-            "name": "prometheus-nginx"
-        },
-        {
-            "name": "prometheus-node"
-        },
-        {
-            "name": "prometheus-openldap"
-        },
-        {
-            "name": "prometheus-postgres"
-        },
-        {
-            "name": "prometheus-process"
         }
     ]
 }
