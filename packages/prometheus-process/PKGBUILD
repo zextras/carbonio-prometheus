@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus-process-exporter"
 pkgver="0.7.10"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Process exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Process exporter for open-source systems monitoring and alerting toolkit"

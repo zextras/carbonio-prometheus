@@ -32,10 +32,12 @@ scrape_configs:
   - job_name: 'ldap'
     consul_sd_configs:
     - server: 'localhost:8500'
-      datacenter: 'dc1'
     - token: '{{ consultoken }}'
+      datacenter: 'dc1'
       services:
         - 'carbonio-prometheus-openldap-exporter'
+      tags:
+        - 'prometheus-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
           regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
@@ -45,10 +47,12 @@ scrape_configs:
   - job_name: 'postgres'
     consul_sd_configs:
     - server: 'localhost:8500'
-      datacenter: 'dc1'
     - token: '{{ consultoken }}'
+      datacenter: 'dc1'
       services:
         - 'carbonio-prometheus-postgres-exporter'
+      tags:
+        - 'prometheus-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
           regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
@@ -58,10 +62,12 @@ scrape_configs:
   - job_name: 'node'
     consul_sd_configs:
     - server: 'localhost:8500'
-      datacenter: 'dc1'
     - token: '{{ consultoken }}'
+      datacenter: 'dc1'
       services:
         - 'carbonio-prometheus-node-exporter'
+      tags:
+        - 'prometheus-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
           regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
@@ -71,10 +77,12 @@ scrape_configs:
   - job_name: 'mysql'
     consul_sd_configs:
     - server: 'localhost:8500'
-      datacenter: 'dc1'
     - token: '{{ consultoken }}'
+      datacenter: 'dc1'
       services:
         - 'carbonio-prometheus-mysqld-exporter'        
+      tags:
+        - 'prometheus-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
           regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
@@ -84,10 +92,12 @@ scrape_configs:
   - job_name: 'process'
     consul_sd_configs:
     - server: 'localhost:8500'
-      datacenter: 'dc1'
     - token: '{{ consultoken }}'
+      datacenter: 'dc1'
       services:
         - 'carbonio-prometheus-process-exporter'
+      tags:
+        - 'prometheus-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
           regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
@@ -97,10 +107,12 @@ scrape_configs:
   - job_name: 'nginx'
     consul_sd_configs:
     - server: 'localhost:8500'
-      datacenter: 'dc1'
     - token: '{{ consultoken }}'
+      datacenter: 'dc1'
       services:
         - 'carbonio-prometheus-nginx-exporter'
+      tags:
+        - 'prometheus-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
           regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
@@ -110,10 +122,12 @@ scrape_configs:
   - job_name: 'consul'
     consul_sd_configs:
     - server: 'localhost:8500'
-      datacenter: 'dc1'
     - token: '{{ consultoken }}'
+      datacenter: 'dc1'
       services:
         - 'carbonio-prometheus-consul-exporter'
+      tags:
+        - 'prometheus-exporter'
     relabel_configs:
         - source_labels: ['__meta_consul_node']
           regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"

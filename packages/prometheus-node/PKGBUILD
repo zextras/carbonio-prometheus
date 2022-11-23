@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus-node-exporter"
 pkgver="1.4.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Node exporter for open-source systems monitoring and alerting toolkit"
