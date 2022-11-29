@@ -72,10 +72,7 @@ pipeline {
         }
         stage('Upload To Playground') {
             when {
-                anyOf {
-                    branch 'playground/*'
-                    expression { params.PLAYGROUND == true }
-                }
+                expression { params.PLAYGROUND == true }
             }
             steps {
                 unstash 'artifacts-ubuntu-focal'
