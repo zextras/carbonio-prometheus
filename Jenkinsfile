@@ -1,6 +1,6 @@
 pipeline {
     parameters {
-        booleanParam defaultValue: false,
+        booleanParam defaultValue: true,
         description: 'Whether to upload the packages in playground repositories',
         name: 'PLAYGROUND'
     }

@@ -16,3 +16,10 @@ process_names:
       - soffice.bin
       - sshd
       - zm*
+      - melt
+      - janus
+      - memcached
+      - envoy
+      - vector
+      - carbonio*
+
