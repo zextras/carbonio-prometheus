@@ -4,12 +4,12 @@ Wants=network-online.target
 After=network.target
 
 [Service]
-User=prometheus
-Group=prometheus
+User=carbonio-prometheus
+Group=carbonio-prometheus
 Type=simple
 EnvironmentFile=/etc/default/carbonio-prometheus-blackbox-exporter
 ExecStart=/opt/zextras/common/bin/carbonio-prometheus-blackbox-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=multi-user.target"
+WantedBy=multi-user.target

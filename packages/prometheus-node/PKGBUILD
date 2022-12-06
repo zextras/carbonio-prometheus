@@ -68,8 +68,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -80,8 +80,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
   fi
 }
 

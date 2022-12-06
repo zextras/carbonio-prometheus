@@ -3,8 +3,8 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-blackbox-exporter"
-pkgver="0.22.0"
-pkgrel="2"
+pkgver="0.23.0"
+pkgrel="1"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Blackbox exporter for open-source systems monitoring and alerting toolkit"
@@ -45,33 +45,26 @@ conflicts=(
 )
 
 backup=(
-    "/opt/zextras/common/etc/prometheus/${pkgname}.yml"
-    "/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml"
-    "/opt/zextras/common/etc/prometheus/blackbox-targets/ping_checks.yml"
-    "/opt/zextras/common/etc/prometheus/blackbox-targets/ssh_checks.yml"
+    "/etc/carbonio/${pkgname}/${pkgname}.yml"
+    "/etc/carbonio/${pkgname}/blackbox-targets/http_checks.yml"
+    "/etc/carbonio/${pkgname}/blackbox-targets/ping_checks.yml"
+    "/etc/carbonio/${pkgname}/blackbox-targets/ssh_checks.yml"
 )
 
 package() {
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64"
 
-  install -Dm755 blackbox_exporter \
-    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
+  install -Dm 755 ${pkgname} "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm755 blackbox_exporter  "${pkgdir}/bin/${pkgname}"
 
-  install -Dm644 "${srcdir}"/${pkgname}.service \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/${pkgname}.default \
-    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 "${srcdir}"/${pkgname}.service  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm644 "${srcdir}"/${pkgname}.default  "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm644 -g210 "${srcdir}"/${pkgname}.yml \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
-  install -Dm644 "${srcdir}"/http_checks.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/http_checks.yml
-  install -Dm644 "${srcdir}"/ping_checks.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ping_checks.yml
-  install -Dm644 "${srcdir}"/ssh_checks.yml \
-    "${pkgdir}"/opt/zextras/common/etc/prometheus/blackbox-targets/ssh_checks.yml
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
+  install -Dm644 -g210 "${srcdir}"/${pkgname}.yml  "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+  install -Dm644 "${srcdir}"/http_checks.yml  "${pkgdir}"/etc/carbonio/${pkgname}/blackbox-targets/http_checks.yml
+  install -Dm644 "${srcdir}"/ping_checks.yml  "${pkgdir}"/etc/carbonio/${pkgname}/blackbox-targets/ping_checks.yml
+  install -Dm644 "${srcdir}"/ssh_checks.yml  "${pkgdir}"/etc/carbonio/${pkgname}/blackbox-targets/ssh_checks.yml
+  install -Dm644 "${srcdir}"/prometheus.sysusers  "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
 }
 
 
@@ -107,3 +100,4 @@ postrm() {
     systemctl daemon-reload >/dev/null 2>&1 || :
   fi
 }
+
