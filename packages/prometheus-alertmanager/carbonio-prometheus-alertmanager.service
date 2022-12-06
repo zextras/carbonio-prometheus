@@ -8,7 +8,7 @@ User=carbonio-prometheus
 Group=carbonio-prometheus
 Type=simple
 EnvironmentFile=/etc/default/carbonio-prometheus-alertmanager
-ExecStart=/opt/zextras/common/bin/carbonio-prometheus-alertmanager $ARGS
+ExecStart=/usr/bin/carbonio/carbonio-prometheus-alertmanage/carbonio-prometheus-alertmanager $ARGS
 Restart=always
 
 [Install]

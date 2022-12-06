@@ -43,32 +43,25 @@ conflicts=(
 
 backup=(
   "/etc/default/${pkgname}"
-  "/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+  "/etc/carbonio/${pkgname}/${pkgname}.yml"
   "/etc/zextras/service-discover/${pkgname}.json"
 )
 
 package() {
   cd "${srcdir}"
   gunzip -f openldap_exporter-linux-amd64.gz
-  install -Dm755 openldap_exporter-linux-amd64 \
-    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
+  install -Dm 755 openldap_exporter-linux-amd64 "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
 
-  install -Dm755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/opt/zextras/common/bin/set-${pkgname}.sh"
+  install -Dm 755 "${srcdir}/set-${pkgname}.sh" "${pkgdir}/usr/bin/carbonio/${pkgname}/set-${pkgname}.sh"
 
-  install -Dm644 "${srcdir}/${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
 	
-  install -Dm644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
 	
-  install -Dm644 "${srcdir}/${pkgname}.yml" \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.yml"
+  install -Dm 644 "${srcdir}/${pkgname}.yml" "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
-  install -Dm644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
-  install -Dm644 "${srcdir}/${pkgname}-consul.json" \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
+  install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
+  install -Dm 644 "${srcdir}/${pkgname}-consul.json" "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {
@@ -79,7 +72,7 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /opt/zextras/common/bin/set-${pkgname}.sh 	
+  /usr/bin/carbonio/${pkgname}/set-${pkgname}.sh 	
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :

@@ -1,1 +1,1 @@
-ARGS="--config /opt/zextras/common/etc/prometheus/carbonio-prometheus-openldap-exporter.yml"
+ARGS="--config/etc/carbonio/carbonio-prometheus-openldap-exporter/carbonio-prometheus-openldap-exporter.yml"

@@ -1,1 +1,1 @@
-ARGS="--config.my-cnf /opt/zextras/common/etc/prometheus/carbonio-prometheus-mysqld-exporter.cnf"
+ARGS="--config.my-cnf /etc/carbonio/carbonio-prometheus-mysqld-exporter/carbonio-prometheus-mysqld-exporter.cnf"

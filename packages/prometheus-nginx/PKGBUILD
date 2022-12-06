@@ -42,17 +42,12 @@ backup=(
 )
 
 package() {
-  install -Dm755 "${srcdir}/nginx-prometheus-exporter" \
-    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
-  install -Dm644 "${srcdir}"/${pkgname}.service \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/${pkgname}.default \
-    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 755 "${srcdir}/nginx-prometheus-exporter" "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
 	
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
-  install -Dm644 "${srcdir}"/${pkgname}-consul.json \
-    "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
+  install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
+  install -Dm 644 "${srcdir}/${pkgname}-consul.json" "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
 }
 
 postinst() {

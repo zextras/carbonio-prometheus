@@ -1,1 +1,1 @@
-ARGS="--config.path /opt/zextras/common/etc/prometheus/carbonio-prometheus-process-exporter.yml"
+ARGS="--config.path /etc/carbonio/carbonio-prometheus-process-exporter/carbonio-prometheus-process-exporter.yml"

@@ -42,33 +42,21 @@ conflicts=(
   'prometheus-mysqld-exporter'
 )
 
-#backup(
-#	"/etc/default/${pkgname}"
-#    "/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
-#)
-
 package() {
   cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
   
-  install -Dm755 mysqld_exporter \
-    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
+  install -Dm 755 mysqld_exporter "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
 	
-  install -Dm755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/opt/zextras/common/bin/set-${pkgname}.sh"
+  install -Dm 755 "${srcdir}/set-${pkgname}.sh" "${pkgdir}/usr/bin/carbonio/${pkgname}/set-${pkgname}.sh"
 	
-  install -Dm644 "${srcdir}/${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
 	
-  install -Dm644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
 	
-  install -Dm644 "${srcdir}/${pkgname}.cnf" \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/${pkgname}.cnf"
+  install -Dm 644 "${srcdir}/${pkgname}.cnf" "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
 
-  install -Dm644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
-  install -Dm644 "${srcdir}/${pkgname}-consul.json" \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
+  install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.json" "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {
@@ -79,7 +67,7 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /opt/zextras/common/bin/set-${pkgname}.sh 	
+  /usr/bin/carbonio/${pkgname}/set-${pkgname}.sh 	
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :

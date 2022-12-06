@@ -44,17 +44,12 @@ conflicts=(
 package() {
   cd "${srcdir}/consul_exporter-${pkgver}.linux-amd64"
   
-  install -Dm755 consul_exporter \
-    "${pkgdir}/opt/zextras/common/bin/${pkgname}"
+  install -Dm 755 consul_exporter "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
 
-  install -Dm644 "${srcdir}/${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
-  install -Dm644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
-  install -Dm644 "${srcdir}/${pkgname}-consul.json" \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
+  install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.json" "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
 }
 
 postinst() {

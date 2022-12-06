@@ -8,7 +8,7 @@ User=carbonio-prometheus
 Group=carbonio-prometheus
 Type=simple
 EnvironmentFile=/etc/default/carbonio-prometheus-blackbox-exporter
-ExecStart=/opt/zextras/common/bin/carbonio-prometheus-blackbox-exporter $ARGS
+ExecStart=/usr/bin/carbonio/carbonio-prometheus-blackbox-exporter/carbonio-prometheus-blackbox-exporter $ARGS
 Restart=always
 
 [Install]

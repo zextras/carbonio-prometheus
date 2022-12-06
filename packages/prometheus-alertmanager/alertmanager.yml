@@ -1,10 +1,10 @@
 global:
-  smtp_smarthost: "10.66.64.94:25"
-  smtp_from: "lorenzo@zimbrone.lorenzo.esxi"
+  smtp_smarthost: {{ smtp_smarthost }}
+  smtp_from: {{ smtp_from }}
   smtp_require_tls: true
 
 templates:
-  - "/etc/prometheus/template/*.tmpl"
+  - "/etc/carbonio/carbonio-prometheus-alertmanager/*.tmpl"
 
 route:
   group_by: ["alertname", "job", "istance"]
@@ -24,7 +24,7 @@ receivers:
   - name: "default"
     email_configs:
       - send_resolved: false
-        to: "monitor@zimbra.mon"
+        to: {{ smtp_to }}
         headers:
           subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
         html: '{{ template "email.tmpl" . }}'
@@ -32,7 +32,7 @@ receivers:
   - name: "warning"
     email_configs:
       - send_resolved: false
-        to: "monitor@zimbra.mon"
+        to: {{ smtp_to }}
         headers:
           subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
         html: '{{ template "email.tmpl" . }}'
@@ -40,7 +40,7 @@ receivers:
   - name: "critical"
     email_configs:
       - send_resolved: false
-        to: "monitor@zimbra.mon"
+        to: {{ smtp_to }}
         headers:
           subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
         html: '{{ template "email.tmpl" . }}'

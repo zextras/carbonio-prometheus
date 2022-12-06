@@ -39,31 +39,24 @@ conflicts=(
 )
 
 backup=(
-  "/opt/zextras/common/etc/prometheus/prometheus.yml"
+  "/etc/carbonio/${pkgname}/prometheus.yml"
 )
 
 
 package() {
   cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
   
-  install -Dm755 prometheus \
-    "${pkgdir}/opt/zextras/common/bin/prometheus"
-  install -Dm755 promtool \
-    "${pkgdir}/opt/zextras/common/bin/promtool"
+  install -Dm 755 prometheus "${pkgdir}/usr/bin/carbonio/${pkgname}/prometheus"
+  install -Dm 755 promtool "${pkgdir}/usr/bin/carbonio/${pkgname}/promtool"
 
-  install -dm750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
+  install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
-  install -Dm640 -g210 "${srcdir}/prometheus.yml" \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/prometheus.yml"
-  cp -r consoles* \
-    "${pkgdir}/opt/zextras/common/etc/prometheus/"
+  install -Dm 640 -g210 "${srcdir}/prometheus.yml" "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
+  cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 	
-  install -Dm644 "${srcdir}/prometheus.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
-  install -Dm644 "${srcdir}/prometheus.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/prometheus.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/prometheus.default" "${pkgdir}/etc/default/${pkgname}"
 }
 
 postinst() {
@@ -81,7 +74,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Prometheus installed successfully!"
-  echo "You have to complete config editing /opt/zextras/common/etc/prometheus/prometheus.yml"
+  echo "You have to complete config editing /etc/carbonio/${pkgname}/prometheus.yml"
   echo "======================================================"
 }
 
