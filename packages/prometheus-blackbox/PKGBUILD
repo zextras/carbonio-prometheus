@@ -54,8 +54,7 @@ backup=(
 package() {
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64"
 
-  install -Dm 755 ${pkgname} "${pkgdir}/usr/bin/${pkgname}"
-  install -Dm755 blackbox_exporter  "${pkgdir}/bin/${pkgname}"
+  install -Dm755 blackbox_exporter  "${pkgdir}}/usr/bin/carbonio/${pkgname}"
 
   install -Dm644 "${srcdir}"/${pkgname}.service  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}"/${pkgname}.default  "${pkgdir}/etc/default/${pkgname}"
