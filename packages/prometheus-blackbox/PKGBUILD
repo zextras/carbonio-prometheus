@@ -45,7 +45,7 @@ backup=(
 )
 
 package() {
-  cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64"
+  cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64/"
 
   install -Dm 755 blackbox_exporter "${pkgdir}}/usr/bin/carbonio/${pkgname}/${pkgname}"
 
@@ -75,7 +75,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Blackbox Exporter installed successfully!"
-  echo "You must add this service to prometheus.yml"
+  echo "You must enable this service to prometheus.yml"
   echo "======================================================"
 }
 

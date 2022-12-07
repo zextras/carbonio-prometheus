@@ -16,6 +16,7 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz"
+
   "${pkgname}.default"
   "${pkgname}-consul.hcl"
   "${pkgname}.service"
@@ -44,13 +45,13 @@ conflicts=(
 package() {
   cd "${srcdir}/node_exporter-${pkgver}.linux-amd64"
 
-  install -Dm755 node_exporter "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
+  install -Dm 755 node_exporter "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
 
-  install -Dm644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
 	
-  install -Dm644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
-  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"	
+  install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"	
 }
 
 postinst() {
