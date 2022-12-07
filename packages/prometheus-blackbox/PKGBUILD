@@ -40,9 +40,6 @@ conflicts=(
 
 backup=(
     "/etc/carbonio/${pkgname}/${pkgname}.yml"
-    "/etc/carbonio/${pkgname}/blackbox-targets/http_checks.yml"
-    "/etc/carbonio/${pkgname}/blackbox-targets/ping_checks.yml"
-    "/etc/carbonio/${pkgname}/blackbox-targets/ssh_checks.yml"
 )
 
 package() {
