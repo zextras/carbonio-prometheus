@@ -1,6 +1,6 @@
 #!/bin/bash
 # Read Password
-echo -n Service Discover Password: 
+echo -n Please type Service Discover password: 
 read -s password
 export  CONSUL_HTTP_TOKEN=$(echo $password | gpg --batch --yes --passphrase-fd 0 -qdo - /etc/zextras/service-discover/cluster-credentials.tar.gpg | tar xOf - consul-acl-secret.json | jq .SecretID -r);
 
