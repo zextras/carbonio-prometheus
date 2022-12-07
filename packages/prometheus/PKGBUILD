@@ -50,13 +50,13 @@ package() {
   
   install -Dm 755 prometheus "${pkgdir}/usr/bin/carbonio/${pkgname}/prometheus"
   install -Dm 755 promtool "${pkgdir}/usr/bin/carbonio/${pkgname}/promtool"
-  install -Dm 755 set-prometheus.sh "${pkgdir}/usr/bin/carbonio/${pkgname}/set-${pkgname}.sh"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
   install -Dm 640 -g210 "${srcdir}/prometheus.yml" "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 	
+  install -Dm 755 "${srcdir}/set-prometheus.sh" "${pkgdir}/usr/bin/carbonio/${pkgname}/set-${pkgname}.sh"
   install -Dm 644 "${srcdir}/prometheus.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/prometheus.default" "${pkgdir}/etc/default/${pkgname}"
