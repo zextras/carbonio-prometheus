@@ -1,4 +1,0 @@
-# - labels:
-#     module: icmp_ipv4
-#   targets:
-#     - yourhost

@@ -1,4 +1,0 @@
-# - labels:
-#     module: ssh_banner
-#   targets:
-#     - yourhosti:22

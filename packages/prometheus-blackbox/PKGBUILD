@@ -19,16 +19,10 @@ sources=(
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
-  "http_checks.yml"
-  "ping_checks.yml"
-  "ssh_checks.yml"
   "prometheus.sysusers"
 )
 
 hashsums=(
-  "skip"
-  "skip"
-  "skip"
   "skip"
   "skip"
   "skip"
@@ -60,9 +54,6 @@ package() {
   install -Dm 644 "${srcdir}"/${pkgname}.default  "${pkgdir}/etc/default/${pkgname}"
 
   install -Dm 644 -g210 "${srcdir}/${pkgname}.yml"  "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
-  install -Dm 644 "${srcdir}/http_checks.yml"  "${pkgdir}/etc/carbonio/${pkgname}/blackbox-targets/http_checks.yml"
-  install -Dm 644 "${srcdir}/ping_checks.yml"  "${pkgdir}/etc/carbonio/${pkgname}/blackbox-targets/ping_checks.yml"
-  install -Dm 644 "${srcdir}/ssh_checks.yml"  "${pkgdir}/etc/carbonio/${pkgname}/blackbox-targets/ssh_checks.yml"
   install -Dm 644 "${srcdir}/prometheus.sysusers"  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
@@ -84,7 +75,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Blackbox Exporter installed successfully!"
-  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "You must add this service to prometheus.yml"
   echo "======================================================"
 }
 
