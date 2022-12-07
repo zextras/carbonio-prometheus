@@ -79,7 +79,6 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Postgres Exporter installed successfully!"
-  echo "Create role for carbonio-pometheus on Postgres"
   echo "You must reload service discover or add this host to prometheus.yml"
   echo "======================================================"
 }

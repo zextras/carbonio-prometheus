@@ -55,13 +55,13 @@ backup=(
 package() {
   cd "${srcdir}/process-exporter-${pkgver}.linux-amd64"
   
-  install -Dm 755 process-exporter "${pkgdir}/opt/zextras/common/bin/process-exporter"
+  install -Dm 755 process-exporter "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
 
-  install -Dm 644 "${srcdir}"/${pkgname}.service "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}"/${pkgname}.default "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}"/${pkgname}.yml "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+  install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.yml" "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 	
-  install -Dm 644 "${srcdir}"/prometheus.sysusers "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
+  install -Dm 644 "${srcdir}"/prometheus.sysusers "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
   install -Dm 644 "${srcdir}"/${pkgname}-consul.hcl "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 	
 }

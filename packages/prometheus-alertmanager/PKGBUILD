@@ -74,15 +74,17 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  if [ -d /run/systemd/system ]; then
-    systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
-  fi
+  # While in beta enable service manually 
+  # if [ -d /run/systemd/system ]; then
+    # systemctl daemon-reload >/dev/null 2>&1 || :
+    # systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    # systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+  # fi
 
   echo "======================================================"
   echo "Carbonio Prometheus Alert Manager installed successfully!"
   echo "You can configure it in prometheus.yml"
+  echo "While in beta enable service manually"
   echo "======================================================"
 }
 
