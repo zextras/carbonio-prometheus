@@ -17,7 +17,7 @@ arch="amd64"
 sources=(
   "https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
-  "${pkgname}-consul.json"
+  "${pkgname}-consul.hcl"
   "${pkgname}.service"
   "prometheus.sysusers"
 )
@@ -50,7 +50,7 @@ package() {
   install -Dm644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
 	
   install -Dm644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
-  install -Dm644 "${srcdir}/${pkgname}-consul.json" "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"	
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"	
 }
 
 postinst() {

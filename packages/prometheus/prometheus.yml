@@ -134,15 +134,23 @@ scrape_configs:
           replacement: '$2.{{ hostsdomain }}'
           target_label: instance
           
-  #- job_name: consulservices
-  #  consul_sd_configs:
-  #      - server: 'localhost:8500'
-  #      - token: '{{ consultoken }}'
-  #  relabel_configs:
-  #    - source_labels: [ __meta_consul_address, __meta_consul_service_metadata_prom_port]
-  #      separator: ":"
-  #      target_label: __address__
-  # - job_name: thanos
-  # file_sd_configs:
-  # - files:
-  # - '/opt/zextras/common/etc/prometheus/inventory/thanos.yml'
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    consul_sd_configs:
+    - server: 'localhost:8500'
+    - token: '{{ consultoken }}'
+      datacenter: 'dc1'
+    relabel_configs:
+      - source_labels: [ __meta_consul_address, __meta_consul_service_port]
+        separator: ":"
+        target_label: __param_target
+      - source_labels: [ __meta_consul_service_id]
+        target_label: carbonio_service
+      - source_labels: ['__meta_consul_node']
+        regex: "(agent|server)-(.+)-zimbraopen-com"
+        replacement: '$2.zimbraopen.com'
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9115

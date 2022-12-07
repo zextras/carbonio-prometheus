@@ -54,16 +54,17 @@ backup=(
 package() {
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64"
 
-  install -Dm755 blackbox_exporter  "${pkgdir}}/usr/bin/carbonio/${pkgname}"
+  install -Dm 755 blackbox_exporter  "${pkgdir}}/usr/bin/carbonio/${pkgname}"
 
-  install -Dm644 "${srcdir}"/${pkgname}.service  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm644 "${srcdir}"/${pkgname}.default  "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}"/${pkgname}.service  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}"/${pkgname}.default  "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm644 -g210 "${srcdir}"/${pkgname}.yml  "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
-  install -Dm644 "${srcdir}"/http_checks.yml  "${pkgdir}"/etc/carbonio/${pkgname}/blackbox-targets/http_checks.yml
-  install -Dm644 "${srcdir}"/ping_checks.yml  "${pkgdir}"/etc/carbonio/${pkgname}/blackbox-targets/ping_checks.yml
-  install -Dm644 "${srcdir}"/ssh_checks.yml  "${pkgdir}"/etc/carbonio/${pkgname}/blackbox-targets/ssh_checks.yml
-  install -Dm644 "${srcdir}"/prometheus.sysusers  "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
+  install -Dm 644 -g210 "${srcdir}/${pkgname}.yml"  "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+  install -Dm 644 "${srcdir}/http_checks.yml"  "${pkgdir}/etc/carbonio/${pkgname}/blackbox-targets/http_checks.yml"
+  install -Dm 644 "${srcdir}/ping_checks.yml"  "${pkgdir}/etc/carbonio/${pkgname}/blackbox-targets/ping_checks.yml"
+  install -Dm 644 "${srcdir}/ssh_checks.yml"  "${pkgdir}/etc/carbonio/${pkgname}/blackbox-targets/ssh_checks.yml"
+  install -Dm 644 "${srcdir}/prometheus.sysusers"  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 

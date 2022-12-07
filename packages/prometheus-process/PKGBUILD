@@ -19,7 +19,7 @@ sources=(
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
-  "${pkgname}-consul.json"
+  "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
 hashsums=(
@@ -62,7 +62,7 @@ package() {
   install -Dm 644 "${srcdir}"/${pkgname}.yml "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 	
   install -Dm 644 "${srcdir}"/prometheus.sysusers "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
-  install -Dm 644 "${srcdir}"/${pkgname}-consul.json "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"
+  install -Dm 644 "${srcdir}"/${pkgname}-consul.hcl "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 	
 }
 

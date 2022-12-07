@@ -18,7 +18,7 @@ sources=(
   "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${pkgver}/nginx-prometheus-exporter_${pkgver}_linux_amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
-  "${pkgname}-consul.json"
+  "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
 hashsums=(
@@ -38,7 +38,7 @@ conflicts=(
 )
 
 backup=(
-   "/etc/zextras/service-discover/${pkgname}.json"
+   "/etc/zextras/service-discover/${pkgname}.hcl"
 )
 
 package() {
@@ -47,7 +47,7 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
 	
   install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf	
-  install -Dm 644 "${srcdir}/${pkgname}-consul.json" "${pkgdir}//etc/zextras/service-discover/${pkgname}.json"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}//etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {

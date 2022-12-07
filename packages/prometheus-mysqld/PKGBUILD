@@ -19,7 +19,7 @@ sources=(
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.cnf"
-  "${pkgname}-consul.json"
+  "${pkgname}-consul.hcl"
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
@@ -56,7 +56,7 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.cnf" "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
-  install -Dm 644 "${srcdir}/${pkgname}-consul.json" "${pkgdir}/etc/zextras/service-discover/${pkgname}.json"		
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"		
 }
 
 postinst() {
