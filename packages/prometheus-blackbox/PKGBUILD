@@ -16,6 +16,7 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus/blackbox_exporter/releases/download/v${pkgver}/blackbox_exporter-${pkgver}.linux-amd64.tar.gz"
+  
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
@@ -48,6 +49,7 @@ package() {
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64/"
 
   install -Dm 755 blackbox_exporter "${pkgdir}}/usr/bin/carbonio/${pkgname}/${pkgname}"
+  install -Dm 755 blackbox_exporter2 "${pkgdir}}/usr/bin/carbonio/${pkgname}/${pkgname}"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
@@ -75,7 +77,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Blackbox Exporter installed successfully!"
-  echo "You must enable this service to prometheus.yml"
+  echo "You must enable this service in prometheus.yml"
   echo "======================================================"
 }
 
