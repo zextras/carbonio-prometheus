@@ -19,10 +19,12 @@ sources=(
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
+  "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
 
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
