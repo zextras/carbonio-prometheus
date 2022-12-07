@@ -20,8 +20,10 @@ sources=(
   "prometheus.service"
   "prometheus.sysusers"
   "prometheus.yml"
+  "set-prometheus.sh"
 )
 hashsums=(
+  "skip"
   "skip"
   "skip"
   "skip"
@@ -48,6 +50,7 @@ package() {
   
   install -Dm 755 prometheus "${pkgdir}/usr/bin/carbonio/${pkgname}/prometheus"
   install -Dm 755 promtool "${pkgdir}/usr/bin/carbonio/${pkgname}/promtool"
+  install -Dm 755 set-prometheus.sh "${pkgdir}/usr/bin/carbonio/${pkgname}/set-${pkgname}.sh"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
@@ -74,7 +77,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Prometheus installed successfully!"
-  echo "You have to complete config editing /etc/carbonio/${pkgname}/prometheus.yml"
+  echo "You have to complete config running set-${pkgname}.sh"
   echo "======================================================"
 }
 
