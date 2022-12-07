@@ -1,1 +1,1 @@
-ARGS=""
+ARGS="--config.file /etc/carbonio/carbonio-prometheus-blackbox-exporter/carbonio-prometheus-blackbox-exporter.yml"
