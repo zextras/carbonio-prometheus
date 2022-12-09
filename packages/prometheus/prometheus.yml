@@ -165,7 +165,7 @@ scrape_configs:
       - source_labels: ['__meta_consul_node']
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: '$2.{{ hostsdomain }}'
-        target_label: instance
+        target_label: target
       - target_label: __address__
         replacement: 127.0.0.1:9115
         
