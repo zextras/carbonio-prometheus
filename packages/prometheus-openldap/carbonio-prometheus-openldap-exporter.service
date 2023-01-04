@@ -9,7 +9,7 @@ Group=carbonio-prometheus
 Type=simple
 Environment=SSL_VERIFY=false
 EnvironmentFile=/etc/default/carbonio-prometheus-openldap-exporter
-ExecStart=/usr/bin/carbonio/carbonio-prometheus-openldap-exporter/carbonio-prometheus-openldap-exporter $ARGS
+ExecStart=/usr/bin/carbonio-prometheus-openldap-exporter $ARGS
 Restart=always
 
 [Install]

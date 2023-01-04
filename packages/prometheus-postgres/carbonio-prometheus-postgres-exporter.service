@@ -9,7 +9,7 @@ Group=carbonio-prometheus
 Type=simple
 Environment=SSL_VERIFY=false
 EnvironmentFile=/etc/default/carbonio-prometheus-postgres-exporter
-ExecStart=/usr/bin/carbonio/carbonio-prometheus-postgres-exporter/carbonio-prometheus-postgres-exporter
+ExecStart=/usr/bin/carbonio-prometheus-postgres-exporter
 Restart=always
 
 [Install]

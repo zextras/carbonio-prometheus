@@ -50,8 +50,8 @@ backup=(
 package() {
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
   
-  install -Dm 755 alertmanager "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
-  install -Dm 755 amtool "${pkgdir}/usr/bin/carbonio/${pkgname}/amtool"
+  install -Dm 755 alertmanager "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm 755 amtool "${pkgdir}/usr/bin/amtool"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/alertmanager/data"
   install -dm 750 -o210 -g210 "${pkgdir}/etc/carbonio/${pkgname}/email-templates"

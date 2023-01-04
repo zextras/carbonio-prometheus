@@ -8,7 +8,7 @@ User=carbonio-prometheus
 Group=carbonio-prometheus
 Type=simple
 EnvironmentFile=/etc/default/carbonio-prometheus-mysqld-exporter
-ExecStart=/usr/bin/carbonio/carbonio-prometheus-mysqld-exporter/carbonio-prometheus-mysqld-exporter $ARGS
+ExecStart=/usr/bin/carbonio-prometheus-mysqld-exporter $ARGS
 Restart=always
 
 [Install]

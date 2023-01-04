@@ -8,7 +8,7 @@ User=carbonio-prometheus
 Group=carbonio-prometheus
 Restart=on-failure
 EnvironmentFile=/etc/default/carbonio-prometheus
-ExecStart=/usr/bin/carbonio/carbonio-prometheus/prometheus --config.file=/etc/carbonio/carbonio-prometheus/prometheus.yml --storage.tsdb.path=/var/lib/prometheus/data $ARGS
+ExecStart=/usr/bin/prometheus --config.file=/etc/carbonio/carbonio-prometheus/prometheus.yml --storage.tsdb.path=/var/lib/prometheus/data $ARGS
 ExecReload=/bin/kill -HUP $MAINPID
 LimitNOFILE=65535
 NoNewPrivileges=true

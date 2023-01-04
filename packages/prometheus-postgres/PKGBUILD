@@ -49,13 +49,13 @@ backup=(
 package() {
   cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
 
-  install -Dm 755 postgres_exporter "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
+  install -Dm 755 postgres_exporter "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 755 "${srcdir}/set-${pkgname}.sh" "${pkgdir}/usr/bin/carbonio/${pkgname}/set-${pkgname}.sh"
+  install -Dm 755 "${srcdir}/set-${pkgname}.sh" "${pkgdir}/usr/bin/set-${pkgname}.sh"
 	
   install -Dm 644 "${srcdir}"/${pkgname}.service "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}"/${pkgname}.default "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}"/${pkgname}.yml "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+  install -Dm 644 "${srcdir}"/${pkgname}.yml "${pkgdir}/etc/${pkgname}.yml"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}"/${pkgname}-consul.hcl "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"		
@@ -69,7 +69,7 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /usr/bin/carbonio/${pkgname}/set-${pkgname}.sh 
+  /usr/bin/set-${pkgname}.sh 
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
