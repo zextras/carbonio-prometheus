@@ -42,7 +42,7 @@ backup=(
 )
 
 package() {
-  install -Dm 755 "${srcdir}/nginx-prometheus-exporter" "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
+  install -Dm 755 "${srcdir}/nginx-prometheus-exporter" "${pkgdir}/usr/bin/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
 	

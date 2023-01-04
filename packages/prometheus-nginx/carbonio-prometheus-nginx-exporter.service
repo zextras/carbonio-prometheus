@@ -9,7 +9,7 @@ Group=carbonio-prometheus
 Type=simple
 Environment=SSL_VERIFY=false
 EnvironmentFile=/etc/default/carbonio-prometheus-nginx-exporter
-ExecStart=/usr/bin/carbonio/carbonio-prometheus-nginx-exporter/carbonio-prometheus-nginx-exporter $ARGS
+ExecStart=/usr/bin/carbonio-prometheus-nginx-exporter $ARGS
 Restart=always
 
 [Install]

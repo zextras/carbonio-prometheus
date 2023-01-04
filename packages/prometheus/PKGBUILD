@@ -48,8 +48,8 @@ backup=(
 package() {
   cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
   
-  install -Dm 755 prometheus "${pkgdir}/usr/bin/carbonio/${pkgname}/prometheus"
-  install -Dm 755 promtool "${pkgdir}/usr/bin/carbonio/${pkgname}/promtool"
+  install -Dm 755 prometheus "${pkgdir}/usr/bin/prometheus"
+  install -Dm 755 promtool "${pkgdir}/usr/bin/promtool"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 

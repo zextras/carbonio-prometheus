@@ -44,7 +44,7 @@ conflicts=(
 package() {
   cd "${srcdir}/consul_exporter-${pkgver}.linux-amd64"
   
-  install -Dm 755 consul_exporter "${pkgdir}/usr/bin/carbonio/${pkgname}/${pkgname}"
+  install -Dm 755 consul_exporter "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
