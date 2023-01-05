@@ -50,10 +50,10 @@ backup=(
 package() {
   cd "${srcdir}"
   gunzip -f openldap_exporter-linux-amd64.gz
-  install -Dm 755 openldap_exporter-linux-amd64 "${pkgdir}/usr/${pkgname}"
+  install -Dm 755 openldap_exporter-linux-amd64 "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 755 "${srcdir}/set-${pkgname}.sh" "${pkgdir}/usr/set-${pkgname}.sh"
-
+  install -Dm 644 "${srcdir}/set-${pkgname}.sh" "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
+  
   install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
 	
   install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
@@ -72,7 +72,7 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /usr/set-${pkgname}.sh 	
+  #/usr/set-${pkgname}.sh 	
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
@@ -82,7 +82,7 @@ postinst() {
   
   echo "======================================================"
   echo "Carbonio LDAP Exporter installed successfully!"
-  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "You must run pending-setups to configure it correctly."
   echo "======================================================"
 }
 
