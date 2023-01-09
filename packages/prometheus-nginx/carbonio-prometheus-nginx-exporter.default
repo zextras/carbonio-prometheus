@@ -1,1 +1,1 @@
-ARGS="-nginx.scrape-uri=https://localhost/nginx_status"
+ARGS="-nginx.scrape-uri=https://localhost/nginx_status -nginx.ssl-verify=false"
