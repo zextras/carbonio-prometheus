@@ -54,7 +54,7 @@ package() {
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
-  install -Dm 640 -g210 "${srcdir}/prometheus.yml" "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
+  install -Dm 640 -g210 "${srcdir}/prometheus.yml.template" "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml.template"
   install -Dm 640 -g210 "${srcdir}/policies.json" "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 	
