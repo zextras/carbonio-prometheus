@@ -19,8 +19,8 @@ sources=(
   "prometheus.default"
   "prometheus.service"
   "prometheus.sysusers"
-  "prometheus.yml"
-  "set-prometheus.sh"
+  "prometheus.yml.template"
+  "carbonio-prometheus.sh"
   "policies.json"
 )
 hashsums=(
@@ -58,7 +58,8 @@ package() {
   install -Dm 640 -g210 "${srcdir}/policies.json" "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 	
-  install -Dm 755 "${srcdir}/set-prometheus.sh" "${pkgdir}/usr/bin/set-${pkgname}.sh"
+  install -Dm 644 "${srcdir}/set-${pkgname}.sh" "${pkgdir}/etc/zextras/pending-setups.d/${pkgname}.sh"
+
   install -Dm 644 "${srcdir}/prometheus.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/prometheus.default" "${pkgdir}/etc/default/${pkgname}"
