@@ -42,7 +42,7 @@ fi
 
 
 
-cp /etc/carbonio/carbonio-prometheus/prometheus.yml.template /etc/carbonio/carbonio-prometheus/prometheus.yml
+#cp /etc/carbonio/carbonio-prometheus/prometheus.yml.template /etc/carbonio/carbonio-prometheus/prometheus.yml
 
 HTTP_TOKEN=$(cat /etc/carbonio/carbonio-prometheus/service-discover/token)
 sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/prometheus.yml;
