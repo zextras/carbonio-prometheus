@@ -24,13 +24,13 @@ sources=(
   "policies.json"
 )
 hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
+  "026f3fe429853cff4266c7ab4f771342"
+  "9d1820a430e80092bacf83d0d9969fcc"
+  "ce889e2b65786c3bd66416b488fabcd7"
+  "aa87ed719c2714f4a26f74ebae3ab79a"
+  "255e3c0df9462b1fbbf677da271ff672"
+  "52a38d4a95e93c7be26a915e45750542"
+  "c2c5933682af87720cdc0f9a90a0bc63"
 )
 
 depends=(
