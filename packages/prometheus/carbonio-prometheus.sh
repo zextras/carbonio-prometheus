@@ -41,19 +41,22 @@ if [[ ! -f "/etc/carbonio/prometheus/service-discover/token" ]]; then
 fi
 
 
+
+#cp /etc/carbonio/carbonio-prometheus/prometheus.yml.template /etc/carbonio/carbonio-prometheus/prometheus.yml
+
 HTTP_TOKEN=$(cat /etc/carbonio/carbonio-prometheus/service-discover/token)
 sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/prometheus.yml;
 
-dom=$(hostname -d);
-sed -i s/"{{ hostsdomain }}"/$dom/g /etc/carbonio/carbonio-prometheus/prometheus.yml;
+domain=$(hostname -d);
+sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/prometheus.yml;
 
-consuldom=$(echo $(hostname -d) | sed s/\\\./-/g);
+consuldom=$(hostname -d | sed s/\\\./-/g);
 sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/prometheus.yml;
 
-    echo "Restarting Carbonio Prometheus Service"
-    systemctl restart carbonio-prometheus
+echo "Restarting Carbonio Prometheus Service"
+systemctl restart carbonio-prometheus
 
-    echo "Reloading Service Discover"
-    consul reload
+echo "Reloading Service Discover"
+consul reload
 
-   export -n CONSUL_HTTP_TOKEN
+export -n CONSUL_HTTP_TOKEN
