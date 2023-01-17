@@ -3,7 +3,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus"
-pkgver="2.41.0"
+pkgver="2.42.0"
 pkgrel="7"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
@@ -24,13 +24,13 @@ sources=(
   "policies.json"
 )
 hashsums=(
-  "026f3fe429853cff4266c7ab4f771342"
-  "9d1820a430e80092bacf83d0d9969fcc"
-  "ce889e2b65786c3bd66416b488fabcd7"
-  "aa87ed719c2714f4a26f74ebae3ab79a"
-  "255e3c0df9462b1fbbf677da271ff672"
-  "52a38d4a95e93c7be26a915e45750542"
-  "c2c5933682af87720cdc0f9a90a0bc63"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
 )
 
 depends=(
@@ -47,7 +47,7 @@ conflicts=(
 
 
 package() {
-  cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
+    cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
   
   install -Dm 755 prometheus "${pkgdir}/usr/bin/prometheus"
   install -Dm 755 promtool "${pkgdir}/usr/bin/promtool"
@@ -58,8 +58,7 @@ package() {
   install -Dm 640 -g210 "${srcdir}/policies.json" "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 	
-  install -Dm 644 "${srcdir}/${pkgname}.sh" "${pkgdir}/etc/zextras/pending-setups.d/${pkgname}.sh"
-  
+  install -Dm 755 "${srcdir}/carbonio-prometheus.sh" "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
   install -Dm 644 "${srcdir}/prometheus.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/prometheus.default" "${pkgdir}/etc/default/${pkgname}"
