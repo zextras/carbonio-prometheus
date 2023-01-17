@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus"
 pkgver="2.41.0"
-pkgrel="7"
+pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "An open-source systems monitoring and alerting toolkit"
@@ -41,22 +41,22 @@ conflicts=(
   "prometheus"
 )
 
- backup=(
-   "/etc/carbonio/${pkgname}/prometheus.yml"
+backup=(
+  "/etc/carbonio/${pkgname}/prometheus.yml"
 )
 
 
 package() {
   cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
   
-  install -Dm 755 "prometheus" "${pkgdir}/usr/bin/prometheus"
-  install -Dm 755 "promtool" "${pkgdir}/usr/bin/promtool"
+  install -Dm 755 prometheus "${pkgdir}/usr/bin/prometheus"
+  install -Dm 755 promtool "${pkgdir}/usr/bin/promtool"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
 
   install -Dm 640 -g210 "${srcdir}/prometheus.yml" "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
   install -Dm 640 -g210 "${srcdir}/policies.json" "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
-  cp -r "consoles*" "${pkgdir}/etc/carbonio/${pkgname}/"
+  cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 	
   install -Dm 755 "${srcdir}/carbonio-prometheus.sh" "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
   install -Dm 644 "${srcdir}/prometheus.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
@@ -79,7 +79,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Prometheus installed successfully!"
-  echo "You have to complete config running pending setup"
+  echo "You must run pending-setups to configure it."
   echo "======================================================"
 }
 
