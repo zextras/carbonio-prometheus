@@ -43,7 +43,7 @@ conflicts=(
 
 backup=(
   "/etc/default/${pkgname}"
-  "/etc/carbonio/${pkgname}/${pkgname}.yml"
+  #"/etc/carbonio/${pkgname}/${pkgname}.yml"
 )
 
 package() {
