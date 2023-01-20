@@ -37,7 +37,7 @@
         {
             "name": "prometheus-process"
         },
-		{
+        {
             "name": "prometheus-mysqld"
         }
     ]

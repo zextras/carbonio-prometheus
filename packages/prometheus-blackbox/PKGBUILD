@@ -16,7 +16,6 @@ priority="optional"
 arch="amd64"
 sources=(
   "https://github.com/prometheus/blackbox_exporter/releases/download/v${pkgver}/blackbox_exporter-${pkgver}.linux-amd64.tar.gz"
-  
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
@@ -42,23 +41,28 @@ conflicts=(
 )
 
 backup=(
-    "/etc/carbonio/${pkgname}/${pkgname}.yml"
+  "/etc/carbonio/${pkgname}/${pkgname}.yml"
 )
 
 package() {
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64/"
 
-  install -Dm 755 blackbox_exporter "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm 755 blackbox_exporter \
+    "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.service" \
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.default" \
+    "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 -g210 "${srcdir}/${pkgname}.yml" "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
-  install -Dm 644 "${srcdir}/prometheus.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"	
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
-  
+  install -Dm 644 -g210 "${srcdir}/${pkgname}.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+  install -Dm 644 "${srcdir}/prometheus.sysusers" \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+
 }
-
 
 postinst() {
   if hash initctl 2>/dev/null; then
@@ -92,4 +96,3 @@ postrm() {
     systemctl daemon-reload >/dev/null 2>&1 || :
   fi
 }
-
