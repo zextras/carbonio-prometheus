@@ -1,6 +1,6 @@
 global:
-  smtp_smarthost: {{ smtp_smarthost }}
-  smtp_from: {{ smtp_from }}
+  smtp_smarthost: { { smtp_smarthost } }
+  smtp_from: { { smtp_from } }
   smtp_require_tls: true
 
 templates:
@@ -24,7 +24,7 @@ receivers:
   - name: "default"
     email_configs:
       - send_resolved: false
-        to: {{ smtp_to }}
+        to: { { smtp_to } }
         headers:
           subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
         html: '{{ template "email.tmpl" . }}'
@@ -32,7 +32,7 @@ receivers:
   - name: "warning"
     email_configs:
       - send_resolved: false
-        to: {{ smtp_to }}
+        to: { { smtp_to } }
         headers:
           subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
         html: '{{ template "email.tmpl" . }}'
@@ -40,7 +40,7 @@ receivers:
   - name: "critical"
     email_configs:
       - send_resolved: false
-        to: {{ smtp_to }}
+        to: { { smtp_to } }
         headers:
           subject: "{{ .Alerts.Firing | len }} {{ .CommonLabels.severity }} alert on {{ .CommonLabels.instance }}"
         html: '{{ template "email.tmpl" . }}'

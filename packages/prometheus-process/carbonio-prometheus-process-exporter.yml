@@ -22,4 +22,3 @@ process_names:
       - envoy
       - vector
       - carbonio*
-
