@@ -169,6 +169,7 @@ scrape_configs:
         target_label: target
       - target_label: __address__
         replacement: 127.0.0.1:9115
+
   - job_name: 'advanced-auth'
     metrics_path: /service/extension/metrics/auth
     consul_sd_configs:
@@ -182,6 +183,7 @@ scrape_configs:
           regex: "(agent|server)-(.+)-"
           replacement: '$2.'
           target_label: instance
+
   - job_name: 'advanced-powerstore'
     metrics_path: /service/extension/metrics/powerstore
     consul_sd_configs:
