@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus-nginx-exporter"
 pkgver="0.10.0"
-pkgrel="2"
+pkgrel="3"
 pkgdesc="Nginx exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Nginx exporter for open-source systems monitoring and alerting toolkit"
@@ -56,6 +56,12 @@ package() {
 }
 
 postinst() {
+  # required until zextras user creation will be made with sysusers.d
+  getent group 'zextras' >/dev/null ||
+    groupadd -r 'zextras'
+  getent passwd 'zextras' >/dev/null ||
+    useradd -r -M -d '/opt/zextras' -g 'zextras' -s /bin/bash 'zextras'
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
