@@ -3,8 +3,8 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-node-exporter"
-pkgver="1.4.0"
-pkgrel="2"
+pkgver="1.5.0"
+pkgrel="1"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Node exporter for open-source systems monitoring and alerting toolkit"
@@ -45,7 +45,7 @@ package() {
   cd "${srcdir}/node_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 node_exporter \
-    "${pkgdir}/usr/${pkgname}"
+    "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"

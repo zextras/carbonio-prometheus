@@ -8,7 +8,7 @@ User=carbonio-prometheus
 Group=carbonio-prometheus
 Type=simple
 EnvironmentFile=/etc/default/carbonio-prometheus-node-exporter
-ExecStart=/usr/carbonio-prometheus-node-exporter $ARGS
+ExecStart=/usr/bin/carbonio-prometheus-node-exporter $ARGS
 Restart=always
 
 [Install]

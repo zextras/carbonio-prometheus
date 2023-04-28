@@ -3,8 +3,8 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-consul-exporter"
-pkgver="0.8.0"
-pkgrel="2"
+pkgver="0.9.0"
+pkgrel="1"
 pkgdesc="Consul exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Consul exporter for open-source systems monitoring and alerting toolkit"
