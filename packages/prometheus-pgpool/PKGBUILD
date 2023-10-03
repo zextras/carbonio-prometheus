@@ -1,0 +1,103 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="carbonio-prometheus-postgres-exporter"
+pkgver="0.11.1"
+pkgrel="2"
+pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
+pkgdesclong=(
+  "Postgres exporter for open-source systems monitoring and alerting toolkit"
+)
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch="amd64"
+sources=(
+  "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}.yml"
+  "${pkgname}-consul.hcl"
+  "set-${pkgname}.sh"
+  "prometheus.sysusers"
+)
+hashsums=(
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+  "skip"
+)
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+  'prometheus-postgres-exporter'
+)
+
+backup=(
+  "/etc/default/${pkgname}"
+)
+
+package() {
+  cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
+
+  install -Dm 755 "postgres_exporter" \
+    "${pkgdir}/usr/bin/${pkgname}"
+
+  install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
+    "${pkgdir}/usr/bin/set-${pkgname}.sh"
+
+  install -Dm 644 "${srcdir}/${pkgname}.service" \
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.default" \
+    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+
+  install -Dm 644 "${srcdir}/prometheus.sysusers" \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+}
+
+postinst() {
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
+  /usr/bin/set-${pkgname}.sh
+
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+  fi
+
+  echo "======================================================"
+  echo "Carbonio Postgres Exporter installed successfully!"
+  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
+}

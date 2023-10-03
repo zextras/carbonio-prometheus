@@ -1,0 +1,16 @@
+[Unit]
+Description=Carbonio Prometheus Pgpool exporter
+Wants=network-online.target
+After=network.target
+
+[Service]
+User=carbonio-prometheus
+Group=carbonio-prometheus
+Type=simple
+Environment=SSL_VERIFY=false
+EnvironmentFile=/etc/default/carbonio-prometheus-pgpool-exporter
+ExecStart=/usr/bin/carbonio-prometheus-pgpool-exporter
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
