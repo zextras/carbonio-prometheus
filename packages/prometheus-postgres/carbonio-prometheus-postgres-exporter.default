@@ -1,1 +1,1 @@
-DATA_SOURCE_NAME="carbonio-prometheus@:5432/postgres?host=/var/run/postgresql"
+DATA_SOURCE_NAME="postgresql://carbonio-prometheus@:5433/postgres?host=/var/run/postgresql"
