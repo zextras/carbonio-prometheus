@@ -5,13 +5,7 @@
     "output": "artifacts",
     "Projects": [
         {
-            "name": "grafana-settings"
-        },
-        {
             "name": "prometheus"
-        },
-        {
-            "name": "loki-settings"
         },
         {
             "name": "prometheus-alertmanager"

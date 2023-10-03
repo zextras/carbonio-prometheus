@@ -91,16 +91,6 @@ pipeline {
                                 "props": "deb.distribution=focal;deb.component=main;deb.architecture=amd64"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-grafana-settings)-(*).rpm",
-                                "target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
-                            },
-                            {
-                                "pattern": "artifacts/(carbonio-loki-settings)-(*).rpm",
-                                "target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
-                            },
-                            {
                                 "pattern": "artifacts/(carbonio-prometheus)-(*).rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
