@@ -3,7 +3,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-node-exporter"
-pkgver="1.5.0"
+pkgver="1.6.1"
 pkgrel="1"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
