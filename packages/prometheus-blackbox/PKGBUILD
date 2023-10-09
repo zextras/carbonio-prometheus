@@ -3,7 +3,7 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-blackbox-exporter"
-pkgver="0.23.0"
+pkgver="0.24.0"
 pkgrel="1"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(

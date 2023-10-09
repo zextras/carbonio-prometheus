@@ -3,8 +3,8 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-openldap-exporter"
-pkgver="2.2.1"
-pkgrel="3"
+pkgver="2.2.2"
+pkgrel="1"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
