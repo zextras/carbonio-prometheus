@@ -3,8 +3,8 @@ targets=(
   "ubuntu"
 )
 pkgname="carbonio-prometheus-nginx-exporter"
-pkgver="0.10.0"
-pkgrel="3"
+pkgver="0.11.0"
+pkgrel="4"
 pkgdesc="Nginx exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Nginx exporter for open-source systems monitoring and alerting toolkit"
