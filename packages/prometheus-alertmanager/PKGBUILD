@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus-alertmanager"
 pkgver="0.26.0"
-pkgrel="2"
+pkgrel="1"
 pkgdesc="Alert manager exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Alert manager exporter for open-source systems monitoring and alerting toolkit"

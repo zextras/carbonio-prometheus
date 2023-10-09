@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus-mysqld-exporter"
 pkgver="0.15.0"
-pkgrel="3"
+pkgrel="1"
 pkgdesc="Mysqld exporter for open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "Mysqld manager exporter for open-source systems monitoring and alerting toolkit"

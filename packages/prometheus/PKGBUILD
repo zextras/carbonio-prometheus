@@ -4,7 +4,7 @@ targets=(
 )
 pkgname="carbonio-prometheus"
 pkgver="2.47.1"
-pkgrel="2"
+pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 pkgdesclong=(
   "An open-source systems monitoring and alerting toolkit"
