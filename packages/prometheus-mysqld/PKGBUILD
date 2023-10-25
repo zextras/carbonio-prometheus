@@ -18,14 +18,12 @@ sources=(
   "https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
-  "${pkgname}.cnf"
   "${pkgname}-consul.hcl"
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
 
 hashsums=(
-  "skip"
   "skip"
   "skip"
   "skip"
@@ -56,9 +54,6 @@ package() {
 
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-
-  install -Dm 644 "${srcdir}/${pkgname}.cnf" \
-    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
