@@ -7,8 +7,9 @@ source /opt/zextras/bin/zmshutil || exit 1
 zmsetvars
 
 {
+  echo "[client]"
   echo "user= $zimbra_mysql_user"
   echo "password= $zimbra_mysql_password"
   echo "host= $mysql_bind_address"
   echo "port= $mysql_port"
-} >>/etc/carbonio/$pkgname/$pkgname.cnf
+} >/etc/carbonio/$pkgname/$pkgname.cnf
