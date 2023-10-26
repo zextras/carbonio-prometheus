@@ -28,18 +28,18 @@ pipeline {
         }
         stage('Build deb/rpm') {
             stages {
-                stage('pacur') {
+                stage('yap') {
                     parallel {
                         stage('Ubuntu 20.04') {
                             agent {
                                 node {
-                                    label 'pacur-agent-ubuntu-20.04-v1'
+                                    label 'yap-agent-ubuntu-20.04-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build ubuntu-focal /tmp/staging/packages'
+                                sh 'sudo yap build ubuntu-focal /tmp/staging/packages'
                                 stash includes: 'artifacts/', name: 'artifacts-ubuntu-focal'
                             }
                             post {
@@ -51,13 +51,13 @@ pipeline {
                         stage('Ubuntu 22.04') {
                             agent {
                                 node {
-                                    label 'pacur-agent-ubuntu-22.04-v1'
+                                    label 'yap-agent-ubuntu-22.04-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build ubuntu-jammy /tmp/staging/packages'
+                                sh 'sudo yap build ubuntu-jammy /tmp/staging/packages'
                                 stash includes: 'artifacts/', name: 'artifacts-ubuntu-jammy'
                             }
                             post {
@@ -69,36 +69,36 @@ pipeline {
                         stage('Rocky 8') {
                             agent {
                                 node {
-                                    label 'pacur-agent-rocky-8-v1'
+                                    label 'yap-agent-rocky-8-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build rocky-8 /tmp/staging/packages'
-                                stash includes: 'artifacts/', name: 'artifacts-rocky-8'
+                                sh 'sudo yap build rocky-8 /tmp/staging/packages'
+                                stash includes: 'artifacts/x86_64/*el8*.rpm', name: 'artifacts-rocky-8'
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: 'artifacts/*el8*.rpm', fingerprint: true
+                                    archiveArtifacts artifacts: 'artifacts/x86_64/*el8*.rpm', fingerprint: true
                                 }
                             }
                         }
                         stage('Rocky 9') {
                             agent {
                                 node {
-                                    label 'pacur-agent-rocky-9-v1'
+                                    label 'yap-agent-rocky-9-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build rocky-9 /tmp/staging/packages'
-                                stash includes: 'artifacts/', name: 'artifacts-rocky-9'
+                                sh 'sudo yap build rocky-9 /tmp/staging/packages'
+                                stash includes: 'artifacts/x86_64/*el9*.rpm', name: 'artifacts-rocky-9'
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: 'artifacts/*el9*.rpm', fingerprint: true
+                                    archiveArtifacts artifacts: 'artifacts/x86_64/*el9*.rpm', fingerprint: true
                                 }
                             }
                         }
@@ -134,101 +134,101 @@ pipeline {
                                 "props": "deb.distribution=jammy;deb.component=main;deb.architecture=amd64"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-alertmanager)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-blackbox-exporter)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-consul-exporter)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-mysql-exporter)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-mysql-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-nginx-exporter)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-node-exporter)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-openldap-exporter)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-postgres)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-process-exporter)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },                            {
-                                "pattern": "artifacts/(carbonio-prometheus)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-alertmanager)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-blackbox-exporter)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-consul-exporter)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-mysql-exporter)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-mysql-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-nginx-exporter)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-node-exporter)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-openldap-exporter)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-postgres)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-process-exporter)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             }
@@ -296,62 +296,62 @@ pipeline {
                     uploadSpec= """{
                         "files": [
                             {
-                                "pattern": "artifacts/(carbonio-grafana-settings)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-grafana-settings)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-loki-settings)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-loki-settings)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-alertmanager)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-blackbox)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-consul)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-consul)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-mysqld)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-mysqld)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-nginx)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-node)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-node)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-openldap)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-postgres)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-process)-(*).el8.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-process)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             }
@@ -378,62 +378,62 @@ pipeline {
                     uploadSpec= """{
                         "files": [
                             {
-                                "pattern": "artifacts/(carbonio-grafana-settings)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-grafana-settings)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-loki-settings)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-loki-settings)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-alertmanager)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-blackbox)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-consul)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-consul)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-mysqld)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-mysqld)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-nginx)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-node)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-node)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-openldap)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-postgres)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
-                                "pattern": "artifacts/(carbonio-prometheus-process)-(*).el9.x86_64.rpm",
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-process)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             }

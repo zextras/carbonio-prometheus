@@ -1,20 +1,13 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-process-exporter"
 pkgver="0.7.10"
 pkgrel="2"
 pkgdesc="Process exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "Process exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/ncabatoff/process-exporter/releases/download/v${pkgver}/process-exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
@@ -22,24 +15,22 @@ sources=(
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-)
+sha256sums=('52503649649c0be00e74e8347c504574582b95ad428ff13172d658e82b3da1b5'
+  '6212db4a4388ab4ecb32276edafa2cad62a836bcec790f3c5cb8c722448e50c1'
+  '68cfaf3e6920698edfaa35916b3a81b163ee5db2ee68e4d2863484955ca2f10f'
+  '1236102292804f5eb3ab73458944275e42bc82d793752565253583b72d885bfe'
+  '0220bf22aa8e447013c8da4fed41488a444f1934cb68c6d3d11bc728b71d9204'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
 )
 
-makedepends:apt=(
+makedepends__apt=(
   "libsystemd-dev"
 )
 
-makedepends:yum=(
+makedepends__yum=(
   "systemd-devel"
 )
 
@@ -48,8 +39,8 @@ conflicts=(
 )
 
 backup=(
-  "/etc/default/${pkgname}"
-  "/etc/carbonio/${pkgname}/${pkgname}.yml"
+  "etc/default/${pkgname}"
+  "etc/carbonio/${pkgname}/${pkgname}.yml"
 )
 
 package() {
@@ -82,8 +73,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -94,8 +85,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :
   fi
 }
 

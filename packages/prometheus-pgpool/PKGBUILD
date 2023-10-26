@@ -1,20 +1,13 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-postgres-exporter"
 pkgver="0.14.0"
 pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "Postgres exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
@@ -23,14 +16,14 @@ sources=(
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
+sha256sums=(
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
 )
 
 depends=(
@@ -42,7 +35,7 @@ conflicts=(
 )
 
 backup=(
-  "/etc/default/${pkgname}"
+  "etc/default/${pkgname}"
 )
 
 package() {
@@ -75,12 +68,12 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /usr/bin/set-${pkgname}.sh
+  /usr/bin/set-carbonio-prometheus-postgres-exporter.sh
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -91,8 +84,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disablecarbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
   fi
 }
 

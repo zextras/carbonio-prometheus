@@ -1,20 +1,13 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-alertmanager"
 pkgver="0.26.0"
 pkgrel="1"
 pkgdesc="Alert manager exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "Alert manager exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/prometheus/alertmanager/releases/download/v${pkgver}/alertmanager-${pkgver}.linux-amd64.tar.gz"
   "alertmanager.yml"
   "email.tmpl"
@@ -23,15 +16,13 @@ sources=(
   "${pkgname}.service"
   "prometheus.sysusers"
 )
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-)
+sha256sums=('abd73e2ee6bf67d3888699660abbecba7b076bf1f9459a3a8999d493b149ffa6'
+  '647bc95ad3012f4ea83ccfacf0a990e860c10c01f00a191332d00e5575c6d9c7'
+  'ae12a6e0514c4087060e4d5246eedbd7bd7d44c3326b480355b45e6aa823ed6b'
+  'c4b12f3c8e74afd6a5509cbaf2398be4c49c21bb38c4ab96c5ee5f06d7a63fac'
+  'fe18f2e90fd2373867328631b8ec6fba405157e826af31272b6ef97e355cfcb4'
+  '9c981fc9bb508119117ca60b63414d1668b4969e5f92b44a0c507bf01cc09ac1'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -42,9 +33,9 @@ conflicts=(
 )
 
 backup=(
-  "/etc/carbonio/${pkgname}/alertmanager.yml"
-  "/etc/carbonio/${pkgname}/email.tmpl"
-  "/etc/carbonio/${pkgname}/alert_rules.yml"
+  "etc/carbonio/${pkgname}/alertmanager.yml"
+  "etc/carbonio/${pkgname}/email.tmpl"
+  "etc/carbonio/${pkgname}/alert_rules.yml"
 )
 
 package() {
@@ -84,8 +75,8 @@ postinst() {
   # While in beta enable service manually
   # if [ -d /run/systemd/system ]; then
   # systemctl daemon-reload >/dev/null 2>&1 || :
-  # systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-  # systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+  # systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+  # systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
   # fi
 
   echo "======================================================"
@@ -97,8 +88,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
   fi
 }
 

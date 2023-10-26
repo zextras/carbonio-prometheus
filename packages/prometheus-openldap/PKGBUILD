@@ -1,20 +1,13 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-openldap-exporter"
 pkgver="2.2.2"
 pkgrel="1"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
   "${pkgname}.default"
   "${pkgname}.service"
@@ -23,15 +16,13 @@ sources=(
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-)
+sha256sums=('d47bdc46a3960a06015cd750a780fc8475d9d613f85e1759c5fcaf97a9da11bb'
+  '9269776a1c768234c78dc2791bc576c55984aef2986e9d16255d23cc47c1b20f'
+  'c369119e4923f6927aa6ee09506d1ff00799f77e36f10715165f6858c657884a'
+  '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+  'c69a28ab7f773338244fa48a8533f7a4ec2689ffbd3cbb36af3af839e1909873'
+  '2c287b3a2905e389a2872db9204afdd033781c3a22b0f78a4315b39b312c5d5f'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -42,9 +33,9 @@ conflicts=(
 )
 
 backup=(
-  "/etc/default/${pkgname}"
-  "/etc/carbonio/${pkgname}/${pkgname}.yml"
-  "/etc/zextras/service-discover/${pkgname}.hcl"
+  "etc/default/${pkgname}"
+  "etc/carbonio/${pkgname}/${pkgname}.yml"
+  "etc/zextras/service-discover/${pkgname}.hcl"
 )
 
 package() {
@@ -78,12 +69,12 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  #/usr/set-${pkgname}.sh
+  #/usr/set-carbonio-prometheus-openldap-exporter.sh
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-openldap-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-openldap-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -94,8 +85,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-openldap-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-openldap-exporter.service >/dev/null 2>&1 || :
   fi
 }
 

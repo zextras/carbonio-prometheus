@@ -1,7 +1,7 @@
 {
     "name": "Prometheus exporter",
     "Description": "Prometheus exporter tools",
-    "build_dir": "/tmp/",
+    "buildDir": "/tmp/",
     "output": "artifacts",
     "Projects": [
         {

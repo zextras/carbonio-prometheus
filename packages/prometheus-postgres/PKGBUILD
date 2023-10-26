@@ -1,20 +1,13 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-postgres-exporter"
 pkgver="0.14.0"
 pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "Postgres exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
@@ -23,15 +16,13 @@ sources=(
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-)
+sha256sums=('389f8c8d9a57132b9744b2108bee168085da729b574de5996e42cda15110c672'
+  'de0972412f4c54794d298f20ad454687b56e0a6e6e342b509fc68f066e449d3c'
+  '4f933f42565ad4234e43ace2a7cfee2ee3e38ed7c7310d5b9c062a84c4a66813'
+  '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+  '1a9fc1884e06a06e73049089c64a69fa4b9b8ab65366c32b117e76d02ca86517'
+  '1aa9ef0bb7ff754cf3a081a03bc0df35e5183bc2097f66f7f051fc39f023c0c5'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -42,7 +33,7 @@ conflicts=(
 )
 
 backup=(
-  "/etc/default/${pkgname}"
+  "etc/default/${pkgname}"
 )
 
 package() {
@@ -75,12 +66,12 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /usr/bin/set-${pkgname}.sh
+  /usr/bin/set-carbonio-prometheus-postgres-exporter.sh
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -91,8 +82,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
   fi
 }
 

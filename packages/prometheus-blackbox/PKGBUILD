@@ -1,20 +1,13 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-blackbox-exporter"
 pkgver="0.24.0"
 pkgrel="1"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "Blackbox exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/prometheus/blackbox_exporter/releases/download/v${pkgver}/blackbox_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
@@ -23,14 +16,12 @@ sources=(
   "prometheus.sysusers"
 )
 
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-)
+sha256sums=('81b36cece040491ac0d9995db2a0964c40e24838a03a151c3333a7dc3eef94ff'
+  '926085ac345712705f4ee202e1b6f751f5e9a7283e45a5e1ded4509a6cd14e47'
+  '1e413fd4f0d51e2bfbee7d6296c7fc4c04d1d02882299d305c46bd9c26bcaacf'
+  '3d7990bdb5597dac26f80a52a3fbd6c7165dcb039ce68db2065dca4f8d75c36b'
+  'b9f3a7999044b4017d33a65ff1beae2f74d7d3dbbce509cdd50879f7c81137aa'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -41,7 +32,7 @@ conflicts=(
 )
 
 backup=(
-  "/etc/carbonio/${pkgname}/${pkgname}.yml"
+  "etc/carbonio/${pkgname}/${pkgname}.yml"
 )
 
 package() {
@@ -74,8 +65,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -86,8 +77,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
