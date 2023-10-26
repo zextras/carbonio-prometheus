@@ -28,18 +28,18 @@ pipeline {
         }
         stage('Build deb/rpm') {
             stages {
-                stage('pacur') {
+                stage('yap') {
                     parallel {
                         stage('Ubuntu 20.04') {
                             agent {
                                 node {
-                                    label 'pacur-agent-ubuntu-20.04-v1'
+                                    label 'yap-agent-ubuntu-20.04-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build ubuntu-focal /tmp/staging/packages'
+                                sh 'sudo yap build ubuntu-focal /tmp/staging/packages'
                                 stash includes: 'artifacts/', name: 'artifacts-ubuntu-focal'
                             }
                             post {
@@ -51,13 +51,13 @@ pipeline {
                         stage('Ubuntu 22.04') {
                             agent {
                                 node {
-                                    label 'pacur-agent-ubuntu-22.04-v1'
+                                    label 'yap-agent-ubuntu-22.04-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build ubuntu-jammy /tmp/staging/packages'
+                                sh 'sudo yap build ubuntu-jammy /tmp/staging/packages'
                                 stash includes: 'artifacts/', name: 'artifacts-ubuntu-jammy'
                             }
                             post {
@@ -69,36 +69,36 @@ pipeline {
                         stage('Rocky 8') {
                             agent {
                                 node {
-                                    label 'pacur-agent-rocky-8-v1'
+                                    label 'yap-agent-rocky-8-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build rocky-8 /tmp/staging/packages'
-                                stash includes: 'artifacts/', name: 'artifacts-rocky-8'
+                                sh 'sudo yap build rocky-8 /tmp/staging/packages'
+                                stash includes: 'artifacts/x86_64/*el8*.rpm', name: 'artifacts-rocky-8'
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: 'artifacts/*el8*.rpm', fingerprint: true
+                                    archiveArtifacts artifacts: 'artifacts/x86_64/*el8*.rpm', fingerprint: true
                                 }
                             }
                         }
                         stage('Rocky 9') {
                             agent {
                                 node {
-                                    label 'pacur-agent-rocky-9-v1'
+                                    label 'yap-agent-rocky-9-v2'
                                 }
                             }
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo pacur build rocky-9 /tmp/staging/packages'
-                                stash includes: 'artifacts/', name: 'artifacts-rocky-9'
+                                sh 'sudo yap build rocky-9 /tmp/staging/packages'
+                                stash includes: 'artifacts/x86_64/*el9*.rpm', name: 'artifacts-rocky-9'
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: 'artifacts/*el9*.rpm', fingerprint: true
+                                    archiveArtifacts artifacts: 'artifacts/x86_64/*el9*.rpm', fingerprint: true
                                 }
                             }
                         }

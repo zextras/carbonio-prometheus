@@ -1,33 +1,24 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-nginx-exporter"
 pkgver="0.11.0"
 pkgrel="1"
 pkgdesc="Nginx exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "Nginx exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${pkgver}/nginx-prometheus-exporter_${pkgver}_linux_amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-)
+sha256sums=('2b8b693ce006406db200c7bd9987453b7055e4e98511fd7b36d492fc68bfc0f4'
+  'cf527b2582f6347c5e6591458d43e3506914d0a46cd527bdc2117c13699c3bd4'
+  '2d749728b519d1ab6a9f51bf4df26ef09b5a19dd2916b494f35ebfd3076c7973'
+  '05f5256d05feca550fddddc4c66744b3d1dba3568d05f9e5bfcab64b4aa1a351'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -38,7 +29,7 @@ conflicts=(
 )
 
 backup=(
-  "/etc/zextras/service-discover/${pkgname}.hcl"
+  "etc/zextras/service-discover/${pkgname}.hcl"
 )
 
 package() {
@@ -71,8 +62,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-nginx-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-nginx-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -83,8 +74,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-nginx-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-nginx-exporter.service >/dev/null 2>&1 || :
   fi
 }
 

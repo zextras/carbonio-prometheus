@@ -1,33 +1,24 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="carbonio-prometheus-consul-exporter"
 pkgver="0.9.0"
 pkgrel="1"
 pkgdesc="Consul exporter for open-source systems monitoring and alerting toolkit"
-pkgdesclong=(
-  "Consul exporter for open-source systems monitoring and alerting toolkit"
-)
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch="amd64"
-sources=(
+arch=('x86_64')
+source=(
   "https://github.com/prometheus/consul_exporter/releases/download/v${pkgver}/consul_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-hashsums=(
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-  "skip"
-)
+sha256sums=('918bbbfaec650a9a1159edc663c7b09d6477cd96c078edef6d9fe608ece3c4ff'
+  '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
+  'fcf540494439a6a88387c198f283afa3e5718f253f499fedb9c42065f01e18cc'
+  '76bd2d91f9dd666e3ec4e1d1df63ecc9d0e2f71d6f2646f3ba5e5e6bcb517cf3'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -63,8 +54,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-consul-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-consul-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -75,8 +66,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-consul-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-consul-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
