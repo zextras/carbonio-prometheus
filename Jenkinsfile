@@ -149,6 +149,11 @@ pipeline {
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el8.x86_64.rpm",
+                                "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                            },                            
+                            {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
@@ -197,6 +202,11 @@ pipeline {
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
+                            {
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el9.x86_64.rpm",
+                                "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                            },                            
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
@@ -321,6 +331,11 @@ pipeline {
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
                             {
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav)-(*).el8.x86_64.rpm",
+                                "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                            },
+                            {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
@@ -402,6 +417,11 @@ pipeline {
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
                             },
+                            {
+                                "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav)-(*).el9.x86_64.rpm",
+                                "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                            },                            
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",

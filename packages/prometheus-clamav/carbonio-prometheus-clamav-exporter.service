@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus exporter for clamav
+Wants=network-online.target
+After=network.target
+
+[Service]
+User=carbonio-prometheus
+Group=carbonio-prometheus
+Type=simple
+Restart=always
+EnvironmentFile=/etc/default/carbonio-prometheus-clamav-exporter
+ExecStart=/usr/bin/carbonio-prometheus-clamav-exporter
+
+[Install]
+WantedBy=multi-user.target

@@ -14,6 +14,9 @@
             "name": "prometheus-blackbox"
         },
         {
+            "name": "prometheus-clamav"
+        },
+        {
             "name": "prometheus-consul"
         },
         {
