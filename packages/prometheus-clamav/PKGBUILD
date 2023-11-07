@@ -21,6 +21,10 @@ depends=(
   "systemd"
 )
 
+conflicts=(
+  'prometheus-clamav-exporter'
+)
+
 makedepends=(
   "git"
 )
