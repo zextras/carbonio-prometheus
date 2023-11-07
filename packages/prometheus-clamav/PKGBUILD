@@ -81,7 +81,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio ClamAV Exporter installed successfully!"
-  echo "You must enable this service in prometheus.yml"
+  echo "You must reload service discover or add this host to prometheus.yml"
   echo "======================================================"
 }
 
