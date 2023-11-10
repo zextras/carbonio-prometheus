@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-pgpool-exporter"
-pkgver="0.14.0"
+pkgver="1.2.1"
 pkgrel="1"
 pkgdesc="Pgpool exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
