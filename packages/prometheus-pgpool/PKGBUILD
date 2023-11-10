@@ -1,4 +1,4 @@
-pkgname="carbonio-prometheus-postgres-exporter"
+pkgname="carbonio-prometheus-pgpool-exporter"
 pkgver="0.14.0"
 pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
@@ -8,12 +8,12 @@ section="mail"
 priority="optional"
 arch=('x86_64')
 source=(
-  "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
+  "https://github.com/pgpool/pgpool2_exporter/releases/download/v${pkgver}/pgpool2_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
-  "set-${pkgname}.sh"
+  # "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
 sha256sums=(
@@ -23,7 +23,7 @@ sha256sums=(
   "SKIP"
   "SKIP"
   "SKIP"
-  "SKIP"
+  # "SKIP"
 )
 
 depends=(
@@ -31,7 +31,7 @@ depends=(
 )
 
 conflicts=(
-  'prometheus-postgres-exporter'
+  'prometheus-pgpool2-exporter'
 )
 
 backup=(
@@ -39,13 +39,13 @@ backup=(
 )
 
 package() {
-  cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
+  cd "${srcdir}/pgpool2_exporter-${pkgver}.linux-amd64"
 
-  install -Dm 755 "postgres_exporter" \
+  install -Dm 755 "pgpool2_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/usr/bin/set-${pkgname}.sh"
+  # install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
+  #   "${pkgdir}/usr/bin/set-${pkgname}.sh"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
@@ -68,12 +68,12 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /usr/bin/set-carbonio-prometheus-postgres-exporter.sh
+  #/usr/bin/set-carbonio-prometheus-postgres-exporter.sh
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -84,8 +84,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disablecarbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
