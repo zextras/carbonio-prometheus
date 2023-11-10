@@ -11,7 +11,7 @@ source=(
   "https://github.com/pgpool/pgpool2_exporter/releases/download/v${pkgver}/pgpool2_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
-  "${pkgname}.yml"
+  # "${pkgname}.yml"
   "${pkgname}-consul.hcl"
   # "set-${pkgname}.sh"
   "prometheus.sysusers"
@@ -22,7 +22,7 @@ sha256sums=(
   "SKIP"
   "SKIP"
   "SKIP"
-  "SKIP"
+  # "SKIP"
   # "SKIP"
 )
 
@@ -51,8 +51,8 @@ package() {
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}/${pkgname}.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+  # install -Dm 644 "${srcdir}/${pkgname}.yml" \
+  #   "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
