@@ -29,6 +29,9 @@
             "name": "prometheus-openldap"
         },
         {
+            "name": "prometheus-pgpool"
+        },
+        {
             "name": "prometheus-postgres"
         },
         {
