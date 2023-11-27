@@ -8,7 +8,6 @@ section="mail"
 priority="optional"
 arch=('x86_64')
 source=(
-#  "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
   "https://github.com/mlorenzo-stratio/openldap_exporter/archive/refs/tags/v${pkgver}.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
