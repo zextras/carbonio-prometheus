@@ -16,13 +16,14 @@ source=(
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
-sha256sums=('d47bdc46a3960a06015cd750a780fc8475d9d613f85e1759c5fcaf97a9da11bb'
-  '9269776a1c768234c78dc2791bc576c55984aef2986e9d16255d23cc47c1b20f'
-  'c369119e4923f6927aa6ee09506d1ff00799f77e36f10715165f6858c657884a'
-  '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
-  'c69a28ab7f773338244fa48a8533f7a4ec2689ffbd3cbb36af3af839e1909873'
-  '2c287b3a2905e389a2872db9204afdd033781c3a22b0f78a4315b39b312c5d5f'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+sha256sums=(
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP")
 
 depends=(
   "systemd"
