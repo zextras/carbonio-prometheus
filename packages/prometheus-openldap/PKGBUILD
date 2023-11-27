@@ -44,7 +44,7 @@ backup=(
   "etc/zextras/service-discover/${pkgname}.hcl"
 )
  build(){
-  cd "${srcdir}/openldap-prometheus-exporter-v${pkgver}/"
+  cd "${srcdir}/openldap-prometheus-exporter-${pkgver}/"
 
     export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
@@ -52,13 +52,13 @@ backup=(
     export CGO_LDFLAGS="${LDFLAGS}"
     export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
 
-    go build -v -o "${srcdir}/openldap-prometheus-exporter-v${pkgver}/carbonio-prometheus-openldap-exporter"
+    go build -v -o "${srcdir}/openldap-prometheus-exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
  }
 
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "./openldap-prometheus-exporter-v${pkgver}/carbonio-prometheus-openldap-exporter" \
+  install -Dm 755 "./openldap-prometheus-exporter-${pkgver}/carbonio-prometheus-openldap-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/set-${pkgname}.sh" \
