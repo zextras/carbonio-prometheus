@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-openldap-exporter"
-pkgver="2.2.2"
+pkgver="2.2.4"
 pkgrel="1"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -8,7 +8,8 @@ section="mail"
 priority="optional"
 arch=('x86_64')
 source=(
-  "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
+#  "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
+  "https://github.com/mlorenzo-stratio/openldap_exporter/archive/refs/tags/v${pkgver}.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
