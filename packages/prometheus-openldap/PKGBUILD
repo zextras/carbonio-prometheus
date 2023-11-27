@@ -34,6 +34,10 @@ conflicts=(
   'prometheus-openldap-exporter'
 )
 
+makedepends=(
+  "git"
+)
+
 backup=(
   "etc/default/${pkgname}"
   "etc/carbonio/${pkgname}/${pkgname}.yml"
@@ -48,7 +52,7 @@ backup=(
     export CGO_LDFLAGS="${LDFLAGS}"
     export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
 
-    go build -o "${srcdir}/openldap-prometheus-exporter-v${pkgver}/carbonio-prometheus-openldap-exporter"
+    go build -v -o "${srcdir}/openldap-prometheus-exporter-v${pkgver}/carbonio-prometheus-openldap-exporter"
  }
 
 package() {
