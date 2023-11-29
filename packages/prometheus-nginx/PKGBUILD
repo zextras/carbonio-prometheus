@@ -7,6 +7,7 @@ url="https://zextras.com"
 section="mail"
 priority="optional"
 arch=('x86_64')
+license=('Apache-2.0')
 source=(
   "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${pkgver}/nginx-prometheus-exporter_${pkgver}_linux_amd64.tar.gz"
   "${pkgname}.default"
