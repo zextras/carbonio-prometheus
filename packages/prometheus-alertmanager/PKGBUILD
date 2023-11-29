@@ -7,6 +7,7 @@ url="https://zextras.com"
 section="mail"
 priority="optional"
 arch=('x86_64')
+license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/alertmanager/releases/download/v${pkgver}/alertmanager-${pkgver}.linux-amd64.tar.gz"
   "alertmanager.yml"
