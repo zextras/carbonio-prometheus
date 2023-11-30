@@ -44,18 +44,18 @@ backup=(
   "etc/zextras/service-discover/${pkgname}.hcl"
 )
 #  build(){
-#   cd "${srcdir}/openldap-exporter-${pkgver}/"
-#     go build -v -o "${srcdir}/openldap-exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
+#   cd "${srcdir}/openldap_exporter-${pkgver}/"
+#     go build -v -o "${srcdir}/openldap_exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
 #  }
 
 package() {
   ls -al .
-  cd "${srcdir}/openldap-exporter-${pkgver}/"
-  go build -v -o "${srcdir}/openldap-exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
+  cd "${srcdir}/openldap_exporter-${pkgver}/"
+  go build -v -o "${srcdir}/openldap_exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
 
   cd "${srcdir}/"
 
-  install -Dm 755 "./openldap-exporter-${pkgver}/carbonio-prometheus-openldap-exporter" \
+  install -Dm 755 "./openldap_exporter-${pkgver}/carbonio-prometheus-openldap-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/set-${pkgname}.sh" \
