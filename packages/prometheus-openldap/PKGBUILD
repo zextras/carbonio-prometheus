@@ -43,15 +43,13 @@ backup=(
   "etc/carbonio/${pkgname}/${pkgname}.yml"
   "etc/zextras/service-discover/${pkgname}.hcl"
 )
-#  build(){
-#   cd "${srcdir}/openldap_exporter-${pkgver}/"
-#     go build -v -o "${srcdir}/openldap_exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
-#  }
+
+build(){
+  cd "${srcdir}/openldap_exporter-${pkgver}/"
+    go build -v -o "${srcdir}/openldap_exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
+}
 
 package() {
-  ls -al .
-  cd "${srcdir}/openldap_exporter-${pkgver}/"
-  go build -v -o "${srcdir}/openldap_exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
 
   cd "${srcdir}/"
 
