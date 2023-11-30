@@ -49,7 +49,7 @@ backup=(
 #  }
 
 package() {
-  ls -al openldap-exporter-${pkgver}/
+  ls -al .
   cd "${srcdir}/openldap-exporter-${pkgver}/"
   go build -v -o "${srcdir}/openldap-exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
 
