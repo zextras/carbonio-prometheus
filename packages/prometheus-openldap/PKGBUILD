@@ -45,21 +45,16 @@ backup=(
   "etc/zextras/service-discover/${pkgname}.hcl"
 )
 
-# build(){
-#   cd "${srcdir}/openldap_exporter-${pkgver}/"
-#     go install golang.org/x/tools/cmd/goimports@latest
-#     goimports -w -local github.com/mlorenzo-stratio/openldap_exporter $( shell find . -type f -name '*.go' | grep -v '/vendor/')
-#     go install honnef.co/go/tools/cmd/staticcheck@latest
-#     staticcheck $(shell go list ./... | grep -v /vendor/)
-    
-#     go build -v -o "${srcdir}/openldap_exporter-${pkgver}/carbonio-prometheus-openldap-exporter"
-# }
+build(){
+  cd "${srcdir}/openldap_exporter-${pkgver}/"
+    make build-linux
+}
 
 package() {
 
   cd "${srcdir}/"
 
-  install -Dm 755 "./carbonio-prometheus-openldap-exporter" \
+  install -Dm 755 "./openldap_exporter-${pkgver}/target/carbonio-prometheus-openldap-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/set-${pkgname}.sh" \
