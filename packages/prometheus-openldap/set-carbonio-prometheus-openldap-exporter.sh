@@ -11,6 +11,6 @@ zimbra_ldap_password=$(/opt/zextras/bin/zmlocalconfig -s -m nokey zimbra_ldap_pa
   echo "ldapUser: $zimbra_ldap_userdn"
   echo "ldapPass: $zimbra_ldap_password"
   echo "interval: 1m"
-} >>/etc/carbonio/${pkgname}/$pkgname.yml
+} >/etc/carbonio/${pkgname}/$pkgname.yml
 
 systemctl restart carbonio-prometheus-openldap-exporter.service
