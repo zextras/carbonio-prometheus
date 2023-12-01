@@ -53,7 +53,7 @@ package() {
 
   cd "${srcdir}/"
 
-  install -Dm 755 "./openldap_exporter-${pkgver}/target/carbonio-prometheus-openldap-exporter" \
+  install -Dm 755 "./openldap_exporter-${pkgver}/target/openldap_exporter-linux" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/set-${pkgname}.sh" \
