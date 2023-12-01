@@ -8,8 +8,7 @@ section="mail"
 priority="optional"
 arch=('x86_64')
 source=(
-  # "https://github.com/mlorenzo-stratio/openldap_exporter/archive/refs/tags/v${pkgver}.zip"
-  "${pkgname}"
+  "https://github.com/mlorenzo-stratio/openldap_exporter/archive/refs/tags/v${pkgver}.zip"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
