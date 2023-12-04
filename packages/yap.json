@@ -5,7 +5,43 @@
     "output": "artifacts",
     "Projects": [
         {
+            "name": "prometheus"
+        },
+        {
+            "name": "prometheus-alertmanager"
+        },
+        {
+            "name": "prometheus-blackbox"
+        },
+        {
+            "name": "prometheus-consul"
+        },
+        {
+            "name": "prometheus-clamav"
+        },
+        {
+            "name": "prometheus-nginx"
+        },
+        {
+            "name": "prometheus-node"
+        },
+        {
+            "name": "prometheus-openldap"
+        },
+        {
+            "name": "prometheus-postgres"
+        },
+        {
+            "name": "prometheus-process"
+        },
+                {
+            "name": "prometheus-process"
+        },
+        {
             "name": "prometheus-pgpool"
+        },
+        {
+            "name": "prometheus-mysqld"
         }
     ]
 }
