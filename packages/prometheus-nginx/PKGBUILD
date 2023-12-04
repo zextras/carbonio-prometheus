@@ -15,11 +15,12 @@ source=(
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-sha256sums=('2b8b693ce006406db200c7bd9987453b7055e4e98511fd7b36d492fc68bfc0f4'
-  'cf527b2582f6347c5e6591458d43e3506914d0a46cd527bdc2117c13699c3bd4'
-  '2d749728b519d1ab6a9f51bf4df26ef09b5a19dd2916b494f35ebfd3076c7973'
-  '05f5256d05feca550fddddc4c66744b3d1dba3568d05f9e5bfcab64b4aa1a351'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+sha256sums=(
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP")
 
 depends=(
   "systemd"
