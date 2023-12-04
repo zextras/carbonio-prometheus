@@ -246,7 +246,7 @@ pipeline {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-pgpool-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
                                 "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
-                            }
+                            },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
