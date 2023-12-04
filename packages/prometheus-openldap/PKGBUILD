@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-openldap-exporter"
-pkgver="2.2.2"
+pkgver="2.2.4"
 pkgrel="1"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -9,7 +9,7 @@ priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
 source=(
-  "https://github.com/tomcz/openldap_exporter/releases/download/v${pkgver}/openldap_exporter-linux-amd64.gz"
+  "https://github.com/mlorenzo-stratio/openldap_exporter/archive/refs/tags/v${pkgver}.zip"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
@@ -17,20 +17,26 @@ source=(
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
-sha256sums=('d47bdc46a3960a06015cd750a780fc8475d9d613f85e1759c5fcaf97a9da11bb'
-  '9269776a1c768234c78dc2791bc576c55984aef2986e9d16255d23cc47c1b20f'
-  'c369119e4923f6927aa6ee09506d1ff00799f77e36f10715165f6858c657884a'
-  '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
-  'c69a28ab7f773338244fa48a8533f7a4ec2689ffbd3cbb36af3af839e1909873'
-  '2c287b3a2905e389a2872db9204afdd033781c3a22b0f78a4315b39b312c5d5f'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+sha256sums=(
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP")
+
 
 depends=(
   "systemd"
 )
 
 conflicts=(
-  'prometheus-openldap-exporter'
+  'openldap-exporter'
+)
+
+makedepends=(
+  "git"
 )
 
 backup=(
@@ -39,10 +45,17 @@ backup=(
   "etc/zextras/service-discover/${pkgname}.hcl"
 )
 
+build(){
+  cd "${srcdir}/openldap_exporter-${pkgver}/"
+    make build-linux
+}
+
 package() {
-  cd "${srcdir}"
-  gunzip -f openldap_exporter-linux-amd64.gz
-  install -Dm 755 openldap_exporter-linux-amd64 "${pkgdir}/usr/bin/${pkgname}"
+
+  cd "${srcdir}/"
+
+  install -Dm 755 "./openldap_exporter-${pkgver}/target/openldap_exporter-linux" \
+    "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/set-${pkgname}.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
