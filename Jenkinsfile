@@ -1,4 +1,4 @@
-// pipeline {
+pipeline {
     parameters {
         booleanParam defaultValue: true,
         description: 'Whether to upload the packages in playground repositories',
