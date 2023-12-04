@@ -12,9 +12,7 @@ source=(
   "https://github.com/pgpool/pgpool2_exporter/releases/download/v${pkgver}/pgpool2_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
-  # "${pkgname}.yml"
   "${pkgname}-consul.hcl"
-  # "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
 sha256sums=(
@@ -23,8 +21,6 @@ sha256sums=(
   "SKIP"
   "SKIP"
   "SKIP"
-  # "SKIP"
-  # "SKIP"
 )
 
 depends=(
@@ -45,15 +41,10 @@ package() {
   install -Dm 755 "pgpool2_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  # install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
-  #   "${pkgdir}/usr/bin/set-${pkgname}.sh"
-
   install -Dm 644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  # install -Dm 644 "${srcdir}/${pkgname}.yml" \
-  #   "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
@@ -68,8 +59,6 @@ postinst() {
 
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
-
-  #/usr/bin/set-carbonio-prometheus-postgres-exporter.sh
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
