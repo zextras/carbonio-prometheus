@@ -1,1 +1,1 @@
-DATA_SOURCE_NAME="postgresql://carbonio-prometheus:carbonio-prometheus@:5432/postgres?sslmode=disable"
+DATA_SOURCE_NAME="postgresql://carbonio-prometheus:mb63Q0sV@localhost:5432/postgres?sslmode=disable"

@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-postgres-exporter"
 pkgver="0.14.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"

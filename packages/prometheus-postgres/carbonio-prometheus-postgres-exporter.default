@@ -1,2 +1,2 @@
 #change port according to your postgresql configuration (5432 or 5433)
-DATA_SOURCE_NAME="postgresql://carbonio-prometheus:carbonio-prometheus@:5432/postgres?host=/var/run/postgresql"
+DATA_SOURCE_NAME="postgresql://carbonio_prometheus:mb63Q0sV@:5432/postgres?host=/var/run/postgresql"
