@@ -1,1 +1,2 @@
-DATA_SOURCE_NAME="postgresql://carbonio-prometheus:promexp@localhost:5432/postgres?sslmode=disable"
+#DATA_SOURCE_NAME="postgresql://carbonio-prometheus:promexp@localhost:5432/postgres?sslmode=disable"
+DATA_SOURCE_NAME="postgresql://carbonio-prometheus@:5432/postgres?host=/var/run/postgresql"
