@@ -59,6 +59,21 @@ scrape_configs:
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
 
+  - job_name: "pgpool"
+    consul_sd_configs:
+      - server: "localhost:8500"
+      - token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-pgpool-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+
   - job_name: "node"
     consul_sd_configs:
       - server: "localhost:8500"
@@ -126,6 +141,21 @@ scrape_configs:
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-consul-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+
+  - job_name: "clamav"
+    consul_sd_configs:
+      - server: "localhost:8500"
+      - token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-clamav-exporter"
         tags:
           - "prometheus-exporter"
     relabel_configs:
