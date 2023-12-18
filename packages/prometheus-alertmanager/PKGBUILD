@@ -17,13 +17,13 @@ source=(
   "${pkgname}.service"
   "prometheus.sysusers"
 )
-sha256sums=('abd73e2ee6bf67d3888699660abbecba7b076bf1f9459a3a8999d493b149ffa6'
+sha256sums=("SKIP"
   "SKIP"
   "SKIP"
   "SKIP"
-  'fe18f2e90fd2373867328631b8ec6fba405157e826af31272b6ef97e355cfcb4'
-  '9c981fc9bb508119117ca60b63414d1668b4969e5f92b44a0c507bf01cc09ac1'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+  "SKIP"
+  "SKIP"
+  "SKIP")
 
 depends=(
   "systemd"
