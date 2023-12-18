@@ -1,0 +1,14 @@
+groups:
+- name: clamav
+  interval: 1m
+  rules:
+  - record: clamav:databaseage
+    expr: (clamav_database_age / (60 * 60 * 24))
+  - alert: OldClamAVDatabase
+    expr: clamav:databaseage > 1
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Old ClamAV database (instance {{ $labels.instance }})
+      description: "ClamAV database wasn't updated on {{ $labels.instance }} more than 24 hours"

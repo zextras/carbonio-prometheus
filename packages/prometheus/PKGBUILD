@@ -10,6 +10,12 @@ arch=('x86_64')
 license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
+  "rules/clamav.yaml"
+  "rules/consul.yaml"
+  "rules/mta_queues.yaml"
+  "rules/mysql.yaml"
+  "rules/nginx.yaml"
+  "rules/postgres.yaml"
   "prometheus.default"
   "prometheus.service"
   "prometheus.sysusers"
@@ -18,6 +24,12 @@ source=(
   "policies.json"
 )
 sha256sums=('40d6db7305b11e645bb43d7f3f4025c6394743c0b9e4f3029db2db80198e37d4'
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
+  "SKIP"
   'cc41da9ca3507e01ca0ab953cdd009c84e19d1788835115ec6e2779678543a72'
   'b986e65191da8334d70b9f7545784bacae2425f90db29e124bb7e5f953f96acc'
   'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224'
@@ -50,7 +62,8 @@ package() {
   install -Dm 640 -g210 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
-
+  install -Dm 640 -g210 "${srcdir}/rules/*" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules/"
   install -Dm 755 "${srcdir}/carbonio-prometheus.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
   install -Dm 644 "${srcdir}/prometheus.service" \

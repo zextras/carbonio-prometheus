@@ -1,0 +1,124 @@
+groups:
+- name: node_exporter
+  interval: 1m
+  rules:
+  - record: vm:vmcpu:15m
+    expr: 100 - (avg by (instance) (irate(node_cpu_seconds_total{job="node",mode="idle"}[15m])) * 100)
+  - alert: HighCPUUsage15m
+    expr: vm:vmcpu:15m > 90
+    for: 20m
+    labels:
+      severity: warning
+    annotations:
+      summary: 'High CPU usage of {{ $labels.instance }}'
+  - record: vm:vmcpuio:5m
+    expr: avg by (instance) (rate(node_cpu_seconds_total{job="node",mode="iowait"}[5m])) * 100
+  - alert: HostCpuHighIowait
+    expr:  vm:vmcpuio:5m > 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Host CPU high iowait (instance {{ $labels.instance }})
+      description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+  - record: vm:vmram:15m
+    expr: 100 - ((avg_over_time(node_memory_MemAvailable_bytes{job="node"}[15m]) * 100) / avg_over_time(node_memory_MemTotal_bytes{job="node"}[15m]))
+  - alert: HighRAMUsage80_15m
+    expr: vm:vmram:15m > 80
+    for: 5m
+    labels:
+      severity: warning
+      purpose: node-health
+    annotations:
+      summary: 'Host out of memory (instance {{ $labels.instance }})'
+      description: "Node memory is filling up (> 80%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  - alert: HighRAMUsage90_15m
+    expr: vm:vmram:15m > 90
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: 'Host out of memory (instance {{ $labels.instance }})'
+      description: "Node memory is filling up (> 90%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  - record: vm:vmswap:2m
+    expr: (1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)) * 100
+  - alert: HostSwapIsFillingUp
+    expr:  vm:vmswap:2m > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Host swap is filling up (instance {{ $labels.instance }})
+      description: "Swap is filling up (>80%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+  - record: vm:vmdisk:0m
+    expr:  (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes
+  - alert: LowFreeDiskSpace
+    expr: vm:vmdisk:0m < 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Host out of disk space (instance {{ $labels.instance }})"
+      description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  - record: vm:vmdiskio:5m
+    expr: rate(node_disk_io_time_seconds_total[1m])
+  - alert: HostUnusualDiskIo
+    expr: vm:vmdiskio:5m > 0.5
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Host unusual disk IO (instance {{ $labels.instance }})
+      description: "Time spent in IO is too high on {{ $labels.instance }}. Check storage for issues.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+  # - alert: NodeDown
+  #   expr: up{job="node"} == 0
+  #   for: 20m
+  #   labels:
+  #     severity: critical
+  #   annotations:
+  #     summary: 'Node down (instance {{ $labels.instance }})'
+  #     description: "A node has disappeared. An exporter might be crashed.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+  - record: vm:vmnet:5m
+    expr: sum by (instance) (rate(node_network_receive_bytes_total[2m])) / 1024 / 1024
+  - alert: HostUnusualNetworkThroughputIn
+    expr: vm:vmnet:in5m > 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Host unusual network throughput in (instance {{ $labels.instance }})
+      description: "Host network interfaces are probably receiving too much data (> 10 MB/s)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  - record: vm:vnet:out5m
+    expr: sum by (instance) (rate(node_network_transmit_bytes_total[2m])) / 1024 / 1024
+  - alert: HostUnusualNetworkThroughputOut
+    expr:  vm:vnet:out5m > 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Host unusual network throughput out (instance {{ $labels.instance }})
+      description: "Host network interfaces are probably sending too much data (> 10 MB/s)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+  - alert: HostClockSkew
+    expr: (node_timex_offset_seconds > 0.05 and deriv(node_timex_offset_seconds[5m]) >= 0) or (node_timex_offset_seconds < -0.05 and deriv(node_timex_offset_seconds[5m]) <= 0)
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Host clock skew (instance {{ $labels.instance }})
+      description: "Clock skew detected. Clock is out of sync. Ensure NTP is configured correctly on this host.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+  - alert: PrometheusTargetMissing
+    expr: up == 0
+    for: 20m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Service node_exporter on {{ $labels.instance }} is not available"
+      description: " Service node_exporter may have crashed or the server may be unavailable.\n VALUE = {{ $value }}\n LABELS = {{ $labels }}"

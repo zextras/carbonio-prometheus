@@ -11,16 +11,16 @@ license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/alertmanager/releases/download/v${pkgver}/alertmanager-${pkgver}.linux-amd64.tar.gz"
   "alertmanager.yml"
-  "email.tmpl"
-  "alert_rules.yml"
+  "templates/email.tmpl"
+  "templates/telegram.tmpl"
   "${pkgname}.default"
   "${pkgname}.service"
   "prometheus.sysusers"
 )
 sha256sums=('abd73e2ee6bf67d3888699660abbecba7b076bf1f9459a3a8999d493b149ffa6'
-  '647bc95ad3012f4ea83ccfacf0a990e860c10c01f00a191332d00e5575c6d9c7'
-  'ae12a6e0514c4087060e4d5246eedbd7bd7d44c3326b480355b45e6aa823ed6b'
-  'c4b12f3c8e74afd6a5509cbaf2398be4c49c21bb38c4ab96c5ee5f06d7a63fac'
+  "SKIP"
+  "SKIP"
+  "SKIP"
   'fe18f2e90fd2373867328631b8ec6fba405157e826af31272b6ef97e355cfcb4'
   '9c981fc9bb508119117ca60b63414d1668b4969e5f92b44a0c507bf01cc09ac1'
   'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
@@ -35,8 +35,8 @@ conflicts=(
 
 backup=(
   "etc/carbonio/${pkgname}/alertmanager.yml"
-  "etc/carbonio/${pkgname}/email.tmpl"
-  "etc/carbonio/${pkgname}/alert_rules.yml"
+  "etc/carbonio/${pkgname}/templates/email.tmpl"
+  "etc/carbonio/${pkgname}/templates/telegram.tmpl"
 )
 
 package() {
@@ -52,10 +52,10 @@ package() {
 
   install -Dm 644 -g210 "${srcdir}/alertmanager.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
-  install -Dm 644 -g210 "${srcdir}/email.tmpl" \
-    "${pkgdir}/etc/carbonio/${pkgname}/email.tmpl"
-  install -Dm 644 -g210 "${srcdir}/alert_rules.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/alert_rules.yml"
+  install -Dm 644 -g210 "${srcdir}/templates/*" \
+    "${pkgdir}/etc/carbonio/${pkgname}/templates/"
+  # install -Dm 644 -g210 "${srcdir}/alert_rules.yml" \
+  #   "${pkgdir}/etc/carbonio/${pkgname}/alert_rules.yml"
 
   install -Dm 644 "${srcdir}"/${pkgname}.service \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
