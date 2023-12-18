@@ -23,7 +23,7 @@ source=(
   "carbonio-prometheus.sh"
   "policies.json"
 )
-sha256sums=('40d6db7305b11e645bb43d7f3f4025c6394743c0b9e4f3029db2db80198e37d4'
+sha256sums=("SKIP"
   "SKIP"
   "SKIP"
   "SKIP"
