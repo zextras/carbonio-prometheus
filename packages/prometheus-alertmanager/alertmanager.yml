@@ -4,12 +4,8 @@ route:
   group_interval: 5m
   repeat_interval: 3h
   routes:
-    - match:
-        severity: warning
-      receiver: telegram
-      continue: true
-    - match:
-        severity: critical
+    - matchers:
+      - severity=~"critical|warning"
       receiver: telegram
       continue: true
     - match:
