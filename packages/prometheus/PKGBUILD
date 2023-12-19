@@ -10,12 +10,12 @@ arch=('x86_64')
 license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
-  "rules/clamav.yaml"
-  "rules/consul.yaml"
-  "rules/mta_queues.yaml"
-  "rules/mysql.yaml"
-  "rules/nginx.yaml"
-  "rules/postgres.yaml"
+  "clamav.yaml"
+  "consul.yaml"
+  "mta_queues.yaml"
+  "mysql.yaml"
+  "nginx.yaml"
+  "postgres.yaml"
   "prometheus.default"
   "prometheus.service"
   "prometheus.sysusers"
@@ -56,14 +56,30 @@ package() {
   install -Dm 755 promtool "${pkgdir}/usr/bin/promtool"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
+  install -dm 750 -o210 -g210 "${pkgdir}/etc/carbonio/${pkgname}/rules"
+
 
   install -Dm 640 -g210 "${srcdir}/prometheus.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
   install -Dm 640 -g210 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
-  install -Dm 640 -g210 "${srcdir}/rules/*" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules/"
+
+  install -Dm 640 -g210 "${srcdir}/clamav.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  install -Dm 640 -g210 "${srcdir}/consul.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  install -Dm 640 -g210 "${srcdir}/mta_queues.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  install -Dm 640 -g210 "${srcdir}/mysql.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  install -Dm 640 -g210 "${srcdir}/nginx.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  install -Dm 640 -g210 "${srcdir}/node-exporter.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  install -Dm 640 -g210 "${srcdir}/postgres.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+
   install -Dm 755 "${srcdir}/carbonio-prometheus.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
   install -Dm 644 "${srcdir}/prometheus.service" \

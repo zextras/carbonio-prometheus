@@ -11,8 +11,8 @@ license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/alertmanager/releases/download/v${pkgver}/alertmanager-${pkgver}.linux-amd64.tar.gz"
   "alertmanager.yml"
-  "templates/email.tmpl"
-  "templates/telegram.tmpl"
+  "email.tmpl"
+  "telegram.tmpl"
   "${pkgname}.default"
   "${pkgname}.service"
   "prometheus.sysusers"
@@ -48,12 +48,16 @@ package() {
     "${pkgdir}/usr/bin/amtool"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/alertmanager/data"
-  install -dm 750 -o210 -g210 "${pkgdir}/etc/carbonio/${pkgname}/email-templates"
+  install -dm 750 -o210 -g210 "${pkgdir}/etc/carbonio/${pkgname}/templates"
 
   install -Dm 644 -g210 "${srcdir}/alertmanager.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
-  install -Dm 644 -g210 "${srcdir}/templates/*" \
+
+  install -Dm 644 -g210 "${srcdir}/telegram.tmpl" \
     "${pkgdir}/etc/carbonio/${pkgname}/templates/"
+  install -Dm 644 -g210 "${srcdir}/email.tmpl" \
+    "${pkgdir}/etc/carbonio/${pkgname}/templates/"
+
   # install -Dm 644 -g210 "${srcdir}/alert_rules.yml" \
   #   "${pkgdir}/etc/carbonio/${pkgname}/alert_rules.yml"
 
