@@ -34,7 +34,7 @@ groups:
     expr: increase(mysql_global_status_slow_queries[2m])
   - alert: MysqlSlowQueries
     expr: mysql:query:2m > 0
-    for: 5m
+    for: 10m
     labels:
       severity: warning
     annotations:
