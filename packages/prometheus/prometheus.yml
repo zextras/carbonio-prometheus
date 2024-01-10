@@ -4,22 +4,23 @@ global:
   evaluation_interval: 35s # Evaluate rules every 60 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
-# Alertmanager configuration, it uses two alert manager for HA
-alerting:
-  alertmanagers:
-  - static_configs:
-    - targets:
-      - localhost:9093
-      # - 192.168.157.81:9093
+# Alertmanager configuration
+# alerting:
+#   alertmanagers:
+#   - static_configs:
+#     - targets:
+#       - localhost:9093
+# it uses two alert manager for HA
+# - 192.168.157.81:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
-        - "/etc/carbonio/carbonio-prometheus/rules/node_exporter.yaml"
-        - "/etc/carbonio/carbonio-prometheus/rules/mysql.yaml"
-        - "/etc/carbonio/carbonio-prometheus/rules/postgres.yaml"
-        - "/etc/carbonio/carbonio-prometheus/rules/consul.yaml"
-        - "/etc/carbonio/carbonio-prometheus/rules/mta_queues.yaml"
-        - "/etc/carbonio/carbonio-prometheus/rules/clamav.yaml"
+# rule_files:
+#         - "/etc/carbonio/carbonio-prometheus/rules/node_exporter.yaml"
+#         - "/etc/carbonio/carbonio-prometheus/rules/mysql.yaml"
+#         - "/etc/carbonio/carbonio-prometheus/rules/postgres.yaml"
+#         - "/etc/carbonio/carbonio-prometheus/rules/consul.yaml"
+#         - "/etc/carbonio/carbonio-prometheus/rules/mta_queues.yaml"
+#         - "/etc/carbonio/carbonio-prometheus/rules/clamav.yaml"
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
