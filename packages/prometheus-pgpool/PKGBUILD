@@ -16,11 +16,11 @@ source=(
   "prometheus.sysusers"
 )
 sha256sums=(
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
+  '106d0158dc03121a5d50671184b0511334d99212b36f331d8230954d16bdb263'
+  'b9ec8d3a4a4d6439fd104974f0b0855f4dfb865774f6f84db71d0330199cac45'
+  '606bd1cabf15d4ad00bdd17eb50e95574095290dae17b71163a1806f43b16baf'
+  '17a158820d025805835cf1522dcd89b7a81c5a310beee40a91840eba8a2cce08'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224'
 )
 
 depends=(
@@ -39,17 +39,17 @@ package() {
   cd "${srcdir}/pgpool2_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 "pgpool2_exporter" \
-    "${pkgdir}/usr/bin/${pkgname}"
+  "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+  "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {

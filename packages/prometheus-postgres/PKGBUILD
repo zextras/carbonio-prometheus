@@ -17,13 +17,13 @@ source=(
   "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
-sha256sums=(  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP")
+sha256sums=('389f8c8d9a57132b9744b2108bee168085da729b574de5996e42cda15110c672'
+  '8a1ffeac673b608063f33faa2b3c9c7ff977b85f28878a5e78b494e7268d9c62'
+  '4f933f42565ad4234e43ace2a7cfee2ee3e38ed7c7310d5b9c062a84c4a66813'
+  '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+  '1a9fc1884e06a06e73049089c64a69fa4b9b8ab65366c32b117e76d02ca86517'
+  '2635cc7d15ba5dff8f7c277cf22959869e47a41e5d5073e3b85d08cb7657d11b'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -41,22 +41,22 @@ package() {
   cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 "postgres_exporter" \
-    "${pkgdir}/usr/bin/${pkgname}"
+  "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/usr/bin/set-${pkgname}.sh"
+  "${pkgdir}/usr/bin/set-${pkgname}.sh"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+  "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+  "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {

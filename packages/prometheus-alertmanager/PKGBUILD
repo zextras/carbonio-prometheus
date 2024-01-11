@@ -17,13 +17,13 @@ source=(
   "${pkgname}.service"
   "prometheus.sysusers"
 )
-sha256sums=("SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP")
+sha256sums=('abd73e2ee6bf67d3888699660abbecba7b076bf1f9459a3a8999d493b149ffa6'
+  '11faec80fdf5de2ef0695df36e8961e66f39e6089757e35263bda188c080134a'
+  '2b626a68501e9cc1607d20f49672a685e4b1a24c5595ef26e48269e11dbd7460'
+  'fc69e3e8419c98b2a153ca9e0014b4bca029896a2646578405ed68129c920066'
+  'fe18f2e90fd2373867328631b8ec6fba405157e826af31272b6ef97e355cfcb4'
+  '00f6289abe16f5c3029cd0e21a13bd3a803dbb8e075100d0ff42560ceec5c92c'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -43,30 +43,27 @@ package() {
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
   install -Dm 755 alertmanager \
-    "${pkgdir}/usr/bin/${pkgname}"
+  "${pkgdir}/usr/bin/${pkgname}"
   install -Dm 755 amtool \
-    "${pkgdir}/usr/bin/amtool"
+  "${pkgdir}/usr/bin/amtool"
 
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/alertmanager/data"
-  install -dm 750 -o210 -g210 "${pkgdir}/etc/carbonio/${pkgname}/templates"
+  install -dm 750 -o210 "${pkgdir}/etc/carbonio/${pkgname}/templates"
 
   install -Dm 644 -g210 "${srcdir}/alertmanager.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
+  "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
 
-  install -Dm 644 -g210 "${srcdir}/telegram.tmpl" \
-    "${pkgdir}/etc/carbonio/${pkgname}/templates/"
-  install -Dm 644 -g210 "${srcdir}/email.tmpl" \
-    "${pkgdir}/etc/carbonio/${pkgname}/templates/"
-
-  # install -Dm 644 -g210 "${srcdir}/alert_rules.yml" \
-  #   "${pkgdir}/etc/carbonio/${pkgname}/alert_rules.yml"
+  install -Dm 644 "${srcdir}/telegram.tmpl" \
+  "${pkgdir}/etc/carbonio/${pkgname}/templates/"
+  install -Dm 644 "${srcdir}/email.tmpl" \
+  "${pkgdir}/etc/carbonio/${pkgname}/templates/"
 
   install -Dm 644 "${srcdir}"/${pkgname}.service \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}"/${pkgname}.default \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${srcdir}"/prometheus.sysusers \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
 }
 
 postinst() {

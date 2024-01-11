@@ -16,11 +16,11 @@ source=(
   "prometheus.sysusers"
 )
 sha256sums=(
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP")
+  '2b8b693ce006406db200c7bd9987453b7055e4e98511fd7b36d492fc68bfc0f4'
+  'cf527b2582f6347c5e6591458d43e3506914d0a46cd527bdc2117c13699c3bd4'
+  'ca7a63fe141c170d67e3c8f8af33d21775a395379671d171b91b183c9374f8e4'
+  '05f5256d05feca550fddddc4c66744b3d1dba3568d05f9e5bfcab64b4aa1a351'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
 
 depends=(
   "systemd"
@@ -36,16 +36,16 @@ backup=(
 
 package() {
   install -Dm 755 "${srcdir}/nginx-prometheus-exporter" \
-    "${pkgdir}/usr/bin/${pkgname}"
+  "${pkgdir}/usr/bin/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
-    "${pkgdir}//etc/zextras/service-discover/${pkgname}.hcl"
+  "${pkgdir}//etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {

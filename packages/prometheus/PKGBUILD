@@ -15,6 +15,7 @@ source=(
   "mta_queues.yaml"
   "mysql.yaml"
   "nginx.yaml"
+  "node-exporter.yaml"
   "postgres.yaml"
   "prometheus.default"
   "prometheus.service"
@@ -23,19 +24,20 @@ source=(
   "carbonio-prometheus.sh"
   "policies.json"
 )
-sha256sums=("SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP")
+sha256sums=('5d58b52ccfeff25700bc8d14ecc1235cbf112a05041e3b2f6900d16b44856f6f'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  '18b304533fca47be375606eda4d275f08af81ed0ea798691078bd0ebb2c1672d'
+  'b986e65191da8334d70b9f7545784bacae2425f90db29e124bb7e5f953f96acc'
+  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224'
+  '4116bb75f0b38566afb042e74e1154296650054fbeb4097c7e375e5f1031f4e1'
+  'cdb7b2b2f5ac90c4f3958e584a4c5899c250db1b4775e34f1a242e5713443192'
+  '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25')
 
 depends=(
   "systemd"
@@ -58,36 +60,36 @@ package() {
   install -dm 750 -o210 -g210 "${pkgdir}/var/lib/prometheus"
   install -dm 750 -o210 -g210 "${pkgdir}/etc/carbonio/${pkgname}/rules"
 
-
   install -Dm 640 -g210 "${srcdir}/prometheus.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
+  "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
   install -Dm 640 -g210 "${srcdir}/policies.json" \
-    "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
+  "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 
+  # Prometheus rules:
   install -Dm 640 -g210 "${srcdir}/clamav.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 -g210 "${srcdir}/consul.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 -g210 "${srcdir}/mta_queues.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 -g210 "${srcdir}/mysql.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 -g210 "${srcdir}/nginx.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 -g210 "${srcdir}/node-exporter.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 -g210 "${srcdir}/postgres.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  "${pkgdir}/etc/carbonio/${pkgname}/rules"
 
   install -Dm 755 "${srcdir}/carbonio-prometheus.sh" \
-    "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
+  "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
   install -Dm 644 "${srcdir}/prometheus.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/prometheus.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
 }
 
 postinst() {

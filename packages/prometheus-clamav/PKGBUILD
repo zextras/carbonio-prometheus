@@ -10,11 +10,11 @@ arch=('x86_64')
 url="https://zextras.com"
 license=("Apache-2.0")
 source=(
-        "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/heads/master.zip"
-        "${pkgname}.service"
-        "${pkgname}-consul.hcl"
-        "prometheus.sysusers"
-        "${pkgname}.default"
+  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/heads/master.zip"
+  "${pkgname}.service"
+  "${pkgname}-consul.hcl"
+  "prometheus.sysusers"
+  "${pkgname}.default"
 )
 
 depends=(
@@ -30,42 +30,41 @@ makedepends=(
 )
 
 sha256sums=(
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
+  '559523dca9195f9f35cb1c594f6d7bb4ef200802195e257ba679c2b874f84919'
+  'b216d999496fa154fad581c53ffe4cad506d6f54eca773b6cc80620e081bb59d'
+  'b69ec9fbab716033e745db96994b824c8d2235752e0f6f19d72c70aa8d701b89'
+  '37f3dff717e180c1aa2ae4ec0c6939ddf88266663538e000355f29530e5b1003'
+  '59133403b617daacfac990626f1e59912fec8bf590553dd720570e81972a0d2d'
 )
 
- build(){
+build() {
   cd "${srcdir}/clamav-prometheus-exporter-master/"
 
-    export CGO_CPPFLAGS="${CPPFLAGS}"
-    export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CXXFLAGS="${CXXFLAGS}"
-    export CGO_LDFLAGS="${LDFLAGS}"
-    export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
+  # comments will be removed after testing
+  # export CGO_CPPFLAGS="${CPPFLAGS}"
+  # export CGO_CFLAGS="${CFLAGS}"
+  # export CGO_CXXFLAGS="${CXXFLAGS}"
+  # export CGO_LDFLAGS="${LDFLAGS}"
+  # export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
 
-    go build -o "${srcdir}/clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter"
- }
+  go build -o "${srcdir}/clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter"
+}
 
 package() {
   cd "${srcdir}/"
 
   install -Dm 755 "./clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter" \
-    "${pkgdir}/usr/bin/${pkgname}"
+  "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
 
-#  install -Dm 644 -g210 "${srcdir}/${pkgname}.yml" \
-#    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
   install -Dm 644 "prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}-consul.hcl" \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+  "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
 }
 
