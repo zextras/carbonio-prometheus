@@ -10,13 +10,6 @@ arch=('x86_64')
 license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
-  # "clamav.yaml"
-  # "consul.yaml"
-  # "mta_queues.yaml"
-  # "mysql.yaml"
-  # "nginx.yaml"
-  # "node-exporter.yaml"
-  # "postgres.yaml"
   "prometheus.default"
   "prometheus.service"
   "prometheus.sysusers"
@@ -26,13 +19,6 @@ source=(
 )
 sha256sums=(
   '5d58b52ccfeff25700bc8d14ecc1235cbf112a05041e3b2f6900d16b44856f6f'
-  # 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-  # 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-  # 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-  # 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-  # 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-  # 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-  # 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   '18b304533fca47be375606eda4d275f08af81ed0ea798691078bd0ebb2c1672d'
   'b986e65191da8334d70b9f7545784bacae2425f90db29e124bb7e5f953f96acc'
   'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224'
