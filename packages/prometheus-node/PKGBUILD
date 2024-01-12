@@ -15,7 +15,8 @@ source=(
   "${pkgname}.service"
   "prometheus.sysusers"
 )
-sha256sums=('ecc41b3b4d53f7b9c16a370419a25a133e48c09dfc49499d63bcc0c5e0cf3d01'
+sha256sums=(
+  'ecc41b3b4d53f7b9c16a370419a25a133e48c09dfc49499d63bcc0c5e0cf3d01'
   '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
   'dad0dc366ca725978de9ff45522ac51e1b414dbcbd4f3be9ac891d2e19ca8671'
   '20672ccb0e218f17d29a6ac3ac7a6af2dccbba002d9a66cbf8c49da239c3df4d'
