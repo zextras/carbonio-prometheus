@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-mysqld-exporter"
-pkgver="0.15.0"
+pkgver="0.15.1"
 pkgrel="1"
 pkgdesc="Mysqld exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -17,7 +17,8 @@ source=(
   "prometheus.sysusers"
 )
 
-sha256sums=('3973db1c46b0323a957a43916b759ee71ddab9096958ce78401fdff894b0dc51'
+sha256sums=(
+  '85ea5bc68e1b9f466c1df10ff016652dd210371d42245e012b876265e89ae29d'
   'd6c82a6c806a25a87d4bda6aa6a08af0af7a2528f4773dc6ee78e98f6d7b587e'
   'e2ab2353c1149f357f849781fc28b49d30726aef1c447ae4b43051160d2817a9'
   '29d76d86b207927994a773c82e9e93df4d69ddb54c9ed5142966b7a0d43da772'
