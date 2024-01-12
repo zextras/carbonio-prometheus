@@ -45,9 +45,10 @@ build() {
   # export CGO_CFLAGS="${CFLAGS}"
   # export CGO_CXXFLAGS="${CXXFLAGS}"
   # export CGO_LDFLAGS="${LDFLAGS}"
-  # export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
+   export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
 
-  go build -o "${srcdir}/clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter"
+#  go build -o "${srcdir}/clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter"
+go build
 }
 
 package() {
