@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-mysqld-exporter"
-pkgver="0.15.0"
+pkgver="0.15.1"
 pkgrel="1"
 pkgdesc="Mysqld exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
