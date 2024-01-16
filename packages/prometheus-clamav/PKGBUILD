@@ -49,6 +49,7 @@ build() {
 }
 
 package() {
+  cd "${srcdir}/"
 
   install -Dm 755 "./clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter" \
   "${pkgdir}/usr/bin/${pkgname}"
