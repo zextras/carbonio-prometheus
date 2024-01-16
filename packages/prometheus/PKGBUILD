@@ -58,7 +58,7 @@ package() {
   cd "${srcdir}"
 
   install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
   install -Dm 755 "carbonio-prometheus.sh" \
   "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
   install -Dm 644 "prometheus.service" \
