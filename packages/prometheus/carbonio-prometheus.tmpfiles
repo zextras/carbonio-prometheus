@@ -1,0 +1,2 @@
+d /etc/carbonio/carbonio-prometheus - carbonio-prometheus carbonio-prometheus -
+d /var/lib/prometheus - carbonio-prometheus carbonio-prometheus -
