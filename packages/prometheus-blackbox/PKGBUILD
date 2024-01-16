@@ -15,6 +15,7 @@ source=(
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
+  "${pkgname}.tmpfiles"
 )
 
 sha256sums=(
@@ -23,7 +24,8 @@ sha256sums=(
   '1e413fd4f0d51e2bfbee7d6296c7fc4c04d1d02882299d305c46bd9c26bcaacf'
   '3d7990bdb5597dac26f80a52a3fbd6c7165dcb039ce68db2065dca4f8d75c36b'
   'b9f3a7999044b4017d33a65ff1beae2f74d7d3dbbce509cdd50879f7c81137aa'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  '0713741540a4e95cbcd5e603271024c25c4ff2a6bc9ebee34809f3a7bad15ef2')
 
 depends=(
   "systemd"
@@ -38,6 +40,9 @@ backup=(
 )
 
 package() {
+  install -Dm 644 "${srcdir}/${pkgname}.tmpfiles" \
+  "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64/"
 
   install -Dm 755 blackbox_exporter \
@@ -47,7 +52,7 @@ package() {
   "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
   "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 -g210 "${srcdir}/${pkgname}.yml" \
+  install -Dm 644 "${srcdir}/${pkgname}.yml" \
   "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \

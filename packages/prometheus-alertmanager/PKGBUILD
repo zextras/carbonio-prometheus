@@ -16,6 +16,7 @@ source=(
   "${pkgname}.default"
   "${pkgname}.service"
   "prometheus.sysusers"
+  "${pkgname}.tmpfiles"
 )
 sha256sums=(
   'abd73e2ee6bf67d3888699660abbecba7b076bf1f9459a3a8999d493b149ffa6'
@@ -24,7 +25,8 @@ sha256sums=(
   '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
   'fe18f2e90fd2373867328631b8ec6fba405157e826af31272b6ef97e355cfcb4'
   '588d7e361c9cd31458760ad1f7a5fe7cc08d8be276774854f7c7f68873c9101a'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  'c4336b5509ec8f88678701d994493b3641a23e0474d35d3d244561496cb326cc')
 
 depends=(
   "systemd"
@@ -41,6 +43,17 @@ backup=(
 )
 
 package() {
+  cd "${srcdir}"
+
+  install -Dm644 "${pkgname}.tmpfiles" \
+  "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+  install -Dm 644 "${pkgname}.service" \
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${pkgname}.default" \
+  "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "prometheus.sysusers" \
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
   install -Dm 755 alertmanager \
@@ -48,10 +61,10 @@ package() {
   install -Dm 755 amtool \
   "${pkgdir}/usr/bin/amtool"
 
-  install -dm 750 -o210 -g210 "${pkgdir}/var/lib/alertmanager/data"
-  install -dm 750 -o210 "${pkgdir}/etc/carbonio/${pkgname}/templates"
+  install -dm 750 "${pkgdir}/var/lib/alertmanager/data"
+  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/templates"
 
-  install -Dm 644 -g210 "${srcdir}/alertmanager.yml" \
+  install -Dm 644 "${srcdir}/alertmanager.yml" \
   "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
 
   install -Dm 644 "${srcdir}/telegram.tmpl" \
@@ -59,12 +72,6 @@ package() {
   install -Dm 644 "${srcdir}/email.tmpl" \
   "${pkgdir}/etc/carbonio/${pkgname}/templates/"
 
-  install -Dm 644 "${srcdir}"/${pkgname}.service \
-  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}"/${pkgname}.default \
-  "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}"/prometheus.sysusers \
-  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
 }
 
 postinst() {

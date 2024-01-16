@@ -1,2 +1,2 @@
-Z /etc/carbonio/carbonio-prometheus 0750 carbonio-prometheus carbonio-prometheus -
+Z /etc/carbonio/carbonio-prometheus-alertmanager 0750 carbonio-prometheus carbonio-prometheus -
 Z /var/lib/prometheus 0750 carbonio-prometheus carbonio-prometheus -
