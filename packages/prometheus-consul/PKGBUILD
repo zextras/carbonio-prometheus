@@ -20,7 +20,7 @@ sha256sums=(
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
   'fcf540494439a6a88387c198f283afa3e5718f253f499fedb9c42065f01e18cc'
   '76bd2d91f9dd666e3ec4e1d1df63ecc9d0e2f71d6f2646f3ba5e5e6bcb517cf3'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746')
 
 depends=(
   "systemd"
@@ -31,6 +31,7 @@ conflicts=(
 )
 
 package() {
+
   cd "${srcdir}/consul_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 consul_exporter \

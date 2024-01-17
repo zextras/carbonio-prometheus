@@ -20,7 +20,7 @@ sha256sums=(
   'cf527b2582f6347c5e6591458d43e3506914d0a46cd527bdc2117c13699c3bd4'
   '4ac56c918df18fff8a6f87801e4ddb25bdd6c61e982fc06f06774ae4b1364128'
   '05f5256d05feca550fddddc4c66744b3d1dba3568d05f9e5bfcab64b4aa1a351'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746')
 
 depends=(
   "systemd"
@@ -45,7 +45,7 @@ package() {
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
   "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
-  "${pkgdir}//etc/zextras/service-discover/${pkgname}.hcl"
+  "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {

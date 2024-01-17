@@ -15,6 +15,7 @@ source=(
   "${pkgname}-consul.hcl"
   "set-${pkgname}.sh"
   "prometheus.sysusers"
+  "${pkgname}.tmpfiles"
 )
 
 sha256sums=(
@@ -23,7 +24,8 @@ sha256sums=(
   'e2ab2353c1149f357f849781fc28b49d30726aef1c447ae4b43051160d2817a9'
   '29d76d86b207927994a773c82e9e93df4d69ddb54c9ed5142966b7a0d43da772'
   '1ddc0311e6391b262db7c62ac26a9f4949a6e0a082eb9d3f3bac8b9fb505a4f8'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  'd7bd4755e0d5c7a774ad616f3fa93d174ad7efbb7a7e37a045d141e05dcbdfe8')
 
 depends=(
   "systemd"
@@ -34,6 +36,11 @@ conflicts=(
 )
 
 package() {
+  cd "${srcdir}/"
+  
+  install -Dm644 "${pkgname}.tmpfiles" \
+  "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+
   cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 mysqld_exporter \
