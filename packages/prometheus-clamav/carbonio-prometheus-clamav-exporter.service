@@ -1,5 +1,5 @@
 [Unit]
-Description=Carbonio Prometheus Alertmanager Service
+Description=Prometheus exporter for clamav
 Wants=network-online.target
 After=network.target
 
@@ -7,9 +7,9 @@ After=network.target
 User=carbonio-prometheus
 Group=carbonio-prometheus
 Type=simple
-EnvironmentFile=/etc/default/carbonio-prometheus-alertmanager
-ExecStart=/usr/bin/carbonio-prometheus-alertmanager $ARGS
 Restart=always
+EnvironmentFile=/etc/default/carbonio-prometheus-clamav-exporter
+ExecStart=/usr/bin/carbonio-prometheus-clamav-exporter
 
 [Install]
 WantedBy=multi-user.target

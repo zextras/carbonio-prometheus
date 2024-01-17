@@ -1,0 +1,100 @@
+# _gitname="clamav-prometheus-exporter-master"
+pkgname="carbonio-prometheus-clamav-exporter"
+pkgdesc="Prometheus-Exporter for ClamAV"
+pkgver="0.1.0"
+maintainer="Zextras <packages@zextras.com>"
+pkgrel="1"
+section="mail"
+priority="optional"
+arch=('x86_64')
+url="https://zextras.com"
+license=("Apache-2.0")
+source=(
+  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/heads/master.zip"
+  "${pkgname}.service"
+  "${pkgname}-consul.hcl"
+  "prometheus.sysusers"
+  "${pkgname}.default"
+)
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+  'prometheus-clamav-exporter'
+)
+
+makedepends=(
+  "git"
+)
+
+sha256sums=(
+  '559523dca9195f9f35cb1c594f6d7bb4ef200802195e257ba679c2b874f84919'
+  'fff05ace4102209b6aca844b4501f623d6270acf5820120ebbe2705b438489a3'
+  '8e7f8cb8ae6687c6c1dffcc566b2ccc3d7943d658dbf7be459b56b1e130b8f99'
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a')
+
+build() {
+  cd "${srcdir}/clamav-prometheus-exporter-master/"
+
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
+
+  go build -o "carbonio-prometheus-clamav-exporter"
+}
+
+package() {
+  cd "${srcdir}/"
+
+  install -Dm 755 "./clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter" \
+    "${pkgdir}/usr/bin/${pkgname}"
+
+  install -Dm 644 "${pkgname}.service" \
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${pkgname}.default" \
+    "${pkgdir}/etc/default/${pkgname}"
+
+  install -Dm 644 "prometheus.sysusers" \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+
+}
+
+postinst() {
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-clamav-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-clamav-exporter.service >/dev/null 2>&1 || :
+  fi
+
+  echo "======================================================"
+  echo "Carbonio ClamAV Exporter installed successfully!"
+  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable carbonio-prometheus-clamav-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-clamav-exporter.service >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
+}

@@ -15,13 +15,16 @@ source=(
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
+  "${pkgname}.tmpfiles"
 )
-sha256sums=('52503649649c0be00e74e8347c504574582b95ad428ff13172d658e82b3da1b5'
+sha256sums=(
+  '52503649649c0be00e74e8347c504574582b95ad428ff13172d658e82b3da1b5'
   '6212db4a4388ab4ecb32276edafa2cad62a836bcec790f3c5cb8c722448e50c1'
   '68cfaf3e6920698edfaa35916b3a81b163ee5db2ee68e4d2863484955ca2f10f'
   '1236102292804f5eb3ab73458944275e42bc82d793752565253583b72d885bfe'
   '0220bf22aa8e447013c8da4fed41488a444f1934cb68c6d3d11bc728b71d9204'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  '3ba6e846d12c6df853ccfcc07737b028becff4a39dc53b250759372554397c88')
 
 depends=(
   "systemd"
@@ -45,6 +48,11 @@ backup=(
 )
 
 package() {
+  cd "${srcdir}/"
+
+  install -Dm644 "${pkgname}.tmpfiles" \
+    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+
   cd "${srcdir}/process-exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 process-exporter \

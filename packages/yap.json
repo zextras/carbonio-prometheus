@@ -17,6 +17,9 @@
             "name": "prometheus-consul"
         },
         {
+            "name": "prometheus-clamav"
+        },
+        {
             "name": "prometheus-nginx"
         },
         {
@@ -30,6 +33,12 @@
         },
         {
             "name": "prometheus-process"
+        },
+                {
+            "name": "prometheus-process"
+        },
+        {
+            "name": "prometheus-pgpool"
         },
         {
             "name": "prometheus-mysqld"

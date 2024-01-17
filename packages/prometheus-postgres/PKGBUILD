@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-postgres-exporter"
 pkgver="0.14.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -16,14 +16,17 @@ source=(
   "${pkgname}-consul.hcl"
   "set-${pkgname}.sh"
   "prometheus.sysusers"
+  "${pkgname}.tmpfiles"
 )
-sha256sums=('389f8c8d9a57132b9744b2108bee168085da729b574de5996e42cda15110c672'
-  'de0972412f4c54794d298f20ad454687b56e0a6e6e342b509fc68f066e449d3c'
+sha256sums=(
+  '389f8c8d9a57132b9744b2108bee168085da729b574de5996e42cda15110c672'
+  'ec2e8b45fc1aaf0e61f2a8547e194d448ca2823b4d19cb6e23591750bdacbeae'
   '4f933f42565ad4234e43ace2a7cfee2ee3e38ed7c7310d5b9c062a84c4a66813'
   '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
   '1a9fc1884e06a06e73049089c64a69fa4b9b8ab65366c32b117e76d02ca86517'
-  '1aa9ef0bb7ff754cf3a081a03bc0df35e5183bc2097f66f7f051fc39f023c0c5'
-  'b15c53ad5dd81f03e3af90e8a78a1a0e84e68af4de2beb18a9851bb4e8754224')
+  '7f9e5658369bb5524fef1129e52d02af6fb05a627ac59aa032d9ede3b42efd78'
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  '94aabe32a027064141efcab5c7977a72feaf579486221e666cfb7fe2c2c537f2')
 
 depends=(
   "systemd"
@@ -38,6 +41,11 @@ backup=(
 )
 
 package() {
+  cd "${srcdir}/"
+
+  install -Dm644 "${pkgname}.tmpfiles" \
+    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+
   cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 "postgres_exporter" \

@@ -1,7 +1,7 @@
-pkgname="carbonio-prometheus-postgres-exporter"
-pkgver="0.14.0"
+pkgname="carbonio-prometheus-pgpool-exporter"
+pkgver="1.2.1"
 pkgrel="1"
-pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
+pkgdesc="Pgpool exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
@@ -9,22 +9,18 @@ priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
 source=(
-  "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
+  "https://github.com/pgpool/pgpool2_exporter/releases/download/v${pkgver}/pgpool2_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
-  "${pkgname}.yml"
   "${pkgname}-consul.hcl"
-  "set-${pkgname}.sh"
   "prometheus.sysusers"
 )
 sha256sums=(
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
+  '106d0158dc03121a5d50671184b0511334d99212b36f331d8230954d16bdb263'
+  'b9ec8d3a4a4d6439fd104974f0b0855f4dfb865774f6f84db71d0330199cac45'
+  '606bd1cabf15d4ad00bdd17eb50e95574095290dae17b71163a1806f43b16baf'
+  '80e925644995a98c060c6c0e5d320990740d995b9f7b10d5b981605cdc0ce2be'
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
 )
 
 depends=(
@@ -32,7 +28,7 @@ depends=(
 )
 
 conflicts=(
-  'prometheus-postgres-exporter'
+  'prometheus-pgpool2-exporter'
 )
 
 backup=(
@@ -40,20 +36,15 @@ backup=(
 )
 
 package() {
-  cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
+  cd "${srcdir}/pgpool2_exporter-${pkgver}.linux-amd64"
 
-  install -Dm 755 "postgres_exporter" \
+  install -Dm 755 "pgpool2_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
-
-  install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/usr/bin/set-${pkgname}.sh"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}/${pkgname}.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
@@ -69,24 +60,22 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /usr/bin/set-carbonio-prometheus-postgres-exporter.sh
-
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
-  echo "Carbonio Postgres Exporter installed successfully!"
+  echo "Carbonio Pgpool2 Exporter installed successfully!"
   echo "You must reload service discover or add this host to prometheus.yml"
   echo "======================================================"
 }
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disablecarbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-postgres-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
