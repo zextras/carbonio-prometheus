@@ -51,6 +51,8 @@ sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheu
 
 echo "Restarting Carbonio Prometheus Service"
 systemctl restart carbonio-prometheus
+echo "Restarting Carbonio Prometheus Sidecar"
+systemctl restart carbonio-ws-collaboration-sidecar.service
 
 echo "Reloading Service Discover"
 consul reload

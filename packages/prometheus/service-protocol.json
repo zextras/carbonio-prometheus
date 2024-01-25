@@ -1,0 +1,6 @@
+{
+  "Kind": "service-defaults",
+  "Name": "carbonio-prometheus",
+  "Protocol": "http",
+  "Websocket": true
+}
