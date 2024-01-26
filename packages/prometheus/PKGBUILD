@@ -78,7 +78,7 @@ package() {
   install -Dm 644 "prometheus.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
+  cd "${srcdir}/prometheus-2.49.1.linux-amd64"
   install -Dm 755 prometheus "${pkgdir}/usr/bin/prometheus"
   install -Dm 755 promtool "${pkgdir}/usr/bin/promtool"
   install -dm 750 "${pkgdir}/var/lib/prometheus"
