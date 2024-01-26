@@ -85,6 +85,8 @@ package() {
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 "${srcdir}/prometheus.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
+  install -Dm 644 "${srcdir}/prometheus.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
   install -Dm 644 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
   install -Dm 644 "${srcdir}/policies.json" \
