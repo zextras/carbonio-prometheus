@@ -1,5 +1,5 @@
 [Unit]
-Description=Carbonio Workstream Collaboration sidecar proxy
+Description=Carbonio Prometheus sidecar proxy
 Documentation=https://docs.zextras.com/zextras-suite-documentation/latest/
 Requires=network-online.target
 After=network-online.target
@@ -7,12 +7,12 @@ After=network-online.target
 [Service]
 Type=simple
 ExecStart=/usr/bin/consul connect envoy \
-    -token-file /etc/carbonio/ws-collaboration/service-discover/token \
+    -token-file /etc/carbonio/carbonio-prometheus/service-discover/token \
     -admin-bind localhost:0 \
-    -sidecar-for carbonio-ws-collaboration
+    -sidecar-for carbonio-prometheus
 Restart=on-failure
 RestartSec=15
-User=carbonio-ws-collaboration
+User=carbonio-prometheus
 KillMode=process
 KillSignal=SIGKILL
 LimitNOFILE=65536
