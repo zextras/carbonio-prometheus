@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus"
-pkgver="2.49.0"
+pkgver="3.0.0"
 pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -9,7 +9,7 @@ priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
 source=(
-  "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
+  "https://github.com/prometheus/prometheus/releases/download/v2.49.1/prometheus-2.49.1.linux-amd64.tar.gz"
   "clamav.yaml"
   "consul.yaml"
   "mta_queues.yaml"
@@ -30,7 +30,7 @@ source=(
   "service-protocol.json"
 )
 sha256sums=(
-  '5d58b52ccfeff25700bc8d14ecc1235cbf112a05041e3b2f6900d16b44856f6f'
+  '93460f66d17ee70df899e91db350d9705c20b1576800f96acbd78fa004e7dc07'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
