@@ -2,7 +2,7 @@ services {
   checks = [
     {
       id       = "live",
-      http     = "http://127.0.0.1:9090/healthy",
+      http     = "http://127.0.0.1:9090/-/healthy",
       method   = "GET",
       timeout  = "1s"
       interval = "5s"
@@ -11,7 +11,7 @@ services {
     },
     {
       id       = "ready",
-      http     = "http://127.0.0.1:9090/ready",
+      http     = "http://127.0.0.1:9090/-/ready",
       method   = "GET",
       timeout  = "1s"
       interval = "5s"
