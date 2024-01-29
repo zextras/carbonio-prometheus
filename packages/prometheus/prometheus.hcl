@@ -1,24 +1,11 @@
 services {
-  checks = [
-    {
-      id       = "live",
-      http     = "http://127.0.0.1:9090/-/healthy",
-      method   = "GET",
-      timeout  = "1s"
-      interval = "5s"
-      status   = "passing"
-      failures_before_critical = 1
-    },
-    {
+  check{
       id       = "ready",
       http     = "http://127.0.0.1:9090/-/ready",
       method   = "GET",
       timeout  = "1s"
       interval = "5s"
-      status   = "passing"
-      failures_before_critical = 1
     }
-  ],
   connect {
     sidecar_service {
       proxy {
