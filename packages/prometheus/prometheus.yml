@@ -183,7 +183,21 @@ scrape_configs:
           [__meta_consul_address, __meta_consul_service_metadata_prom_port]
         separator: ":"
         target_label: __address__
-
+  - job_name: "ws-collaboration"
+    consul_sd_configs:
+      - server: "localhost:8500"
+      - token: "{{ consultoken }}"
+        services:
+          - "carbonio-ws-collaboration"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - source_labels:
+          [__meta_consul_address, __meta_consul_service_metadata_prom_port]
+        separator: ":"
+        target_label: __address__
   - job_name: "blackbox"
     metrics_path: /probe
     params:

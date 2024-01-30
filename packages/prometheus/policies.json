@@ -1,8 +1,25 @@
 {
+  "key_prefix": [
+    {
+      "carbonio-prometheus/": {
+        "policy": "write"
+      }
+    }
+  ],
   "node_prefix": [
     {
       "": {
         "policy": "read"
+      }
+    }
+  ],
+  "service": [
+    {
+      "carbonio-prometheus": {
+        "policy": "write"
+      },
+      "carbonio-prometheus-sidecar-proxy": {
+        "policy": "write"
       }
     }
   ],

@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus"
-pkgver="2.48.1"
+pkgver="3.0.0"
 pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -9,7 +9,7 @@ priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
 source=(
-  "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
+  "https://github.com/prometheus/prometheus/releases/download/v2.49.1/prometheus-2.49.1.linux-amd64.tar.gz"
   "clamav.yaml"
   "consul.yaml"
   "mta_queues.yaml"
@@ -24,9 +24,13 @@ source=(
   "carbonio-prometheus.sh"
   "policies.json"
   "${pkgname}.tmpfiles"
+  "prometheus.hcl"
+  "prometheus-sidecar.service"
+  "intentions.json"
+  "service-protocol.json"
 )
 sha256sums=(
-  '5d58b52ccfeff25700bc8d14ecc1235cbf112a05041e3b2f6900d16b44856f6f'
+  '93460f66d17ee70df899e91db350d9705c20b1576800f96acbd78fa004e7dc07'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
@@ -37,10 +41,14 @@ sha256sums=(
   'cd55da789f3d97d11a1ce47443b19ebb0fb0901c8e35179134a6777ff1745b43'
   'b986e65191da8334d70b9f7545784bacae2425f90db29e124bb7e5f953f96acc'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
-  'e9cbb061d6c3593403db2f233d3202ac7ea07754887b67c9cd620e784b5a1868'
-  'cdb7b2b2f5ac90c4f3958e584a4c5899c250db1b4775e34f1a242e5713443192'
-  '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
-  'ecd1fa22949f3addd4ff129f1ce3fd8f02301faca48b73ce90bd5bc75e147d5e')
+  'c69197586d7121da4ad0377d6f428ca84f229c7fb86400a5984403793239fe7f'
+  '28c56f39f712f9a9fd94d4fcfb79b3250c2c5eb90e6a0cc166c282b9ab783224'
+  '3923c4454717023e0a9d78723c3fb00f0371c5de7a09f6345a2fe14a6a50adee'
+  'ecd1fa22949f3addd4ff129f1ce3fd8f02301faca48b73ce90bd5bc75e147d5e'
+  '328d299d9b0840c57051f5b8b73fcc925b7481acf49e6a0f8d156adadd2f016d'
+  '22df3385912ac655ec2e95dd2cda356e1a5d7aca71ff354d9230f4ff0d9f1ee3'
+  'e6cd4ba5122fcb1b275ea09144fc5b53eff935e02e13ca202c8013ca79db8f47'
+  '88a00b2fac549bc75d052129e4e8466161dde080f816d27ce12e69e410772629')
 
 depends=(
   "systemd"
@@ -63,20 +71,29 @@ package() {
     "${pkgdir}/etc/zextras/pending-setups.d/carbonio-prometheus.sh"
   install -Dm 644 "prometheus.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "prometheus-sidecar.service" \
+    "${pkgdir}/lib/systemd/system/${pkgname}-sidecar.service"
   install -Dm 644 "prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "prometheus.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
+  cd "${srcdir}/prometheus-2.49.1.linux-amd64"
   install -Dm 755 prometheus "${pkgdir}/usr/bin/prometheus"
   install -Dm 755 promtool "${pkgdir}/usr/bin/promtool"
   install -dm 750 "${pkgdir}/var/lib/prometheus"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -Dm 640 "${srcdir}/prometheus.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
-  install -Dm 640 "${srcdir}/policies.json" \
+  install -Dm 644 "${srcdir}/prometheus.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+  install -Dm 644 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
+  install -Dm 644 "${srcdir}/policies.json" \
+    "${pkgdir}/etc/carbonio/${pkgname}/service-discover/service-protocol.json"
+  install -Dm 644 "${srcdir}/policies.json" \
+    "${pkgdir}/etc/carbonio/${pkgname}/service-discover/intentions.json"
+
   cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
 
   # Prometheus rules:
@@ -107,7 +124,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus.service >/dev/null 2>&1 || :
+    sustemctl enable carbonio-prometheus-sidecar.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
