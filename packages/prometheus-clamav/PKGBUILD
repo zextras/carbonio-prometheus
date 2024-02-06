@@ -3,7 +3,7 @@ pkgname="carbonio-prometheus-clamav-exporter"
 pkgdesc="Prometheus-Exporter for ClamAV"
 pkgver="0.1.0"
 maintainer="Zextras <packages@zextras.com>"
-pkgrel="1"
+pkgrel="2"
 section="mail"
 priority="optional"
 arch=('x86_64')
@@ -29,10 +29,9 @@ makedepends=(
   "git"
 )
 
-sha256sums=(
-  '559523dca9195f9f35cb1c594f6d7bb4ef200802195e257ba679c2b874f84919'
+sha256sums=('559523dca9195f9f35cb1c594f6d7bb4ef200802195e257ba679c2b874f84919'
   'fff05ace4102209b6aca844b4501f623d6270acf5820120ebbe2705b438489a3'
-  '8e7f8cb8ae6687c6c1dffcc566b2ccc3d7943d658dbf7be459b56b1e130b8f99'
+  'b0cbd0097d5818d7c6dd259cec9df323579ba46a660d92ea11d565773aa4f4b1'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a')
 

@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-pgpool-exporter"
 pkgver="1.2.1"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Pgpool exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -15,13 +15,11 @@ source=(
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-sha256sums=(
-  '106d0158dc03121a5d50671184b0511334d99212b36f331d8230954d16bdb263'
+sha256sums=('106d0158dc03121a5d50671184b0511334d99212b36f331d8230954d16bdb263'
   'b9ec8d3a4a4d6439fd104974f0b0855f4dfb865774f6f84db71d0330199cac45'
   '606bd1cabf15d4ad00bdd17eb50e95574095290dae17b71163a1806f43b16baf'
-  '80e925644995a98c060c6c0e5d320990740d995b9f7b10d5b981605cdc0ce2be'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
-)
+  'c86315bb032635afeb96b6248dd3244a87bbe50c54e3a7d7ab93c339e624dff9'
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746')
 
 depends=(
   "systemd"

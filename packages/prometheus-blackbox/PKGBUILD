@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-blackbox-exporter"
 pkgver="0.24.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -18,12 +18,11 @@ source=(
   "${pkgname}.tmpfiles"
 )
 
-sha256sums=(
-  '81b36cece040491ac0d9995db2a0964c40e24838a03a151c3333a7dc3eef94ff'
+sha256sums=('81b36cece040491ac0d9995db2a0964c40e24838a03a151c3333a7dc3eef94ff'
   '926085ac345712705f4ee202e1b6f751f5e9a7283e45a5e1ded4509a6cd14e47'
   '1e413fd4f0d51e2bfbee7d6296c7fc4c04d1d02882299d305c46bd9c26bcaacf'
   '3d7990bdb5597dac26f80a52a3fbd6c7165dcb039ce68db2065dca4f8d75c36b'
-  'b9f3a7999044b4017d33a65ff1beae2f74d7d3dbbce509cdd50879f7c81137aa'
+  'a02eea9a30c53b70e5d85f720dc79dfb3ae4da72a133cefaae0cb35559128833'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
   '0713741540a4e95cbcd5e603271024c25c4ff2a6bc9ebee34809f3a7bad15ef2')
 
