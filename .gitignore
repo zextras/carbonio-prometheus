@@ -51,4 +51,5 @@ Thumbs.db
 *.deb
 *.rpm
 *.gz
+*.zip
 artifacts

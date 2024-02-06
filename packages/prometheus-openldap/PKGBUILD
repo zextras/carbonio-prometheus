@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-openldap-exporter"
 pkgver="2.2.4"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -18,12 +18,11 @@ source=(
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
 )
-sha256sums=(
-  '4615e0e422109af6bdba6488092b5b651b8a014ef9bdf91f37978234d8484ce3'
+sha256sums=('4615e0e422109af6bdba6488092b5b651b8a014ef9bdf91f37978234d8484ce3'
   '9269776a1c768234c78dc2791bc576c55984aef2986e9d16255d23cc47c1b20f'
   'c369119e4923f6927aa6ee09506d1ff00799f77e36f10715165f6858c657884a'
   '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
-  'c69a28ab7f773338244fa48a8533f7a4ec2689ffbd3cbb36af3af839e1909873'
+  'bc4875f5944b614b00f25db79fa28e5b059156e62352921b82bba4100a387260'
   '3875cb65cfd8365f6f65d1b0d8d10d7eb21a3ef2bef169c01d4e94ad8419e959'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
   '6514371196a55f2096c4c65d281eaf2ace8648f94c432d57ff91776e1949d2ec')
