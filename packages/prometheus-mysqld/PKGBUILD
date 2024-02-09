@@ -67,7 +67,7 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  /usr/bin/set-carbonio-prometheus-mysqld-exporter.sh
+  #/usr/bin/set-carbonio-prometheus-mysqld-exporter.sh
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
