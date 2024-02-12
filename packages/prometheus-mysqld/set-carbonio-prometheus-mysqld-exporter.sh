@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pkgname="carbonio-prometheus-mysqld-exporter"
-mkdir -p /etc/carbonio/carbonio-prometheus-mysqld-exporter/
+#mkdir -p /etc/carbonio/carbonio-prometheus-mysqld-exporter/
 
 # shellcheck source=/dev/null
 source /opt/zextras/bin/zmshutil || exit 1
