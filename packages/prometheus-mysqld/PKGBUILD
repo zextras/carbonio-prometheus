@@ -16,6 +16,7 @@ source=(
   "set-${pkgname}.sh"
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
+  "${pkgname}.cnf"
 )
 
 sha256sums=('85ea5bc68e1b9f466c1df10ff016652dd210371d42245e012b876265e89ae29d'
@@ -24,7 +25,8 @@ sha256sums=('85ea5bc68e1b9f466c1df10ff016652dd210371d42245e012b876265e89ae29d'
   '8f7f35a1ca4fdbfea351f9dad62b5f50ec059b7e18314c9137ab655eca336064'
   '1ddc0311e6391b262db7c62ac26a9f4949a6e0a082eb9d3f3bac8b9fb505a4f8'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
-  'd7bd4755e0d5c7a774ad616f3fa93d174ad7efbb7a7e37a045d141e05dcbdfe8')
+  'd7bd4755e0d5c7a774ad616f3fa93d174ad7efbb7a7e37a045d141e05dcbdfe8'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
 
 depends=(
   "systemd"
@@ -52,6 +54,8 @@ package() {
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 755 "${srcdir}/${pkgname}.cnf" \
+    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
