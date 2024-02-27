@@ -17,16 +17,18 @@ source=(
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
   "${pkgname}.cnf"
+  "${pkgname}-setup"
 )
 
 sha256sums=('85ea5bc68e1b9f466c1df10ff016652dd210371d42245e012b876265e89ae29d'
   'd6c82a6c806a25a87d4bda6aa6a08af0af7a2528f4773dc6ee78e98f6d7b587e'
-  'd53dababdb7f56765c11e39056e329c5303cbdf510553b440aa334c4d12cf5b0'
+  '26b53cdb8ccc2091a7e58e24827c50d1e0c3a02a6e6be1c5c346172108e8d75e'
   '8f7f35a1ca4fdbfea351f9dad62b5f50ec059b7e18314c9137ab655eca336064'
-  'f947d1e13df7141e66520ac83b8d15d7b058af3a94eed35279eb0c8f6cfa9bf7'
+  '61cb1c4363d4292586b6eb16fb3bcc127332677b94b0dfd84702bd9697480052'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
   '6f76239ebd4ecc86758e73f028960249fe343e407d1b1cf38f11b9e1c22047df'
-  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'f0f74a7642a4e7152b2fc80f588f58ca579537b0e4d8624dafe03dc05a537a0a')
 
 depends=(
   "systemd"
@@ -47,8 +49,11 @@ package() {
   install -Dm 755 mysqld_exporter \
     "${pkgdir}/usr/bin/${pkgname}"
 
+  install -Dm 755  "${srcdir}/${pkgname}-setup"\
+    "${pkgdir}/usr/bin/${pkgname}-setup"
+
   install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/usr/bin/set-${pkgname}.sh"
+    "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
@@ -81,7 +86,7 @@ postinst() {
 
   echo "======================================================"
   echo "Carbonio Mysql Exporter installed successfully!"
-  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "You must run pending-setups to configure it and reload service discover or add this host to prometheus.yml"
   echo "======================================================"
 }
 
@@ -90,6 +95,9 @@ prerm() {
     systemctl --no-reload disable carbonio-prometheus-mysqld-exporter.service >/dev/null 2>&1 || :
     systemctl stop carbonio-prometheus-mysqld-exporter.service >/dev/null 2>&1 || :
   fi
+
+  rm -f /etc/zextras/pending-setups.d/set-carbonio-prometheus-mysqld-exporter.sh
+  rm -f /etc/zextras/pending-setups.d/done/set-carbonio-prometheus-mysqld-exporter.sh
 }
 
 postrm() {
