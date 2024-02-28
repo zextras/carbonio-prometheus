@@ -28,3 +28,5 @@ mysql_port=$(/opt/zextras/bin/zmlocalconfig -s -m nokey mysql_port)
   echo "host= $mysql_bind_address"
   echo "port= $mysql_port"
 } >/etc/carbonio/$pkgname/$pkgname.cnf
+
+systemctl restart carbonio-prometheus-mysqld-exporter.service
