@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus"
-pkgver="2.48.1"
-pkgrel="2"
+pkgver="2.50.1"
+pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
