@@ -39,7 +39,14 @@ pipeline {
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo yap build ubuntu-focal /tmp/staging/packages'
+                                script {
+                                    if (BRANCH_NAME == 'devel') {
+                                        def timestamp = new Date().format('yyyyMMddHHmmss')
+                                        sh "sudo yap build ubuntu-focal /tmp/staging/packages -r ${timestamp}"
+                                    } else {
+                                        sh 'sudo yap build ubuntu-focal /tmp/staging/packages'
+                                    }
+                                }
                                 stash includes: 'artifacts/', name: 'artifacts-ubuntu-focal'
                             }
                             post {
@@ -57,7 +64,14 @@ pipeline {
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo yap build ubuntu-jammy /tmp/staging/packages'
+                                script {
+                                    if (BRANCH_NAME == 'devel') {
+                                        def timestamp = new Date().format('yyyyMMddHHmmss')
+                                        sh "sudo yap build ubuntu-jammy /tmp/staging/packages -r ${timestamp}"
+                                    } else {
+                                        sh 'sudo yap build ubuntu-jammy /tmp/staging/packages'
+                                    }
+                                }
                                 stash includes: 'artifacts/', name: 'artifacts-ubuntu-jammy'
                             }
                             post {
@@ -75,7 +89,14 @@ pipeline {
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo yap build rocky-8 /tmp/staging/packages'
+                                script {
+                                    if (BRANCH_NAME == 'devel') {
+                                        def timestamp = new Date().format('yyyyMMddHHmmss')
+                                        sh "sudo yap build rocky-8 /tmp/staging/packages -r ${timestamp}"
+                                    } else {
+                                        sh 'sudo yap build rocky-8 /tmp/staging/packages'
+                                    }
+                                }
                                 stash includes: 'artifacts/x86_64/*el8*.rpm', name: 'artifacts-rocky-8'
                             }
                             post {
@@ -93,7 +114,14 @@ pipeline {
                             steps {
                                 unstash 'staging'
                                 sh 'cp -r staging /tmp'
-                                sh 'sudo yap build rocky-9 /tmp/staging/packages'
+                                script {
+                                    if (BRANCH_NAME == 'devel') {
+                                        def timestamp = new Date().format('yyyyMMddHHmmss')
+                                        sh "sudo yap build rocky-9 /tmp/staging/packages -r ${timestamp}"
+                                    } else {
+                                        sh 'sudo yap build rocky-9 /tmp/staging/packages'
+                                    }
+                                }
                                 stash includes: 'artifacts/x86_64/*el9*.rpm', name: 'artifacts-rocky-9'
                             }
                             post {
