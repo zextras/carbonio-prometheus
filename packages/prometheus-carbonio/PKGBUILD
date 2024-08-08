@@ -1,0 +1,93 @@
+pkgname="carbonio-prometheus-carbonio-exporter"
+pkgver="0.0.1"
+pkgrel="1"
+pkgdesc="Postgres exporter for Carbonio system monitoring and alerting"
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch=('x86_64')
+license=('Apache-2.0')
+source=(
+  "./../src/prometheus-carbonio-exporter/builds/22/carbonio-mailbox-exporter"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}.yml"
+  "${pkgname}-consul.hcl"
+  "${pkgname}.tmpfiles"
+)
+sha256sums=('b5673dd937ea7b8eeae64c847d8e6aba4fc98f36c36a72267b14c6e6ee6d447b'
+  'ec2e8b45fc1aaf0e61f2a8547e194d448ca2823b4d19cb6e23591750bdacbeae'
+  'a3f2b69fc92d5a29911ed866e361d0f9899fdba2a91abe30a4762b09e9fd4043'
+  '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+  'fcc4c106da785ce3200f9e4b9d97a7cee5423f4a757c3123bab4332df2402995'
+  '7f9e5658369bb5524fef1129e52d02af6fb05a627ac59aa032d9ede3b42efd78'
+  '53731d7a5a2afa53a1926ff6f14608d2342b609e8d049aa0725f76a5e6fbf3af')
+
+depends=(
+  "systemd"
+)
+
+conflicts=(
+)
+
+backup=(
+  "etc/default/${pkgname}"
+)
+
+package() {
+  cd "${srcdir}/"
+
+  install -Dm644 "${pkgname}.tmpfiles" \
+    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+
+  install -Dm 755 "carbonio-mailbox-exporter" \
+    "${pkgdir}/usr/bin/${pkgname}"
+
+  install -Dm 644 "${srcdir}/${pkgname}.service" \
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${srcdir}/${pkgname}.default" \
+    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+
+  install -Dm 644 "${srcdir}/prometheus.sysusers" \
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+}
+
+postinst() {
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+
+  systemd-sysusers >/dev/null || true
+  systemd-tmpfiles --create >/dev/null || true
+
+  /usr/bin/set-carbonio-prometheus-carbonio-exporter.sh
+
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-carbonio-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-carbonio-exporter.service >/dev/null 2>&1 || :
+  fi
+
+  echo "======================================================"
+  echo "Carbonio Postgres Exporter installed successfully!"
+  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable carbonio-prometheus-carbonio-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-carbonio-exporter.service >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
+}

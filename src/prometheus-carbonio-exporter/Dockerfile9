@@ -1,0 +1,9 @@
+FROM rockylinux:9
+RUN yum -y update
+RUN yum install -y python3 python3-pip
+RUN pip install pyinstaller
+WORKDIR /src
+COPY lib /src/lib
+COPY requirements.txt carbonio-mailbox-exporter.py /src
+RUN pip3 install -r requirements.txt
+RUN pyinstaller carbonio-mailbox-exporter.py  --onefile
