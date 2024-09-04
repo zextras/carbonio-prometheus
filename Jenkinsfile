@@ -21,6 +21,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+                script {
+                    env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                }
                 sh 'mkdir staging'
                 sh 'cp -r packages staging'
                 stash includes: 'staging/**', name: 'staging'
@@ -175,146 +178,146 @@ pipeline {
                     def buildInfo
                     def uploadSpec
                     buildInfo = Artifactory.newBuildInfo()
-                    uploadSpec = '''{
+                    uploadSpec = """{
                         "files": [
                             {
                                 "pattern": "artifacts/*focal*.deb",
                                 "target": "ubuntu-playground/pool/",
-                                "props": "deb.distribution=focal;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=focal;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/*jammy*.deb",
                                 "target": "ubuntu-playground/pool/",
-                                "props": "deb.distribution=jammy;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=jammy;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/*noble*.deb",
                                 "target": "ubuntu-playground/pool/",
-                                "props": "deb.distribution=noble;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=noble;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}",
                                 "exclusions": ["*alertmanager*.rpm","*exporter*.rpm"]
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-mysql-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-pgpool-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },  
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-playground/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },                            {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}",
                                 "exclusions": ["*alertmanager*.rpm","*exporter*.rpm"]
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-mysql-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-pgpool-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-playground/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             }
                         ]
-                    }'''
+                    }"""
                     server.upload spec: uploadSpec, buildInfo: buildInfo, failNoOp: false
                 }
             }
@@ -335,146 +338,146 @@ pipeline {
                     def buildInfo
                     def uploadSpec
                     buildInfo = Artifactory.newBuildInfo()
-                    uploadSpec = '''{
+                    uploadSpec = """{
                         "files": [
                             {
                                 "pattern": "artifacts/*focal*.deb",
                                 "target": "ubuntu-devel/pool/",
-                                "props": "deb.distribution=focal;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=focal;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/*jammy*.deb",
                                 "target": "ubuntu-devel/pool/",
-                                "props": "deb.distribution=jammy;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=jammy;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/*noble*.deb",
                                 "target": "ubuntu-devel/pool/",
-                                "props": "deb.distribution=noble;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=noble;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}",
                                 "exclusions": ["*alertmanager*.rpm","*exporter*.rpm"]
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-mysqld-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-pgpool-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },  
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-devel/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },                            {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}",
                                 "exclusions": ["*alertmanager*.rpm","*exporter*.rpm"]
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-mysqld-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-pgpool-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-devel/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             }
                         ]
-                    }'''
+                    }"""
                     server.upload spec: uploadSpec, buildInfo: buildInfo, failNoOp: false
                 }
             }
@@ -507,17 +510,17 @@ pipeline {
                             {
                                 "pattern": "artifacts/*focal*.deb",
                                 "target": "ubuntu-rc/pool/",
-                                "props": "deb.distribution=focal;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=focal;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/*jammy*.deb",
                                 "target": "ubuntu-rc/pool/",
-                                "props": "deb.distribution=jammy;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=jammy;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/*noble*.deb",
                                 "target": "ubuntu-rc/pool/",
-                                "props": "deb.distribution=noble;deb.component=main;deb.architecture=amd64"
+                                "props": "deb.distribution=noble;deb.component=main;deb.architecture=amd64;vcs.revision=${env.GIT_COMMIT}"
                             }
                         ]
                     }"""
@@ -545,63 +548,63 @@ pipeline {
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}",
                                 "exclusions": ["*alertmanager*.rpm","*exporter*.rpm"]
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-mysqld-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-pgpool-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el8.x86_64.rpm",
                                 "target": "centos8-rc/zextras/{1}/{1}-{2}.el8.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             }
                         ]
                     }"""
@@ -628,63 +631,63 @@ pipeline {
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras",
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}",
                                 "exclusions": ["*alertmanager*.rpm","*exporter*.rpm"]
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-alertmanager)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-blackbox-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-consul-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-clamav-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-mysqld-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-nginx-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-node-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-openldap-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-postgres-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-pgpool-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             },
                             {
                                 "pattern": "artifacts/x86_64/(carbonio-prometheus-process-exporter)-(*).el9.x86_64.rpm",
                                 "target": "rhel9-rc/zextras/{1}/{1}-{2}.el9.x86_64.rpm",
-                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras"
+                                "props": "rpm.metadata.arch=x86_64;rpm.metadata.vendor=zextras;vcs.revision=${env.GIT_COMMIT}"
                             }
                         ]
                     }"""
