@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-nginx-exporter"
 pkgver="1.3.0"
-pkgrel="0"
+pkgrel="1"
 pkgdesc="Nginx exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
