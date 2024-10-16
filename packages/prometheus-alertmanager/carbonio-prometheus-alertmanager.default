@@ -1,1 +1,4 @@
-ARGS="--config.file /etc/carbonio/carbonio-prometheus-alertmanager/alertmanager.yml --storage.path /var/lib/alertmanager/data"
+ARGS="
+--config.file /etc/carbonio/carbonio-prometheus-alertmanager/alertmanager.yml \
+--storage.path /var/lib/alertmanager/data
+"
