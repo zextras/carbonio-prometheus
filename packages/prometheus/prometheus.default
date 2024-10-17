@@ -1,1 +1,12 @@
-ARGS="--storage.tsdb.retention.time=30d --enable-feature=memory-snapshot-on-shutdown --web.enable-lifecycle --web.enable-admin-api --log.level=info --storage.tsdb.max-block-duration=2h --storage.tsdb.min-block-duration=2h --web.console.templates=/etc/carbonio/carbonio-prometheus/consoles --web.console.libraries=/etc/carbonio/carbonio-prometheus/console_libraries"
+ARGS="
+--enable-feature=auto-gomemlimit \
+--enable-feature=memory-snapshot-on-shutdown \
+--log.level=info \
+--storage.tsdb.max-block-duration=2h \
+--storage.tsdb.min-block-duration=2h \
+--storage.tsdb.retention.time=30d \
+--web.console.libraries=/etc/carbonio/carbonio-prometheus/console_libraries \
+--web.console.templates=/etc/carbonio/carbonio-prometheus/consoles \
+--web.enable-admin-api \
+--web.enable-lifecycle
+"
