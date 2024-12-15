@@ -1,0 +1,18 @@
+[Unit]
+Description=Carbonio Prometheus Haproxy exporter
+Wants=network-online.target
+After=network.target
+
+[Service]
+User=carbonio-prometheus
+Group=carbonio-prometheus
+Type=simple
+Restart=on-failure
+RestartSec=30
+Environment=SSL_VERIFY=false
+EnvironmentFile=/etc/default/carbonio-prometheus-haproxy-exporter
+ExecStart=/usr/bin/carbonio-prometheus-haproxy-exporter $ARGS
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
