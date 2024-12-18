@@ -34,7 +34,7 @@ backup=(
 )
 
 package() {
-  install -Dm 755 "${srcdir}/haproxy-exporter" \
+  install -Dm 755 "${srcdir}/haproxy_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
