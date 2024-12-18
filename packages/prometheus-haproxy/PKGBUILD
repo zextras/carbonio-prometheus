@@ -1,4 +1,4 @@
-pkgname="carbonio-prometheus-hapoxy-exporter"
+pkgname="carbonio-prometheus-haproxy-exporter"
 pkgver="0.15.0"
 pkgrel="1"
 pkgdesc="Prometheus exporter for haproxy"
