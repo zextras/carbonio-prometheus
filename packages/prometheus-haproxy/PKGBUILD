@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-haproxy-exporter"
 pkgver="0.15.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Prometheus exporter for haproxy"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"

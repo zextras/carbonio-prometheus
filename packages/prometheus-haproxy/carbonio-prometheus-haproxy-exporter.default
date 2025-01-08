@@ -1,4 +1,4 @@
 ARGS="
---haproxy.scrape-uri='https://haproxy.example.com/haproxy?stats;csv' \
+--haproxy.scrape-uri='https://localhost/haproxy?stats;csv' \
 --no-haproxy.ssl-verify
 "
