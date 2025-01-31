@@ -38,9 +38,6 @@
             "name": "prometheus-process"
         },
         {
-            "name": "prometheus-pgpool"
-        },
-        {
             "name": "prometheus-mysqld"
         },
         {
