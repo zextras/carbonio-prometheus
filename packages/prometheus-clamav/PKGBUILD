@@ -1,9 +1,9 @@
 # _gitname="clamav-prometheus-exporter-master"
 pkgname="carbonio-prometheus-clamav-exporter"
 pkgdesc="Prometheus-Exporter for ClamAV"
-pkgver="0.1.0"
+pkgver="0.2.0"
 maintainer="Zextras <packages@zextras.com>"
-pkgrel="2"
+pkgrel="1"
 section="mail"
 priority="optional"
 arch=('x86_64')
