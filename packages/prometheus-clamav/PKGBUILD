@@ -26,7 +26,8 @@ conflicts=(
 )
 
 makedepends=(
-  "git"
+  "git" 
+  "go"
 )
 
 sha256sums=('7d591585233e5df6d3dcc5260cac8c63aa3c20b7e41d7ed6f0ba4bdb43e69aaf'
@@ -36,6 +37,12 @@ sha256sums=('7d591585233e5df6d3dcc5260cac8c63aa3c20b7e41d7ed6f0ba4bdb43e69aaf'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a')
 
 build() {
+
+  if ! command -v go1.23 &>/dev/null; then
+    go install golang.org/dl/go1.23@latest || true
+    go1.23 download
+  fi
+
   cd "${srcdir}/clamav-prometheus-exporter-master/"
 
   export CGO_CPPFLAGS="${CPPFLAGS}"
