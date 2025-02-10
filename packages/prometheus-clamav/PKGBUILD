@@ -27,7 +27,7 @@ conflicts=(
 
 makedepends=(
   "git" 
-  "go"
+  "golang-go"
 )
 
 sha256sums=('7d591585233e5df6d3dcc5260cac8c63aa3c20b7e41d7ed6f0ba4bdb43e69aaf'
