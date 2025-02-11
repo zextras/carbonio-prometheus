@@ -3,14 +3,15 @@ pkgname="carbonio-prometheus-clamav-exporter"
 pkgdesc="Prometheus-Exporter for ClamAV"
 pkgver="0.2.0"
 maintainer="Zextras <packages@zextras.com>"
-pkgrel="1"
+pkgrel="2"
 section="mail"
 priority="optional"
 arch=('x86_64')
 url="https://zextras.com"
 license=("Apache-2.0")
 source=(
-  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/heads/master.zip"
+  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/a589557e45e08f5c6b6630536b4da5c3261a335b.zip"
+  
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
@@ -26,17 +27,18 @@ conflicts=(
 )
 
 makedepends=(
-  "git"
+  "git" 
 )
 
-sha256sums=('2a6550addba786287210c87e80a97f6ebad5336dc3e77a163755f707ed571cf7'
+sha256sums=('37b895f0671dc7b94f0b5f6e25dc0a29b34de4496f662acdd06d9a7550897630'
   'fff05ace4102209b6aca844b4501f623d6270acf5820120ebbe2705b438489a3'
   'b0cbd0097d5818d7c6dd259cec9df323579ba46a660d92ea11d565773aa4f4b1'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a')
 
 build() {
-  cd "${srcdir}/clamav-prometheus-exporter-master/"
+
+  cd "${srcdir}/clamav-prometheus-exporter-a589557e45e08f5c6b6630536b4da5c3261a335b/"
 
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
@@ -50,7 +52,7 @@ build() {
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "./clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter" \
+  install -Dm 755 "./clamav-prometheus-exporter-a589557e45e08f5c6b6630536b4da5c3261a335b/carbonio-prometheus-clamav-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \
