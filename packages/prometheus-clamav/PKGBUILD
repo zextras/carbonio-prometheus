@@ -10,7 +10,7 @@ arch=('x86_64')
 url="https://zextras.com"
 license=("Apache-2.0")
 source=(
-  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/37d742320e9db6bed20921c59b427a5e1bd1c055.zip"
+  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/a589557e45e08f5c6b6630536b4da5c3261a335b.zip"
   
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
@@ -31,7 +31,7 @@ makedepends=(
   "golang-go"
 )
 
-sha256sums=('daa46a810cda1f161e977dee40a3db347d7c3c26b30f151f7171a2248175ef1d'
+sha256sums=('37b895f0671dc7b94f0b5f6e25dc0a29b34de4496f662acdd06d9a7550897630'
   'fff05ace4102209b6aca844b4501f623d6270acf5820120ebbe2705b438489a3'
   'b0cbd0097d5818d7c6dd259cec9df323579ba46a660d92ea11d565773aa4f4b1'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
