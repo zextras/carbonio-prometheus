@@ -28,7 +28,6 @@ conflicts=(
 
 makedepends=(
   "git" 
-  "golang-go"
 )
 
 sha256sums=('37b895f0671dc7b94f0b5f6e25dc0a29b34de4496f662acdd06d9a7550897630'
@@ -39,7 +38,7 @@ sha256sums=('37b895f0671dc7b94f0b5f6e25dc0a29b34de4496f662acdd06d9a7550897630'
 
 build() {
 
-  cd "${srcdir}/clamav-prometheus-exporter-37d742320e9db6bed20921c59b427a5e1bd1c055/"
+  cd "${srcdir}/clamav-prometheus-exporter-a589557e45e08f5c6b6630536b4da5c3261a335b/"
 
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
@@ -53,7 +52,7 @@ build() {
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "./clamav-prometheus-exporter-37d742320e9db6bed20921c59b427a5e1bd1c055/carbonio-prometheus-clamav-exporter" \
+  install -Dm 755 "./clamav-prometheus-exporter-a589557e45e08f5c6b6630536b4da5c3261a335b/carbonio-prometheus-clamav-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \
