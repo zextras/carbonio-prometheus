@@ -25,6 +25,7 @@ source=(
   "policies.json"
   "${pkgname}.tmpfiles"
 )
+
 sha256sums=('19700bdd42ec31ee162e4079ebda4cd0a44432df4daa637141bdbea4b1cd8927'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
