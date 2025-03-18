@@ -63,21 +63,6 @@ scrape_configs:
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
 
-  - job_name: "pgpool"
-    consul_sd_configs:
-      - server: "localhost:8500"
-      - token: "{{ consultoken }}"
-        datacenter: "dc1"
-        services:
-          - "carbonio-prometheus-pgpool-exporter"
-        tags:
-          - "prometheus-exporter"
-    relabel_configs:
-      - source_labels: ["__meta_consul_node"]
-        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
-        replacement: "$2.{{ hostsdomain }}"
-        target_label: instance
-
   - job_name: "node"
     consul_sd_configs:
       - server: "localhost:8500"
@@ -184,6 +169,21 @@ scrape_configs:
         separator: ":"
         target_label: __address__
 
+  - job_name: "rabbitmq"
+    consul_sd_configs:
+      - server: "localhost:8500"
+      - token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-rabbitmq-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+
   - job_name: "storages"
     consul_sd_configs:
       - server: "localhost:8500"
@@ -246,4 +246,19 @@ scrape_configs:
       - source_labels: ["__meta_consul_node"]
         regex: "(agent|server)-(.+)-"
         replacement: "$2."
+        target_label: instance
+
+  - job_name: "haproxy"
+    consul_sd_configs:
+      - server: "localhost:8500"
+      - token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-haproxy-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
         target_label: instance

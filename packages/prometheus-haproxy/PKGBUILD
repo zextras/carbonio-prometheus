@@ -1,24 +1,23 @@
-pkgname="carbonio-prometheus-pgpool-exporter"
-pkgver="1.2.2"
+pkgname="carbonio-prometheus-haproxy-exporter"
+pkgver="0.15.0"
 pkgrel="1"
-pkgdesc="Pgpool exporter for open-source systems monitoring and alerting toolkit"
+pkgdesc="Prometheus exporter for haproxy"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
-source=(
-  "https://github.com/pgpool/pgpool2_exporter/releases/download/v${pkgver}/pgpool2_exporter-${pkgver}.linux-amd64.tar.gz"
+source=( "https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-sha256sums=('7875dc0166487bad2d223bbf9ef4c8fc8863efbd93355ad2b2d625e9558e804c'
-  'b9ec8d3a4a4d6439fd104974f0b0855f4dfb865774f6f84db71d0330199cac45'
-  '606bd1cabf15d4ad00bdd17eb50e95574095290dae17b71163a1806f43b16baf'
-  'c86315bb032635afeb96b6248dd3244a87bbe50c54e3a7d7ab93c339e624dff9'
+sha256sums=('ac200872b734e2f9c0211997f7f9c0ca5ad6522996c37aed39a732d5f3c0de16'
+  '9e5134ce9352d5f70f84b3748e477423eaf3efa4471afcdfc54b45add154d16f'
+  '84035f16c3d536ae4c74b13ca7ecb1de757c23e95c02dde7a3be2773fb43bdfb'
+  '35436228b446abaefef2d9d184f5ecf4a7f9ca024c0744b59b4002dfe2b918b8'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746')
 
 depends=(
@@ -26,17 +25,17 @@ depends=(
 )
 
 conflicts=(
-  'prometheus-pgpool2-exporter'
+  "prometheus-haproxy-exporter"
 )
 
 backup=(
-  "etc/default/${pkgname}"
+  "etc/zextras/service-discover/${pkgname}.hcl"
 )
 
 package() {
-  cd "${srcdir}/pgpool2_exporter-${pkgver}.linux-amd64"
+  cd "${srcdir}/haproxy_exporter-${pkgver}.linux-amd64/"
 
-  install -Dm 755 "pgpool2_exporter" \
+  install -Dm 755 "haproxy_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
@@ -51,6 +50,12 @@ package() {
 }
 
 postinst() {
+  # required until zextras user creation will be made with sysusers.d
+  getent group 'zextras' >/dev/null ||
+    groupadd -r 'zextras'
+  getent passwd 'zextras' >/dev/null ||
+    useradd -r -M -d '/opt/zextras' -g 'zextras' -s /bin/bash 'zextras'
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
@@ -60,20 +65,20 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-haproxy-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-haproxy-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
-  echo "Carbonio Pgpool2 Exporter installed successfully!"
+  echo "Carbonio Haproxy Exporter installed successfully!"
   echo "You must reload service discover or add this host to prometheus.yml"
   echo "======================================================"
 }
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-pgpool-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-haproxy-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-haproxy-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
