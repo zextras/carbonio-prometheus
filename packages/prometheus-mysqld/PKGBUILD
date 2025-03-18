@@ -40,27 +40,27 @@ package() {
   cd "${srcdir}/"
 
   install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
 
   cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 mysqld_exporter \
-    "${pkgdir}/usr/bin/${pkgname}"
+  "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
+  "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}.cnf" \
-    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
+  "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
-    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+  "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
