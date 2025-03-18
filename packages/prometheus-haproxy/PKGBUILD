@@ -8,8 +8,7 @@ section="mail"
 priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
-source=(
-  "https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-amd64.tar.gz"
+source=( "https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
