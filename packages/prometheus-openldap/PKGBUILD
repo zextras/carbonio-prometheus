@@ -55,25 +55,25 @@ package() {
   cd "${srcdir}/"
 
   install -Dm644 "${pkgname}.tmpfiles" \
-  "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
 
   install -Dm 755 "./openldap_exporter-${pkgver}/target/openldap_exporter-linux" \
-  "${pkgdir}/usr/bin/${pkgname}"
+    "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "set-${pkgname}.sh" \
-  "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
+    "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
 
   install -Dm 644 "${pkgname}.service" \
-  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${pkgname}.default" \
-  "${pkgdir}/etc/default/${pkgname}"
+    "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${pkgname}.yml" \
-  "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
+    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
   install -Dm 644 "prometheus.sysusers" \
-  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}-consul.hcl" \
-  "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {

@@ -51,17 +51,17 @@ package() {
   cd "${srcdir}/"
 
   install -Dm 755 "./clamav-prometheus-exporter-a589557e45e08f5c6b6630536b4da5c3261a335b/carbonio-prometheus-clamav-exporter" \
-  "${pkgdir}/usr/bin/${pkgname}"
+    "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \
-  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${pkgname}.default" \
-  "${pkgdir}/etc/default/${pkgname}"
+    "${pkgdir}/etc/default/${pkgname}"
 
   install -Dm 644 "prometheus.sysusers" \
-  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}-consul.hcl" \
-  "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
 }
 
