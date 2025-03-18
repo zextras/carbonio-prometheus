@@ -45,31 +45,31 @@ package() {
   cd "${srcdir}"
 
   install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}.service" \
-    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
+  "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
 
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
   install -Dm 755 alertmanager \
-    "${pkgdir}/usr/bin/${pkgname}"
+  "${pkgdir}/usr/bin/${pkgname}"
   install -Dm 755 amtool \
-    "${pkgdir}/usr/bin/amtool"
+  "${pkgdir}/usr/bin/amtool"
 
   install -dm 750 "${pkgdir}/var/lib/alertmanager/data"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/templates"
 
   install -Dm 644 "${srcdir}/alertmanager.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
+  "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
 
   install -Dm 644 "${srcdir}/telegram.tmpl" \
-    "${pkgdir}/etc/carbonio/${pkgname}/templates/"
+  "${pkgdir}/etc/carbonio/${pkgname}/templates/"
   install -Dm 644 "${srcdir}/email.tmpl" \
-    "${pkgdir}/etc/carbonio/${pkgname}/templates/"
+  "${pkgdir}/etc/carbonio/${pkgname}/templates/"
 
 }
 
