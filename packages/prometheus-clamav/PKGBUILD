@@ -37,7 +37,7 @@ sha256sums=('SKIP'
 
 build() {
 
-  cd "${srcdir}/clamav-prometheus-exporter-master/"
+  cd "${srcdir}/clamav-prometheus-exporter-1.0.0/"
 
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
@@ -51,7 +51,7 @@ build() {
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "./clamav-prometheus-exporter-master/carbonio-prometheus-clamav-exporter" \
+  install -Dm 755 "./clamav-prometheus-exporter-1.0.0/carbonio-prometheus-clamav-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \
