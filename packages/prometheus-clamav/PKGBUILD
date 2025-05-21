@@ -10,7 +10,7 @@ arch=('x86_64')
 url="https://zextras.com"
 license=("Apache-2.0")
 source=(
-  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/tags/${pkgver}.zip"
+  "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/tags/v${pkgver}.zip"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
