@@ -76,8 +76,7 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
   install -Dm 640 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
-  cp -r consoles* "${pkgdir}/etc/carbonio/${pkgname}/"
-
+    
   # Prometheus rules:
   install -Dm 640 "${srcdir}/clamav.yaml" \
     "${pkgdir}/etc/carbonio/${pkgname}/rules"
