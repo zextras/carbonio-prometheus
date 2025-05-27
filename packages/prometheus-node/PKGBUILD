@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-node-exporter"
-pkgver="1.8.2"
+pkgver="1.9.1"
 pkgrel="1"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -15,7 +15,7 @@ source=(
   "${pkgname}.service"
   "prometheus.sysusers"
 )
-sha256sums=('6809dd0b3ec45fd6e992c19071d6b5253aed3ead7bf0686885a51d85c6643c66'
+sha256sums=('becb950ee80daa8ae7331d77966d94a611af79ad0d3307380907e0ec08f5b4e8'
   '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
   '262489445e566e4bc6bd7fe26110650df5bf5a523823d227d676b8b48120123d'
   '20672ccb0e218f17d29a6ac3ac7a6af2dccbba002d9a66cbf8c49da239c3df4d'
