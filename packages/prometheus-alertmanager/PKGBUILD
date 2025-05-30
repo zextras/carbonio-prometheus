@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-alertmanager"
-pkgver="0.27.0"
+pkgver="0.28.1"
 pkgrel="1"
 pkgdesc="Alert manager exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -18,7 +18,7 @@ source=(
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
 )
-sha256sums=('23c3f5a3c73de91dbaec419f3c492bef636deb02680808e5d842e6553aa16074'
+sha256sums=('5ac7ab5e4b8ee5ce4d8fb0988f9cb275efcc3f181b4b408179fafee121693311'
   'cce91b60dd9a5e47e4c9ce535bc770f7a388b716839fedc2611a2f63d74ef26c'
   'ae12a6e0514c4087060e4d5246eedbd7bd7d44c3326b480355b45e6aa823ed6b'
   '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
