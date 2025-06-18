@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-consul-exporter"
-pkgver="0.12.1"
+pkgver="0.13.0"
 pkgrel="1"
 pkgdesc="Consul exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -15,7 +15,7 @@ source=(
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-sha256sums=('ea385176714dc6692c44ccedeb3c23f66d410a4820ae51179a62db9de56eb54d'
+sha256sums=('2a8da4147330c6e19c9665deca1c419d507e100de6c8b7c58c0715ff25453773'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
   'fcf540494439a6a88387c198f283afa3e5718f253f499fedb9c42065f01e18cc'
   'f8040116e1e95184c20e881e57319e0d57ab6f91b5111de9ba9bc2d8baa4fca6'

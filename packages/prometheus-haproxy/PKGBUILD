@@ -8,7 +8,8 @@ section="mail"
 priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
-source=( "https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-amd64.tar.gz"
+source=(
+  "https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
@@ -33,6 +34,7 @@ backup=(
 )
 
 package() {
+
   cd "${srcdir}/haproxy_exporter-${pkgver}.linux-amd64/"
 
   install -Dm 755 "haproxy_exporter" \
@@ -44,7 +46,7 @@ package() {
     "${pkgdir}/etc/default/${pkgname}"
 
   install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }

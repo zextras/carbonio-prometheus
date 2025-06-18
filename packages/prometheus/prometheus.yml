@@ -175,7 +175,7 @@ scrape_configs:
       - token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
-          - "carbonio-prometheus-rabbitmq-exporter"
+          - "carbonio-prometheus-rabbit-exporter"
         tags:
           - "prometheus-exporter"
     relabel_configs:
