@@ -1,4 +1,5 @@
 ARGS="
+--enable-feature=auto-gomemlimit \
 --enable-feature=memory-snapshot-on-shutdown \
 --log.level=info \
 --storage.tsdb.max-block-duration=2h \
