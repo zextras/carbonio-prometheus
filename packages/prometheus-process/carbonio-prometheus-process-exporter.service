@@ -2,6 +2,7 @@
 Description=Carbonio Prometheus Process Exporter
 Wants=network-online.target
 After=network.target
+PartOf=carbonio.target
 
 [Service]
 User=carbonio-prometheus
@@ -12,4 +13,4 @@ ExecStart=/usr/bin/carbonio-prometheus-process-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=carbonio.target

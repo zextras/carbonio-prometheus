@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-haproxy-exporter"
 pkgver="0.15.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Prometheus exporter for haproxy"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -15,11 +15,13 @@ source=(
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-sha256sums=('ac200872b734e2f9c0211997f7f9c0ca5ad6522996c37aed39a732d5f3c0de16'
+sha256sums=(
+  'ac200872b734e2f9c0211997f7f9c0ca5ad6522996c37aed39a732d5f3c0de16'
   '9e5134ce9352d5f70f84b3748e477423eaf3efa4471afcdfc54b45add154d16f'
-  '84035f16c3d536ae4c74b13ca7ecb1de757c23e95c02dde7a3be2773fb43bdfb'
+  '561fbeb32428aa97dd41e446cb614868211f32a7d7e97f33753887b81956ecec'
   '35436228b446abaefef2d9d184f5ecf4a7f9ca024c0744b59b4002dfe2b918b8'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+)
 
 depends=(
   "systemd"

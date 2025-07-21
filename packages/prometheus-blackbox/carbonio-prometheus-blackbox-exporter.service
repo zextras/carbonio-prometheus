@@ -2,6 +2,7 @@
 Description=Carbonio Prometheus Blackbox exporter
 Wants=network-online.target
 After=network.target
+PartOf=carbonio.target
 
 [Service]
 User=carbonio-prometheus
@@ -12,4 +13,4 @@ ExecStart=/usr/bin/carbonio-prometheus-blackbox-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=carbonio.target
