@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. 
 
+### [0.10.0] (2025-7-23)
+
+
+### Features
+* Upgraded Carbonio Prometheus to 3.5.0 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.5.0)
+* Upgraded Carbonio Prometheus Blackbox exporter to 0.27.0 version (based on https://github.com/prometheus/blackbox_exporter/releases/tag/v0.27.0)
+
+
 ### [0.10.0] (2025-6-09)
 
 
