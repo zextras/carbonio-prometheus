@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-alertmanager"
 pkgver="0.28.1"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Alert manager exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -18,14 +18,16 @@ source=(
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
 )
-sha256sums=('5ac7ab5e4b8ee5ce4d8fb0988f9cb275efcc3f181b4b408179fafee121693311'
+sha256sums=(
+  '5ac7ab5e4b8ee5ce4d8fb0988f9cb275efcc3f181b4b408179fafee121693311'
   'cce91b60dd9a5e47e4c9ce535bc770f7a388b716839fedc2611a2f63d74ef26c'
   'ae12a6e0514c4087060e4d5246eedbd7bd7d44c3326b480355b45e6aa823ed6b'
   '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
   '668794ea140f88ac652902a4e897413bb600946d8cfa667590dc91925ceffd68'
-  '588d7e361c9cd31458760ad1f7a5fe7cc08d8be276774854f7c7f68873c9101a'
+  'cc2484463d95f7bdbcf66f3644e5022f395459b94bd7cfabbf1877ca94c61be1'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
-  'e64c0dbcbf49904a1e2b70bf0b01d3a8503cd28912abf8ef677b2e415649e0b8')
+  'e64c0dbcbf49904a1e2b70bf0b01d3a8503cd28912abf8ef677b2e415649e0b8'
+)
 
 depends=(
   "systemd"
