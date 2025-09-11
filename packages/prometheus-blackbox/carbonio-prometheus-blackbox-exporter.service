@@ -13,4 +13,4 @@ ExecStart=/usr/bin/carbonio-prometheus-blackbox-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=carbonio.target
+WantedBy=multi-user.target
