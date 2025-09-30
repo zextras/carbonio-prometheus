@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-nginx-exporter"
 pkgver="1.4.2"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Nginx exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -15,11 +15,14 @@ source=(
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
-sha256sums=('382125866a1dc4ae6ac5355bb462040a7f0d96d9d1bd59658c2d5f80b49e3da6'
+
+sha256sums=(
+  '382125866a1dc4ae6ac5355bb462040a7f0d96d9d1bd59658c2d5f80b49e3da6'
   '6927553baccafe09cb9ba0a9117020c9099b2edc68865b5e8a7b78797fafcf08'
-  '4ac56c918df18fff8a6f87801e4ddb25bdd6c61e982fc06f06774ae4b1364128'
+  '195baf15dcab360b6093d9d918b8b8cdba7df9abd12dad2973e104c3e1ca3cee'
   'be8e25a6cc4dba290c6039b7c27f0e22e030c4a70320b8f71dde03492dca538e'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746')
+  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+)
 
 depends=(
   "systemd"

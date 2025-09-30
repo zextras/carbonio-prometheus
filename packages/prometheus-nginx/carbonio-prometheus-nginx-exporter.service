@@ -2,6 +2,7 @@
 Description=Carbonio Prometheus NGINX exporter
 Wants=network-online.target
 After=network.target
+PartOf=carbonio.target
 
 [Service]
 User=carbonio-prometheus

@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-process-exporter"
 pkgver="0.8.7"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Process exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -17,13 +17,16 @@ source=(
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
 )
-sha256sums=('6d274cca5e94c6a25e55ec05762a472561859ce0a05b984aaedb67dd857ceee2'
+
+sha256sums=(
+  '6d274cca5e94c6a25e55ec05762a472561859ce0a05b984aaedb67dd857ceee2'
   '6212db4a4388ab4ecb32276edafa2cad62a836bcec790f3c5cb8c722448e50c1'
-  '68cfaf3e6920698edfaa35916b3a81b163ee5db2ee68e4d2863484955ca2f10f'
+  '7727215456f2825902c0381a5fc05f0841461a29255f25ec71faad7ce821cd38'
   '1236102292804f5eb3ab73458944275e42bc82d793752565253583b72d885bfe'
   'aef359c9aa73a24ca4b83e94253d7c76ced2fd2ed7f0b4e661fe7b4323aa0b19'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
-  '3ba6e846d12c6df853ccfcc07737b028becff4a39dc53b250759372554397c88')
+  '3ba6e846d12c6df853ccfcc07737b028becff4a39dc53b250759372554397c88'
+)
 
 depends=(
   "systemd"

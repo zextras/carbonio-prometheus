@@ -2,7 +2,7 @@
 Description=Carbonio Prometheus Postgres exporter
 Wants=network-online.target
 After=network.target
-
+PartOf=carbonio.target
 [Service]
 User=carbonio-prometheus
 Group=carbonio-prometheus

@@ -23,4 +23,4 @@ else
     exit 1
 fi
 
-systemctl restart carbonio-prometheus-mysqld-exporter.service
+systemctl restart carbonio-prometheus-haproxy-exporter.service
