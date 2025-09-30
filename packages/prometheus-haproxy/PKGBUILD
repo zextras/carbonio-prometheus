@@ -15,6 +15,7 @@ source=(
   "${pkgname}-consul.hcl"
   "prometheus.sysusers"
 )
+
 sha256sums=(
   'ac200872b734e2f9c0211997f7f9c0ca5ad6522996c37aed39a732d5f3c0de16'
   '9e5134ce9352d5f70f84b3748e477423eaf3efa4471afcdfc54b45add154d16f'
