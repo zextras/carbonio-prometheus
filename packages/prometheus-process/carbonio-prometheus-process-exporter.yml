@@ -1,5 +1,6 @@
 process_names:
-  - comm:
+  - name: "{{.ExeBase}}-{{.Username}}"
+    comm:
       - amavis-mc
       - carbonio*
       - clamd
@@ -21,4 +22,4 @@ process_names:
       - memcached
       - envoy
       - vector
-      - carbonio*
+      - mariadbd
