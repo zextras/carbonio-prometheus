@@ -262,3 +262,17 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+
+  - job_name: "carbonio-mailbox"
+    metrics_path: /service/metrics
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services: ["carbonio-mailbox"]
+    relabel_configs:
+      - source_labels: [__meta_consul_node]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+        action: replace
