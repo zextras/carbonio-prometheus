@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus"
 pkgver="3.5.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -21,7 +21,8 @@ source=(
   "prometheus.service"
   "prometheus.sysusers"
   "prometheus.yml"
-  "carbonio-prometheus.sh"
+  "${pkgname}-consul.hcl"
+  "${pkgname}.sh"
   "policies.json"
   "${pkgname}.tmpfiles"
 )
@@ -37,6 +38,7 @@ sha256sums=('e811827af26d822afb09a4f28314f61b618b12cff5369835a67f674d8b46f39a'
   'a5c63b4f47a74e1c938879f7789c029f6a17c00cf70c57f74f60a308e341666a'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
   '8d4dd345ec64083209c4f61d1ce2d1f6b8a7550f4ed8b27cc1b649b0f0ebe5c2'
+  '4ec62e411371db1df6e5f7fd52db8d7a9010d0ca91b4072f8be178c7e5b80a7d'
   'cdb7b2b2f5ac90c4f3958e584a4c5899c250db1b4775e34f1a242e5713443192'
   '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
   'ecd1fa22949f3addd4ff129f1ce3fd8f02301faca48b73ce90bd5bc75e147d5e'
@@ -67,6 +69,8 @@ package() {
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "prometheus.default" \
     "${pkgdir}/etc/default/${pkgname}"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
   cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
   install -Dm 755 prometheus "${pkgdir}/usr/bin/prometheus"
