@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus"
-pkgver="3.5.0"
-pkgrel="2"
+pkgver="3.7.3"
+pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -26,7 +26,7 @@ source=(
   "policies.json"
   "${pkgname}.tmpfiles"
 )
-sha256sums=('e811827af26d822afb09a4f28314f61b618b12cff5369835a67f674d8b46f39a'
+sha256sums=('fc9e5da126817438cf2820d9a7206c75e3122802ba8d20add3a6219a59ca6913'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
