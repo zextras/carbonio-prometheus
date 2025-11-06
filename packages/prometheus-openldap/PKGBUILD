@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-openldap-exporter"
 pkgver="2.2.4"
-pkgrel="4"
+pkgrel="5"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
