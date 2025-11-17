@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-postgres-exporter"
-pkgver="0.17.1"
-pkgrel="2"
+pkgver="0.18.1"
+pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -19,7 +19,7 @@ source=(
   "${pkgname}.tmpfiles"
 )
 sha256sums=(
-  '6da7d2edafd69ecceb08addec876786fa609849f6d5f903987c0d61c3fc89506'
+  '1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272'
   'ceb07622ff5e2483b92b6b7acc9c190e00c56dd347278c64f1e080ac0830632b'
   'd3161b75e8ab4d08dd49ffbf258b47c80a1e2f76c0ad5e9fa5b17690e387af4b'
   'cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b'
