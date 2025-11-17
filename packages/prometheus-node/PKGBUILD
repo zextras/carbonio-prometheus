@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-node-exporter"
 pkgver="1.10.2"
-pkgrel="0"
+pkgrel="1"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
