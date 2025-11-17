@@ -10,10 +10,10 @@ arch=('x86_64')
 license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-amd64.tar.gz"
+  "131-set-${pkgname}.sh"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
-  "set-${pkgname}.sh"
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
   "${pkgname}.cnf"
@@ -24,7 +24,6 @@ sha256sums=(
   'd6c82a6c806a25a87d4bda6aa6a08af0af7a2528f4773dc6ee78e98f6d7b587e'
   '265a0d85cddaffa505436469a92eb6bd01389bebcb047dff36d3f1e0f1b43e6e'
   '8f7f35a1ca4fdbfea351f9dad62b5f50ec059b7e18314c9137ab655eca336064'
-  '14c6cf3017a3b31fff77215f79e89d1c83bf994f2e78fa97d9b8e4ccdf613f29'
   '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
   '6f76239ebd4ecc86758e73f028960249fe343e407d1b1cf38f11b9e1c22047df'
   '334736e422cbcc875f1c6d87c5e2f885ea3daa4ee4c981205314e64581c2e68e'
@@ -41,6 +40,9 @@ conflicts=(
 package() {
   cd "${srcdir}/"
 
+  install -Dm 755 "${srcdir}/131-set-${pkgname}.sh" \
+    "${pkgdir}/etc/zextras/pending-setups.d/131-set-${pkgname}.sh"
+
   install -Dm644 "${pkgname}.tmpfiles" \
     "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
 
@@ -48,9 +50,6 @@ package() {
 
   install -Dm 755 mysqld_exporter \
     "${pkgdir}/usr/bin/${pkgname}"
-
-  install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
-    "${pkgdir}/etc/zextras/pending-setups.d/set-${pkgname}.sh"
 
   install -Dm 644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
