@@ -10,7 +10,7 @@ arch=('x86_64')
 license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
-  "131-carbonio-prometheus.sh"
+  "131-${pkgname}.sh"
   "clamav.yaml"
   "consul.yaml"
   "mta_queues.yaml"
@@ -23,7 +23,6 @@ source=(
   "prometheus.sysusers"
   "prometheus.yml"
   "${pkgname}-consul.hcl"
-  "${pkgname}.sh"
   "policies.json"
   "${pkgname}.tmpfiles"
 )
