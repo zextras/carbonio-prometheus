@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-nginx-exporter"
-pkgver="1.4.2"
-pkgrel="2"
+pkgver="1.5.1"
+pkgrel="1"
 pkgdesc="Nginx exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -16,7 +16,7 @@ source=(
   "prometheus.sysusers"
 )
 sha256sums=(
-  '382125866a1dc4ae6ac5355bb462040a7f0d96d9d1bd59658c2d5f80b49e3da6'
+  '42ddc7ac31c70021d2a5c10414d473526490769632c1ef430b95d76dd1e3c187'
   '6927553baccafe09cb9ba0a9117020c9099b2edc68865b5e8a7b78797fafcf08'
   '51e20c6ee91a336e234a0203894f134bd36b6dd4f7f6a566240e31eb7d017063'
   'be8e25a6cc4dba290c6039b7c27f0e22e030c4a70320b8f71dde03492dca538e'
