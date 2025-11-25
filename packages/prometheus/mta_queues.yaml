@@ -19,7 +19,7 @@ groups:
           summary: Mail queue size exceeded 200 messages (instance {{ $labels.instance }})
           description: "Mail queue on {{ $labels.instance }} has {{ $value }} messages pending in the {{ $labels.queue }} queue."
       - alert: More_Than_100_Deferred
-        expr: postfix_queue_stat{job="node"} >= 10
+        expr: postfix_queue_stat{job="node"} >= 100
         for: 2m
         labels:
           severity: warning
