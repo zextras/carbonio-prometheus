@@ -1,0 +1,27 @@
+groups:
+  - name: disk_usage
+    interval: 15s
+    rules:
+      # Please add ignored mountpoints in node_exporter parameters like
+      # "--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)".
+      # Same rule using "node_filesystem_free_bytes" will fire when disk fills for non-root users.
+      - alert: Host_Out_Of_Disk_Space
+        expr: (node_filesystem_avail_bytes{fstype!~"^(fuse.*|tmpfs|cifs|nfs|vfat)"} / node_filesystem_size_bytes < .10 and on (instance, device, mountpoint) node_filesystem_readonly == 0)
+        for: 2m
+        labels:
+          severity: blocker
+        annotations:
+          summary: Host out of disk space (instance {{ $labels.instance }})
+          description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      # Please add ignored mountpoints in node_exporter parameters like
+      # "--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)".
+      # Same rule using "node_filesystem_free_bytes" will fire when disk fills for non-root users.
+      - alert: Host_Disk_May_Fill_In_24_Hours
+        expr: predict_linear(node_filesystem_avail_bytes{fstype!~"^(fuse.*|tmpfs|cifs|nfs|vfat)"}[3h], 86400) <= 0 and node_filesystem_avail_bytes > 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host disk may fill in 24 hours (instance {{ $labels.instance }})
+          description: "Filesystem will likely run out of space within the next 24 hours.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+

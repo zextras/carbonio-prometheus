@@ -18,15 +18,17 @@ source=(
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
 )
+
 sha256sums=(
-  '3b12d6dac67eef1cfbe42c6153f156e7b968e6f04298b4d966d51ba5e271a1b3'
-  'cce91b60dd9a5e47e4c9ce535bc770f7a388b716839fedc2611a2f63d74ef26c'
-  'ae12a6e0514c4087060e4d5246eedbd7bd7d44c3326b480355b45e6aa823ed6b'
-  '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
-  '668794ea140f88ac652902a4e897413bb600946d8cfa667590dc91925ceffd68'
-  'cc2484463d95f7bdbcf66f3644e5022f395459b94bd7cfabbf1877ca94c61be1'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
-  'e64c0dbcbf49904a1e2b70bf0b01d3a8503cd28912abf8ef677b2e415649e0b8'
+  '24964ccc249aa3e87a0fd24ef1bfc27a567afb31bf9b91dcf8f61cd6df1760ce'
+  '29d60f7dbe8e675c77e5d777c14aa3c6f1c8d4332e4cd8ba74fed1854e7a1fad'
+  'c5c06342138a154452e7b55c645c2d257952a230f7ea1eae1e4c44e67b6191da'
+  'bf885952ba3d2199998ba2fb73f4ab09c176186ec10f25280a8c930739e17a56'
+  '54a5a6544397a44b7d1d574032183e9235bf9680ab30e1f8185f4f1b4560c881'
+  'c3186cc3e21b19f8d8517d04a2ed93e9a881d809ba1e8d921aeff76d155423ae'
+  'a326410b3d37e65266e4036a08c341220e6fc247b35ec327748d427ea1746a56'
+  'd77c93ce0ff754cc58e1b8a6e6a20d87309a14c7e133e756a7852ca4ae3fc0b3'
+  'fc69e3e8419c98b2a153ca9e0014b4bca029896a2646578405ed68129c920066'
 )
 
 depends=(
@@ -83,17 +85,15 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  # While in beta enable service manually
-  # if [ -d /run/systemd/system ]; then
-  # systemctl daemon-reload >/dev/null 2>&1 || :
-  # systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
-  # systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
-  # fi
+  if [ -d /run/systemd/system ]; then
+  systemctl daemon-reload >/dev/null 2>&1 || :
+  systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+  systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+  fi
 
   echo "======================================================"
   echo "Carbonio Prometheus Alert Manager installed successfully!"
   echo "You can configure it in prometheus.yml"
-  echo "While in beta enable service manually"
   echo "======================================================"
 }
 
