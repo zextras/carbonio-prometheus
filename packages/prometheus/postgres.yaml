@@ -10,4 +10,4 @@ groups:
         annotations:
           summary: Postgresql too many connections (instance {{ $labels.instance }})
           description: "PostgreSQL instance has too many connections (> 80%).\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-    
+   
