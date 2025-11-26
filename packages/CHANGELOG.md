@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. 
 
-### [25.12.0] (2025-11-17)
+### [25.12.0] (2025-11-26)
 
 
 ### Features
@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 * Upgraded Carbonio Prometheus Node exporter to 1.10.2 (based on https://github.com/prometheus/node_exporter/releases/tag/v1.10.2)
 * Upgraded Carbonio Prometheus Postgres exporter to 0.18.1 (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.18.1)
 * Enabled Alertmanager service by default.
-* Added standard Prometheus alerting rules
+* Added basic Prometheus alerting rules
 
 ### Bug Fixes
 * Fixed carbonio-prometheus user HOME: replaced '/' with a proper directory
