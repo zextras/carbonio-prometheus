@@ -11,10 +11,6 @@ license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
   "131-${pkgname}.sh"
-  "blackbox-consul-status.yaml"
-  "blackbox-imap-status.yaml"
-  "blackbox-mysql-status.yaml"
-  "blackbox-postfix-status.yaml"
   "clamav.yaml"
   "consul.yaml"
   "mta_queues.yaml"
@@ -103,15 +99,6 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
   install -Dm 640 "${srcdir}/postgres.yaml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/blackbox-consul-status.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/blackbox-imap-status.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/blackbox-mysql-status.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/blackbox-postfix-status.yaml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-
 }
 
 postinst() {
