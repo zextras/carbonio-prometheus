@@ -13,19 +13,22 @@ source=(
   "alertmanager.yml"
   "email.tmpl"
   "telegram.tmpl"
+  "${pkgname}-consul.hcl"
   "${pkgname}.default"
   "${pkgname}.service"
   "prometheus.sysusers"
   "${pkgname}.tmpfiles"
 )
+
 sha256sums=(
   '3b12d6dac67eef1cfbe42c6153f156e7b968e6f04298b4d966d51ba5e271a1b3'
-  'cce91b60dd9a5e47e4c9ce535bc770f7a388b716839fedc2611a2f63d74ef26c'
-  'ae12a6e0514c4087060e4d5246eedbd7bd7d44c3326b480355b45e6aa823ed6b'
+  '335745d6fdb213a3de0552e59663a44c0175709a8619198b9ed45ae737b894e4'
+  '75011b38f76481bf1e498c2865fc737c5a3303da15d286602c1edba157336bce'
   '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
+  '37b007d87adf55ae3619078d8b487bf32f4a74adbfd690c978930de21aa98fc6'
   '668794ea140f88ac652902a4e897413bb600946d8cfa667590dc91925ceffd68'
   'cc2484463d95f7bdbcf66f3644e5022f395459b94bd7cfabbf1877ca94c61be1'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
   'e64c0dbcbf49904a1e2b70bf0b01d3a8503cd28912abf8ef677b2e415649e0b8'
 )
 
@@ -54,6 +57,8 @@ package() {
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
@@ -83,17 +88,27 @@ postinst() {
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
 
-  # While in beta enable service manually
-  # if [ -d /run/systemd/system ]; then
-  # systemctl daemon-reload >/dev/null 2>&1 || :
-  # systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
-  # systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
-  # fi
+  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
+  if [ "${pkgname}" = "carbonio-prometheus" ]; then
+    if id carbonio-prometheus >/dev/null 2>&1; then
+      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
+      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
+        mkdir -p /var/lib/carbonio-prometheus || true
+        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
+        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
+      fi
+    fi
+  fi
+
+  if [ -d /run/systemd/system ]; then
+  systemctl daemon-reload >/dev/null 2>&1 || :
+  systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+  systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+  fi
 
   echo "======================================================"
   echo "Carbonio Prometheus Alert Manager installed successfully!"
   echo "You can configure it in prometheus.yml"
-  echo "While in beta enable service manually"
   echo "======================================================"
 }
 
