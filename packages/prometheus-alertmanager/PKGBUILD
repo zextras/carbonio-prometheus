@@ -13,6 +13,7 @@ source=(
   "alertmanager.yml"
   "email.tmpl"
   "telegram.tmpl"
+  "${pkgname}-consul.hcl"
   "${pkgname}.default"
   "${pkgname}.service"
   "prometheus.sysusers"
@@ -20,15 +21,15 @@ source=(
 )
 
 sha256sums=(
-  '24964ccc249aa3e87a0fd24ef1bfc27a567afb31bf9b91dcf8f61cd6df1760ce'
-  '29d60f7dbe8e675c77e5d777c14aa3c6f1c8d4332e4cd8ba74fed1854e7a1fad'
-  'c5c06342138a154452e7b55c645c2d257952a230f7ea1eae1e4c44e67b6191da'
-  'bf885952ba3d2199998ba2fb73f4ab09c176186ec10f25280a8c930739e17a56'
-  '54a5a6544397a44b7d1d574032183e9235bf9680ab30e1f8185f4f1b4560c881'
+  '3b12d6dac67eef1cfbe42c6153f156e7b968e6f04298b4d966d51ba5e271a1b3'
+  '335745d6fdb213a3de0552e59663a44c0175709a8619198b9ed45ae737b894e4'
   'c3186cc3e21b19f8d8517d04a2ed93e9a881d809ba1e8d921aeff76d155423ae'
-  'a326410b3d37e65266e4036a08c341220e6fc247b35ec327748d427ea1746a56'
-  'd77c93ce0ff754cc58e1b8a6e6a20d87309a14c7e133e756a7852ca4ae3fc0b3'
-  'fc69e3e8419c98b2a153ca9e0014b4bca029896a2646578405ed68129c920066'
+  '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
+  '37b007d87adf55ae3619078d8b487bf32f4a74adbfd690c978930de21aa98fc6'
+  '668794ea140f88ac652902a4e897413bb600946d8cfa667590dc91925ceffd68'
+  'cc2484463d95f7bdbcf66f3644e5022f395459b94bd7cfabbf1877ca94c61be1'
+  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
+  'e64c0dbcbf49904a1e2b70bf0b01d3a8503cd28912abf8ef677b2e415649e0b8'
 )
 
 depends=(
@@ -56,6 +57,8 @@ package() {
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "prometheus.sysusers" \
     "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
@@ -84,6 +87,18 @@ postinst() {
 
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
+
+  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
+  if [ "${pkgname}" = "carbonio-prometheus" ]; then
+    if id carbonio-prometheus >/dev/null 2>&1; then
+      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
+      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
+        mkdir -p /var/lib/carbonio-prometheus || true
+        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
+        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
+      fi
+    fi
+  fi
 
   if [ -d /run/systemd/system ]; then
   systemctl daemon-reload >/dev/null 2>&1 || :

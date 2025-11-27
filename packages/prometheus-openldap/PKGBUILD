@@ -25,7 +25,7 @@ sha256sums=(
   '39f5856bc3fadffa3264808a25ccc0662df606a1d132ce319c73ed7c1893e4c1'
   '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
   'bc4875f5944b614b00f25db79fa28e5b059156e62352921b82bba4100a387260'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
   '6514371196a55f2096c4c65d281eaf2ace8648f94c432d57ff91776e1949d2ec'
 )
 
@@ -85,6 +85,18 @@ postinst() {
 
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
+
+  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
+  if [ "${pkgname}" = "carbonio-prometheus" ]; then
+    if id carbonio-prometheus >/dev/null 2>&1; then
+      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
+      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
+        mkdir -p /var/lib/carbonio-prometheus || true
+        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
+        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
+      fi
+    fi
+  fi
 
   #/usr/set-carbonio-prometheus-openldap-exporter.sh
 
