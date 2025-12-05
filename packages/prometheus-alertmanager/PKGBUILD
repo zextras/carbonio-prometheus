@@ -28,7 +28,7 @@ sha256sums=(
   '37b007d87adf55ae3619078d8b487bf32f4a74adbfd690c978930de21aa98fc6'
   '668794ea140f88ac652902a4e897413bb600946d8cfa667590dc91925ceffd68'
   'cc2484463d95f7bdbcf66f3644e5022f395459b94bd7cfabbf1877ca94c61be1'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
+  'c84e643a4bb78b84c40674c36ec16bc499a87cf6f8998e022a91c4dbb00f720b'
   'e64c0dbcbf49904a1e2b70bf0b01d3a8503cd28912abf8ef677b2e415649e0b8'
 )
 
@@ -87,18 +87,6 @@ postinst() {
 
   systemd-sysusers >/dev/null || true
   systemd-tmpfiles --create >/dev/null || true
-
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
-  fi
 
   if [ -d /run/systemd/system ]; then
   systemctl daemon-reload >/dev/null 2>&1 || :

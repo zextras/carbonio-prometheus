@@ -1,2 +1,2 @@
-u carbonio-prometheus - "Prometheus dedicated user" /var/lib/prometheus
+u carbonio-prometheus - "Prometheus dedicated user" /nonexistent /usr/sbin/nologin
 m carbonio-prometheus zextras

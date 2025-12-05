@@ -25,7 +25,7 @@ sha256sums=(
   'd6c82a6c806a25a87d4bda6aa6a08af0af7a2528f4773dc6ee78e98f6d7b587e'
   '265a0d85cddaffa505436469a92eb6bd01389bebcb047dff36d3f1e0f1b43e6e'
   '8f7f35a1ca4fdbfea351f9dad62b5f50ec059b7e18314c9137ab655eca336064'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
+  'c84e643a4bb78b84c40674c36ec16bc499a87cf6f8998e022a91c4dbb00f720b'
   '6f76239ebd4ecc86758e73f028960249fe343e407d1b1cf38f11b9e1c22047df'
   '334736e422cbcc875f1c6d87c5e2f885ea3daa4ee4c981205314e64581c2e68e'
 )
@@ -74,18 +74,6 @@ postinst() {
   systemd-tmpfiles --create >/dev/null || true
 
   
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
-  fi
-
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable carbonio-prometheus-mysqld-exporter.service >/dev/null 2>&1 || :
