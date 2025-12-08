@@ -20,11 +20,9 @@ source=(
   "postgres.yaml"
   "prometheus.default"
   "prometheus.service"
-  "prometheus.sysusers"
   "prometheus.yml"
   "${pkgname}-consul.hcl"
   "policies.json"
-  "${pkgname}.tmpfiles"
 )
 sha256sums=(
 'fc9e5da126817438cf2820d9a7206c75e3122802ba8d20add3a6219a59ca6913'
@@ -38,11 +36,9 @@ sha256sums=(
 '8f12b9c502397728e4ee022bb12196d85f8b233379f797a9074760dbb770f9ed'
 '67fcdf44fae34618789f93d43285cd4bcbf6c5915ed5deee66af970673fef075'
 'a5c63b4f47a74e1c938879f7789c029f6a17c00cf70c57f74f60a308e341666a'
-'c84e643a4bb78b84c40674c36ec16bc499a87cf6f8998e022a91c4dbb00f720b'
 '6432fdd667387577cc6091acb2b186a6dbe2656df0de213a312b2211a376794d'
 'd9608270b162862f3eaade13095ab5c44454da664f829c80ce84e88c797ef97d'
 '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
-'ecd1fa22949f3addd4ff129f1ce3fd8f02301faca48b73ce90bd5bc75e147d5e'
 )
 
 depends=(
@@ -60,14 +56,10 @@ backup=(
 package() {
   cd "${srcdir}"
 
-  install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
   install -Dm 755 "131-carbonio-prometheus.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/131-carbonio-prometheus.sh"
   install -Dm 644 "prometheus.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "prometheus.default" \
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
@@ -102,12 +94,22 @@ package() {
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -m -d /home/carbonio-prometheus -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  mkdir -p /etc/carbonio/${pkgname}
+  mkdir -p /var/lib/prometheus
+
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/${pkgname}
+  chown -R carbonio-prometheus:carbonio-prometheus /var/lib/prometheus
+  chown -R carbonio-prometheus:carbonio-prometheus /home/carbonio-prometheus
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :

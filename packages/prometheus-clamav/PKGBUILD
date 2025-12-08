@@ -13,7 +13,6 @@ source=(
   "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/tags/v${pkgver}.zip"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
-  "prometheus.sysusers"
   "${pkgname}.default"
 )
 
@@ -21,7 +20,6 @@ sha256sums=(
   'a2f1dac67a9e84591cd7f8e99d9ce4b695813bc61590e3047ac5596b4104f674'
   '135076811b4b3a340fd2e4f37cc5461b5b5520182c55da08da728f73fa8af6f5'
   'b0cbd0097d5818d7c6dd259cec9df323579ba46a660d92ea11d565773aa4f4b1'
-  'c84e643a4bb78b84c40674c36ec16bc499a87cf6f8998e022a91c4dbb00f720b'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
 )
 
@@ -61,20 +59,24 @@ package() {
   install -Dm 644 "${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  mkdir -p /etc/carbonio/${pkgname}
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/${pkgname}
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
