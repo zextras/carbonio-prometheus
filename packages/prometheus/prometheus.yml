@@ -9,7 +9,7 @@ global:
 #   alertmanagers:
 #   - static_configs:
 #     - targets:
-#       - localhost:9093
+#       - localhost:9095
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 # rule_files:
 #         - "/etc/carbonio/carbonio-prometheus/rules/*.yaml"
@@ -30,7 +30,7 @@ scrape_configs:
   - job_name: "ldap"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-openldap-exporter"
@@ -45,7 +45,7 @@ scrape_configs:
   - job_name: "postgres"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-postgres-exporter"
@@ -60,7 +60,7 @@ scrape_configs:
   - job_name: "node"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-node-exporter"
@@ -75,7 +75,7 @@ scrape_configs:
   - job_name: "mysql"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-mysqld-exporter"
@@ -90,7 +90,7 @@ scrape_configs:
   - job_name: "process"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-process-exporter"
@@ -105,7 +105,7 @@ scrape_configs:
   - job_name: "nginx"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-nginx-exporter"
@@ -120,7 +120,7 @@ scrape_configs:
   - job_name: "consul"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-consul-exporter"
@@ -135,7 +135,7 @@ scrape_configs:
   - job_name: "clamav"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-clamav-exporter"
@@ -150,7 +150,7 @@ scrape_configs:
   - job_name: "files"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         services:
           - "carbonio-files"
     relabel_configs:
@@ -166,7 +166,7 @@ scrape_configs:
   - job_name: "rabbitmq"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-rabbit-exporter"
@@ -181,7 +181,7 @@ scrape_configs:
   - job_name: "storages"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         services:
           - "carbonio-storages"
     relabel_configs:
@@ -200,7 +200,7 @@ scrape_configs:
       module: [tcp_connect]
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
     relabel_configs:
       - source_labels: [__meta_consul_address, __meta_consul_service_port]
         separator: ":"
@@ -218,7 +218,7 @@ scrape_configs:
     metrics_path: /service/extension/metrics/auth
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-mailbox"
@@ -232,7 +232,7 @@ scrape_configs:
     metrics_path: /service/extension/metrics/powerstore
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-mailbox"
@@ -245,7 +245,7 @@ scrape_configs:
   - job_name: "haproxy"
     consul_sd_configs:
       - server: "localhost:8500"
-      - token: "{{ consultoken }}"
+        token: "{{ consultoken }}"
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-haproxy-exporter"
