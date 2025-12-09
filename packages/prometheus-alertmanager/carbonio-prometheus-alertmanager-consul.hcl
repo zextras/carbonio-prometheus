@@ -1,4 +1,4 @@
 service = {
   "name" = "carbonio-prometheus-alertmanager"
-  "port" = 9093
+  "port" = 9095
 }
