@@ -53,4 +53,3 @@ receivers:
       chat_id: 12345678
       message: '{{ template "telegram.message" . }}'
       parse_mode: 'HTML'
-      parse_mode: 'HTML'
