@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 * Fixed carbonio-prometheus user HOME: replaced '/' with a proper directory
+* Fixed "Unexpected response code: 403 (Permission denied: token with AccessorID..)" issue
 
 
 ### [0.11.0] (2025-8-25)

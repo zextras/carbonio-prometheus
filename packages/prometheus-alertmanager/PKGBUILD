@@ -16,20 +16,16 @@ source=(
   "${pkgname}-consul.hcl"
   "${pkgname}.default"
   "${pkgname}.service"
-  "prometheus.sysusers"
-  "${pkgname}.tmpfiles"
 )
 
 sha256sums=(
   '3b12d6dac67eef1cfbe42c6153f156e7b968e6f04298b4d966d51ba5e271a1b3'
-  '335745d6fdb213a3de0552e59663a44c0175709a8619198b9ed45ae737b894e4'
+  'cd844277260d051b69ce0a922c5131ebce3d6164138928dcb23ce577c8c8440c'
   '75011b38f76481bf1e498c2865fc737c5a3303da15d286602c1edba157336bce'
   '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
-  '37b007d87adf55ae3619078d8b487bf32f4a74adbfd690c978930de21aa98fc6'
-  '668794ea140f88ac652902a4e897413bb600946d8cfa667590dc91925ceffd68'
+  'ac22004390edd067345a3869ad70b783eccff74d4eb57c0ab50b4a542baf7603'
+  '59285ebe2d49e29a295fa787bb248a8df91413da51aaa47f97e2b714ef197426'
   'cc2484463d95f7bdbcf66f3644e5022f395459b94bd7cfabbf1877ca94c61be1'
-  'c84e643a4bb78b84c40674c36ec16bc499a87cf6f8998e022a91c4dbb00f720b'
-  'e64c0dbcbf49904a1e2b70bf0b01d3a8503cd28912abf8ef677b2e415649e0b8'
 )
 
 depends=(
@@ -49,14 +45,10 @@ backup=(
 package() {
   cd "${srcdir}"
 
-  install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm 644 "${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
@@ -77,26 +69,35 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/templates/"
   install -Dm 644 "${srcdir}/email.tmpl" \
     "${pkgdir}/etc/carbonio/${pkgname}/templates/"
-
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  mkdir -p /etc/carbonio/${pkgname}
+  mkdir -p /etc/carbonio/${pkgname}/templates
+  mkdir -p /var/lib/alertmanager/data
+
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/${pkgname}
+  chown -R carbonio-prometheus:carbonio-prometheus /var/lib/alertmanager
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
 
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
-
   if [ -d /run/systemd/system ]; then
-  systemctl daemon-reload >/dev/null 2>&1 || :
-  systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
-  systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
   echo "Carbonio Prometheus Alert Manager installed successfully!"
-  echo "You can configure it in prometheus.yml"
+  echo "You can configure it in alertmanager.yml"
   echo "======================================================"
 }
 

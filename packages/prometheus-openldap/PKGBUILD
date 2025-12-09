@@ -15,8 +15,6 @@ source=(
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
-  "prometheus.sysusers"
-  "${pkgname}.tmpfiles"
 )
 sha256sums=(
   '4615e0e422109af6bdba6488092b5b651b8a014ef9bdf91f37978234d8484ce3'
@@ -25,8 +23,6 @@ sha256sums=(
   '39f5856bc3fadffa3264808a25ccc0662df606a1d132ce319c73ed7c1893e4c1'
   '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
   'bc4875f5944b614b00f25db79fa28e5b059156e62352921b82bba4100a387260'
-  'c84e643a4bb78b84c40674c36ec16bc499a87cf6f8998e022a91c4dbb00f720b'
-  '6514371196a55f2096c4c65d281eaf2ace8648f94c432d57ff91776e1949d2ec'
 )
 
 depends=(
@@ -59,9 +55,6 @@ package() {
   install -Dm 644 "131-set-${pkgname}.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/131-set-${pkgname}.sh"
 
-  install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
-
   install -Dm 755 "./openldap_exporter-${pkgver}/target/openldap_exporter-linux" \
     "${pkgdir}/usr/bin/${pkgname}"
 
@@ -72,19 +65,23 @@ package() {
   install -Dm 644 "${pkgname}.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
-  install -Dm 644 "prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  mkdir -p /etc/carbonio/${pkgname}
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/${pkgname}
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
 
   #/usr/set-carbonio-prometheus-openldap-exporter.sh
 
