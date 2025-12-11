@@ -103,7 +103,7 @@ postinst() {
   mkdir -p /etc/carbonio/${pkgname}
   mkdir -p /var/lib/prometheus
 
-  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/${pkgname}
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus
   chown -R carbonio-prometheus:carbonio-prometheus /var/lib/prometheus
   chown -R carbonio-prometheus:carbonio-prometheus /home/carbonio-prometheus
 
