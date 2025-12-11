@@ -82,7 +82,7 @@ postinst() {
   mkdir -p /etc/carbonio/${pkgname}/templates
   mkdir -p /var/lib/alertmanager/data
 
-  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/${pkgname}
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-alertmanager
   chown -R carbonio-prometheus:carbonio-prometheus /var/lib/alertmanager
 
   if hash initctl 2>/dev/null; then
