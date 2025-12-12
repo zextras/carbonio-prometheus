@@ -71,7 +71,6 @@ postinst() {
   getent passwd 'carbonio-prometheus' >/dev/null ||
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
 
-  mkdir -p /etc/carbonio/${pkgname}
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-clamav-exporter
 
   if hash initctl 2>/dev/null; then

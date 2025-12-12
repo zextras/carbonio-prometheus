@@ -78,10 +78,6 @@ postinst() {
   getent passwd 'carbonio-prometheus' >/dev/null ||
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
 
-  mkdir -p /etc/carbonio/${pkgname}
-  mkdir -p /etc/carbonio/${pkgname}/templates
-  mkdir -p /var/lib/alertmanager/data
-
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-alertmanager
   chown -R carbonio-prometheus:carbonio-prometheus /var/lib/alertmanager
 
@@ -91,8 +87,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
