@@ -60,7 +60,6 @@ postinst() {
   getent passwd 'carbonio-prometheus' >/dev/null ||
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
 
-  mkdir -p /etc/carbonio/${pkgname}
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-blackbox-exporter
 
   if hash initctl 2>/dev/null; then
@@ -69,8 +68,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev_null 2>&1 || :
+    systemctl enable carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-blackbox-exporter.service >/dev_null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -81,8 +80,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
