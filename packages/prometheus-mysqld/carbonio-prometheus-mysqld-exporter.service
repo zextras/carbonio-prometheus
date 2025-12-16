@@ -13,4 +13,4 @@ ExecStart=/usr/bin/carbonio-prometheus-mysqld-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=carbonio.target

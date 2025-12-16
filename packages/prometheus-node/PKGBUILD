@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-node-exporter"
-pkgver="1.9.1"
-pkgrel="2"
+pkgver="1.10.2"
+pkgrel="1"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -13,15 +13,12 @@ source=(
   "${pkgname}.default"
   "${pkgname}-consul.hcl"
   "${pkgname}.service"
-  "prometheus.sysusers"
 )
-
 sha256sums=(
-  'becb950ee80daa8ae7331d77966d94a611af79ad0d3307380907e0ec08f5b4e8'
+  'c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b'
   '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
   '262489445e566e4bc6bd7fe26110650df5bf5a523823d227d676b8b48120123d'
-  'd8751db667bfa48f0582d2d1f2d6a574d8e6cbe1c4942433ef44eab1f791f7ff'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
+  '18d4ffb8963b6abbc293376171f5a1bb5b062bd566177bafcd6a873481a446b4'
 )
 
 depends=(
@@ -47,19 +44,20 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :

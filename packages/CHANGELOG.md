@@ -2,7 +2,26 @@
 
 All notable changes to this project will be documented in this file. 
 
-### [0.11.0] (2025-9-30)
+### [0.12.0] (2025-12-16)
+
+
+### Features
+* Added Prometheus service to Consul
+* Upgraded Carbonio Prometheus to 3.7.3 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.7.3)
+* Upgraded Carbonio Prometheus Alertmanager to 0.29.0 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.29.0)
+* Upgraded Carbonio Prometheus Mysqld exporter to 0.18.0 (based on https://github.com/prometheus/mysqld_exporter/releases/tag/v0.18.0)
+* Upgraded Carbonio Prometheus Nginx exporter to 1.5.1 (based on https://github.com/nginx/nginx-prometheus-exporter/releases/tag/v1.5.1)
+* Upgraded Carbonio Prometheus Node exporter to 1.10.2 (based on https://github.com/prometheus/node_exporter/releases/tag/v1.10.2)
+* Upgraded Carbonio Prometheus Postgres exporter to 0.18.1 (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.18.1)
+* Enabled Alertmanager service by default.
+* Added basic Prometheus alerting rules
+
+### Bug Fixes
+* Fixed carbonio-prometheus user HOME: replaced '/' with a proper directory
+* Fixed "Unexpected response code: 403 (Permission denied: token with AccessorID..)" issue
+
+
+### [0.11.0] (2025-8-25)
 
 
 ### Features

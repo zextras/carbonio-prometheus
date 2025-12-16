@@ -13,4 +13,4 @@ ExecStart=/usr/bin/carbonio-prometheus-consul-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=carbonio.target

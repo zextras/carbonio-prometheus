@@ -14,4 +14,4 @@ ExecStart=/usr/bin/carbonio-prometheus-openldap-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=carbonio.target

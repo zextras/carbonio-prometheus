@@ -1,0 +1,44 @@
+{
+    "name": "Prometheus exporter",
+    "description": "Prometheus exporter tools",
+    "buildDir": "/tmp/",
+    "output": "artifacts",
+    "projects": [
+        {
+            "name": "packages/prometheus"
+        },
+        {
+            "name": "packages/prometheus-alertmanager"
+        },
+        {
+            "name": "packages/prometheus-blackbox"
+        },
+        {
+            "name": "packages/prometheus-consul"
+        },
+        {
+            "name": "packages/prometheus-clamav"
+        },
+        {
+            "name": "packages/prometheus-nginx"
+        },
+        {
+            "name": "packages/prometheus-node"
+        },
+        {
+            "name": "packages/prometheus-openldap"
+        },
+        {
+            "name": "packages/prometheus-postgres"
+        },
+        {
+            "name": "packages/prometheus-process"
+        },
+        {
+            "name": "packages/prometheus-mysqld"
+        },
+        {
+            "name": "packages/prometheus-haproxy"
+        }
+    ]
+}

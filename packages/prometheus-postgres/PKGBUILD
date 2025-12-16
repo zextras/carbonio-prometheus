@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-postgres-exporter"
-pkgver="0.17.1"
-pkgrel="2"
+pkgver="0.18.1"
+pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -15,19 +15,14 @@ source=(
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
   "set-${pkgname}.sh"
-  "prometheus.sysusers"
-  "${pkgname}.tmpfiles"
 )
-
 sha256sums=(
-  '6da7d2edafd69ecceb08addec876786fa609849f6d5f903987c0d61c3fc89506'
+  '1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272'
   'ceb07622ff5e2483b92b6b7acc9c190e00c56dd347278c64f1e080ac0830632b'
-  '2307d2bed92d80c41cdcf3c65cdc95e57329dd28c7fa9913b0c1571598e3cc70'
+  'd3161b75e8ab4d08dd49ffbf258b47c80a1e2f76c0ad5e9fa5b17690e387af4b'
   'cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b'
   'c4c0f71ab8d441a51ad0cfcdf0732ec10dbb1df6563f8cc8a43afd2a2300c46a'
   '7f9e5658369bb5524fef1129e52d02af6fb05a627ac59aa032d9ede3b42efd78'
-  '48e22f1cf5592c90a62683f3e551fde213258b980d0858d8a7927da0273fe746'
-  '94aabe32a027064141efcab5c7977a72feaf579486221e666cfb7fe2c2c537f2'
 )
 
 depends=(
@@ -43,11 +38,6 @@ backup=(
 )
 
 package() {
-  cd "${srcdir}/"
-
-  install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
-
   cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 "postgres_exporter" \
@@ -63,19 +53,21 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
-  install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-postgres-exporter
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
 
   /usr/bin/set-carbonio-prometheus-postgres-exporter.sh
 

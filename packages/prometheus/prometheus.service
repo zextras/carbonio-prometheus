@@ -27,4 +27,4 @@ PrivateDevices=yes
 CapabilityBoundingSet=
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=carbonio.target
