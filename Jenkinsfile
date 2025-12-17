@@ -49,7 +49,7 @@ pipeline {
             steps {
                 uploadStage(
                     packages: yapHelper.resolvePackageNames(),
-                    exclusions: [
+                    exclusionMap: [
                         'carbonio-prometheus': ['*alertmanager*.rpm', '*exporter*.rpm']
                     ]
                 )
