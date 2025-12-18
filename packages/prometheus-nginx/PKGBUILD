@@ -13,14 +13,12 @@ source=(
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
-  "prometheus.sysusers"
 )
 sha256sums=(
   '42ddc7ac31c70021d2a5c10414d473526490769632c1ef430b95d76dd1e3c187'
   '6927553baccafe09cb9ba0a9117020c9099b2edc68865b5e8a7b78797fafcf08'
   '51e20c6ee91a336e234a0203894f134bd36b6dd4f7f6a566240e31eb7d017063'
   'be8e25a6cc4dba290c6039b7c27f0e22e030c4a70320b8f71dde03492dca538e'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
 )
 
 depends=(
@@ -43,36 +41,18 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}".conf
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
-  # required until zextras user creation will be made with sysusers.d
-  getent group 'zextras' >/dev/null ||
-    groupadd -r 'zextras'
-  getent passwd 'zextras' >/dev/null ||
-    useradd -r -M -d '/opt/zextras' -g 'zextras' -s /bin/bash 'zextras'
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
 
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
-  fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
-  
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
   fi
 
   if [ -d /run/systemd/system ]; then

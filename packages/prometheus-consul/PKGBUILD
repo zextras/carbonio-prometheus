@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-consul-exporter"
 pkgver="0.13.0"
-pkgrel="2"
+pkgrel="3"
 pkgdesc="Consul exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -13,14 +13,12 @@ source=(
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
-  "prometheus.sysusers"
 )
 sha256sums=(
   '2a8da4147330c6e19c9665deca1c419d507e100de6c8b7c58c0715ff25453773'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
   '4ca3d11a77e2f9ba9f7a9185c7740308c5017fcc41318e80e47dd7b49e12e150'
   'f8040116e1e95184c20e881e57319e0d57ab6f91b5111de9ba9bc2d8baa4fca6'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
  )
 
 depends=(
@@ -43,32 +41,24 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  mkdir -p /etc/carbonio/carbonio-prometheus-consul-exporter
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-consul-exporter
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
   
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
-  fi
-
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable carbonio-prometheus-consul-exporter.service >/dev/null 2>&1 || :

@@ -3,7 +3,7 @@ pkgname="carbonio-prometheus-clamav-exporter"
 pkgdesc="Prometheus-Exporter for ClamAV"
 pkgver="1.0.0"
 maintainer="Zextras <packages@zextras.com>"
-pkgrel="2"
+pkgrel="1"
 section="mail"
 priority="optional"
 arch=('x86_64')
@@ -13,7 +13,6 @@ source=(
   "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/tags/v${pkgver}.zip"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
-  "prometheus.sysusers"
   "${pkgname}.default"
 )
 
@@ -21,7 +20,6 @@ sha256sums=(
   'a2f1dac67a9e84591cd7f8e99d9ce4b695813bc61590e3047ac5596b4104f674'
   '135076811b4b3a340fd2e4f37cc5461b5b5520182c55da08da728f73fa8af6f5'
   'b0cbd0097d5818d7c6dd259cec9df323579ba46a660d92ea11d565773aa4f4b1'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
 )
 
@@ -61,31 +59,22 @@ package() {
   install -Dm 644 "${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-clamav-exporter
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
-  fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
-
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
   fi
 
   if [ -d /run/systemd/system ]; then

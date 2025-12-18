@@ -7,8 +7,6 @@ library(
     ])
 )
 
-properties(defaultPipelineProperties())
-
 pipeline {
     agent {
         node {
@@ -28,6 +26,7 @@ pipeline {
                 checkout scm
                 script {
                     gitMetadata()
+                    properties(defaultPipelineProperties())
                 }
             }
         }
@@ -50,7 +49,7 @@ pipeline {
             steps {
                 uploadStage(
                     packages: yapHelper.resolvePackageNames(),
-                    exclusionMap: [
+                    exclusions: [
                         'carbonio-prometheus': ['*alertmanager*.rpm', '*exporter*.rpm']
                     ]
                 )
