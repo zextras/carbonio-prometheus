@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-blackbox-exporter"
 pkgver="0.27.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -14,17 +14,14 @@ source=(
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
-  "prometheus.sysusers"
-  "${pkgname}.tmpfiles"
 )
 
-sha256sums=('507a77ff411822fd6b543e8b8d9e00e1cc49408df465588cd746753bf05046e2'
+sha256sums=(
+  '507a77ff411822fd6b543e8b8d9e00e1cc49408df465588cd746753bf05046e2'
   '926085ac345712705f4ee202e1b6f751f5e9a7283e45a5e1ded4509a6cd14e47'
   '30abb35c4cb4ebfdbf78646b97380a27c6e06a54dead050f1522a34b73a01c86'
   '3d7990bdb5597dac26f80a52a3fbd6c7165dcb039ce68db2065dca4f8d75c36b'
   'a02eea9a30c53b70e5d85f720dc79dfb3ae4da72a133cefaae0cb35559128833'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
-  '0713741540a4e95cbcd5e603271024c25c4ff2a6bc9ebee34809f3a7bad15ef2'
 )
 
 depends=(
@@ -40,9 +37,6 @@ backup=(
 )
 
 package() {
-  install -Dm 644 "${srcdir}/${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
-
   cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64/"
 
   install -Dm 755 blackbox_exporter \
@@ -55,37 +49,27 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
-  install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
-
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-blackbox-exporter
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
-  fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
-
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
   fi
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-blackbox-exporter.service >/dev_null 2>&1 || :
   fi
 
   echo "======================================================"

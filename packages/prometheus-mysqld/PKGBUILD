@@ -14,8 +14,6 @@ source=(
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
-  "prometheus.sysusers"
-  "${pkgname}.tmpfiles"
   "${pkgname}.cnf"
 )
 
@@ -25,8 +23,6 @@ sha256sums=(
   'd6c82a6c806a25a87d4bda6aa6a08af0af7a2528f4773dc6ee78e98f6d7b587e'
   '265a0d85cddaffa505436469a92eb6bd01389bebcb047dff36d3f1e0f1b43e6e'
   '8f7f35a1ca4fdbfea351f9dad62b5f50ec059b7e18314c9137ab655eca336064'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
-  '6f76239ebd4ecc86758e73f028960249fe343e407d1b1cf38f11b9e1c22047df'
   '334736e422cbcc875f1c6d87c5e2f885ea3daa4ee4c981205314e64581c2e68e'
 )
 
@@ -44,9 +40,6 @@ package() {
   install -Dm 755 "${srcdir}/131-set-${pkgname}.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/131-set-${pkgname}.sh"
 
-  install -Dm644 "${pkgname}.tmpfiles" \
-    "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
-
   cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
 
   install -Dm 755 mysqld_exporter \
@@ -59,31 +52,21 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.cnf" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
 
-  install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
+  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-mysqld-exporter
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
-  fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
-
-  
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
   fi
 
   if [ -d /run/systemd/system ]; then

@@ -13,14 +13,12 @@ source=(
   "${pkgname}.default"
   "${pkgname}-consul.hcl"
   "${pkgname}.service"
-  "prometheus.sysusers"
 )
 sha256sums=(
   'c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b'
   '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
   '262489445e566e4bc6bd7fe26110650df5bf5a523823d227d676b8b48120123d'
   '18d4ffb8963b6abbc293376171f5a1bb5b062bd566177bafcd6a873481a446b4'
-  '8690f89dace846f62a5f2727db0093dc4a46a840d01dd62f35e0f93df55e6bee'
 )
 
 depends=(
@@ -46,30 +44,19 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${srcdir}/prometheus.sysusers" \
-    "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  getent passwd 'carbonio-prometheus' >/dev/null ||
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
-  fi
-
-  systemd-sysusers >/dev/null || true
-  systemd-tmpfiles --create >/dev/null || true
-
-  # Migrate carbonio-prometheus user HOME in 25.12: previous versions incorrectly used '/' as HOME
-  if [ "${pkgname}" = "carbonio-prometheus" ]; then
-    if id carbonio-prometheus >/dev/null 2>&1; then
-      current_home="$(getent passwd carbonio-prometheus | cut -d: -f6 || echo "")"
-      if [ "${current_home}" = "/" ] || [ -z "${current_home}" ]; then
-        mkdir -p /var/lib/carbonio-prometheus || true
-        chown carbonio-prometheus:carbonio-prometheus /var/lib/carbonio-prometheus 2>/dev/null || true
-        usermod -d /var/lib/carbonio-prometheus carbonio-prometheus 2>/dev/null || true
-      fi
-    fi
   fi
 
   if [ -d /run/systemd/system ]; then
