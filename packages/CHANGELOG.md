@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. 
 
+### [0.12.1] (2025-1-12)
+
+
+### Bug Fixes
+* Fixed a bug in the carbonio-prometheus user directory: '/' replaced with the correct directory for existing infrastructures
+
+
 ### [0.12.0] (2025-12-16)
 
 
@@ -13,7 +20,7 @@ All notable changes to this project will be documented in this file.
 * Upgraded Carbonio Prometheus Nginx exporter to 1.5.1 (based on https://github.com/nginx/nginx-prometheus-exporter/releases/tag/v1.5.1)
 * Upgraded Carbonio Prometheus Node exporter to 1.10.2 (based on https://github.com/prometheus/node_exporter/releases/tag/v1.10.2)
 * Upgraded Carbonio Prometheus Postgres exporter to 0.18.1 (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.18.1)
-* Enabled Alertmanager service by default.
+* Enabled Alertmanager service by default
 * Added basic Prometheus alerting rules
 
 ### Bug Fixes
