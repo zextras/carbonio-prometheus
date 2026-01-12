@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus"
 pkgver="3.7.3"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -97,12 +97,16 @@ postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
-  getent passwd 'carbonio-prometheus' >/dev/null ||
-    useradd -r -m -d /home/carbonio-prometheus -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus
   chown -R carbonio-prometheus:carbonio-prometheus /var/lib/prometheus
-  chown -R carbonio-prometheus:carbonio-prometheus /home/carbonio-prometheus
 
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
