@@ -3,7 +3,7 @@ pkgname="carbonio-prometheus-clamav-exporter"
 pkgdesc="Prometheus-Exporter for ClamAV"
 pkgver="1.0.0"
 maintainer="Zextras <packages@zextras.com>"
-pkgrel="1"
+pkgrel="2"
 section="mail"
 priority="optional"
 arch=('x86_64')
@@ -68,8 +68,13 @@ postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
-  getent passwd 'carbonio-prometheus' >/dev/null ||
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-clamav-exporter
 
