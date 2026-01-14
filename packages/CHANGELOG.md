@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ### [0.12.1] (2026-3-10)
 
+
+### Features
 * Upgraded Carbonio Prometheus to 3.9.1 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.9.1)
 * Upgraded Carbonio Prometheus Alertmanager to 0.30.1 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.30.1)
 * Upgraded Carbonio Prometheus Blackbox exporter to 0.28.0 version (based on https://github.com/prometheus/blackbox_exporter/releases/tag/v0.28.0
