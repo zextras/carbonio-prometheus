@@ -56,25 +56,26 @@ TPARSE_OS=$(grep -oP '(?<=PRETTY_NAME=").+(?=")' /etc/os-release)
 #echo ${TPARSE_OS}
 
 case $TPARSE_OS in
-	"Ubuntu 20.04.6 LTS")
+	"Ubuntu 20."*)
 		OS_VERSION="${SUPPORTED_OS_ARRAY[0]}"
 		;;
-	"Ubuntu 22.04.5 LTS")
+	"Ubuntu 22."*)
 		OS_VERSION="${SUPPORTED_OS_ARRAY[1]}"
 		;;
-	"Ubuntu 24.04.2 LTS")
+	"Ubuntu 24."*)
 		OS_VERSION="${SUPPORTED_OS_ARRAY[2]}"
 		;;
-	"Red Hat Enterprise Linux 8.10 (Ootpa)")
+	"Red Hat Enterprise Linux 8"*)
 		OS_VERSION="${SUPPORTED_OS_ARRAY[3]}"
 		;;
-	"Red Hat Enterprise Linux 9.5 (Plow)")
+	"Red Hat Enterprise Linux 9"*)
 		OS_VERSION="${SUPPORTED_OS_ARRAY[4]}"
 		;;
 	*)
-		echo "Error: Unsupported OS"
+		echo "Error: Unsupported OS: $TPARSE_OS"
+		exit 1
 		;;
-esac	
+esac
 
 # echo "${OS_VERSION}"
 if [ $ALL_PACKAGES == "false" ]; then
