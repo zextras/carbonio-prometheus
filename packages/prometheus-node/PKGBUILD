@@ -54,7 +54,7 @@ package() {
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
-  install -Dm 755 "${srcdir}/node_packages.sh \
+  install -Dm 755 "${srcdir}/node_packages.sh" \
     "${pkgdir}/usr/local/sbin/node_packages.sh"
 }
 
