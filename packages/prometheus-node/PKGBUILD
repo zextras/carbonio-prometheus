@@ -58,7 +58,7 @@ package() {
     "${pkgdir}/usr/local/sbin/node_packages.sh"
 }
 
-postinst_apt() {
+postinst__apt() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
@@ -94,7 +94,7 @@ postinst_apt() {
   echo "======================================================"
 }
 
-postinst_yum() {
+postinst__yum() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
@@ -123,7 +123,7 @@ postinst_yum() {
     systemctl enable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
     systemctl start carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
   fi
-
+  
   echo "======================================================"
   echo "Carbonio Node Exporter installed successfully!"
   echo "You must reload service discover or add this host to prometheus.yml"
