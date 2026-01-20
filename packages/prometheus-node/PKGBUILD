@@ -58,7 +58,7 @@ package() {
     "${pkgdir}/usr/local/sbin/node_packages.sh"
 }
 
-postinst_apt() {
+postinst__apt() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
@@ -94,7 +94,7 @@ postinst_apt() {
   echo "======================================================"
 }
 
-postinst_yum() {
+postinst__yum() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
@@ -106,6 +106,14 @@ postinst_yum() {
     fi
   fi
 
+  # configuring DNF post-transaction hook for node_packages.sh
+  if [ -x /usr/local/sbin/node_packages.sh ]; then
+    mkdir -p /etc/dnf/plugins/post-transaction-actions.d
+    echo '*:in:/usr/local/sbin/node_packages.sh' \
+      > /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
+    chmod 644 /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
+  fi
+
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
@@ -114,14 +122,6 @@ postinst_yum() {
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
     systemctl start carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
-  fi
-
-  # configuring DNF post-transaction hook for node_packages.sh
-  if [ -x /usr/local/sbin/node_packages.sh ]; then
-    mkdir -p /etc/dnf/plugins/post-transaction-actions.d
-    echo '*:in:/usr/local/sbin/node_packages.sh' \
-      > /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
-    chmod 644 /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
   fi
   
   echo "======================================================"
