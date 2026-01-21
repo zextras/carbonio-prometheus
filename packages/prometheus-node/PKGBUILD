@@ -109,7 +109,7 @@ postinst__yum() {
   # configuring DNF post-transaction hook for node_packages.sh
   if [ -x /usr/local/sbin/node_packages.sh ]; then
     mkdir -p /etc/dnf/plugins/post-transaction-actions.d
-    echo '*:in:/usr/local/sbin/node_packages.sh' \
+    echo '*:any:/usr/local/sbin/node_packages.sh' \
       > /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
     chmod 644 /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
   fi
