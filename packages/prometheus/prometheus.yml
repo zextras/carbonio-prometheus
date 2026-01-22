@@ -5,14 +5,14 @@ global:
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
-# alerting:
-#   alertmanagers:
-#   - static_configs:
-#     - targets:
-#       - localhost:9095
+alerting:
+  alertmanagers:
+    - file_sd_configs:
+        - files:
+            - /etc/carbonio/carbonio-prometheus/sample-alermanager/*.yml
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-# rule_files:
-#         - "/etc/carbonio/carbonio-prometheus/rules/*.yaml"
+rule_files:
+        - "/etc/carbonio/carbonio-prometheus/rules/*.yaml"
 
 
 # A scrape configuration containing exactly one endpoint to scrape:

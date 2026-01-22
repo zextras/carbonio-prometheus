@@ -71,6 +71,7 @@ package() {
   install -dm 750 "${pkgdir}/var/lib/prometheus"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
   install -Dm 640 "${srcdir}/prometheus.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
   install -Dm 640 "${srcdir}/policies.json" \
@@ -91,6 +92,9 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
   install -Dm 640 "${srcdir}/postgres.yaml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+
+  install -Dm 640 "${srcdir}/alertmanager.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
 }
 
 postinst() {
