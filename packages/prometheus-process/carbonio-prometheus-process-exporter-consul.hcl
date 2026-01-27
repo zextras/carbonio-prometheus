@@ -7,7 +7,7 @@ service {
     id       = "process-exporter-health"
     name     = "Process Exporter Health Check"
     http     = "http://localhost:9256/metrics"
-    interval = "10s"
-    timeout  = "2s"
+    interval = "30s"
+    timeout  = "5s"
   }
 }

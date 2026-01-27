@@ -7,7 +7,7 @@ service {
     id       = "openldap-exporter-health"
     name     = "OpenLDAP Exporter Health Check"
     http     = "http://localhost:9330/metrics"
-    interval = "10s"
-    timeout  = "2s"
+    interval = "30s"
+    timeout  = "5s"
   }
 }

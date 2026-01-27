@@ -7,7 +7,7 @@ service = {
     id       = "mysqld-exporter-health"
     name     = "MySQL Exporter Health Check"
     http     = "http://localhost:9104/metrics"
-    interval = "10s"
-    timeout  = "2s"
+    interval = "30s"
+    timeout  = "5s"
   }
 }

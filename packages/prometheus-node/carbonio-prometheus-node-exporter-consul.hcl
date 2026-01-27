@@ -7,7 +7,7 @@ service {
     id       = "node-exporter-health"
     name     = "Node Exporter Health Check"
     http     = "http://localhost:9100/metrics"
-    interval = "10s"
-    timeout  = "2s"
+    interval = "30s"
+    timeout  = "5s"
   }
 }
