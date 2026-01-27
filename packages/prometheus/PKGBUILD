@@ -96,7 +96,7 @@ package() {
   install -Dm 640 "${srcdir}/postgres.yaml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
 
-  install -Dm 640 "${srcdir}/alertmanager.yaml" \
+  install -Dm 640 "${srcdir}/alertmanager.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
 }
 
