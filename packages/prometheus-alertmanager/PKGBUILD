@@ -63,7 +63,7 @@ package() {
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
   install -Dm 644 "${srcdir}/${pkgname}-template.hcl" \
     "${pkgdir}/etc/zextras/service-discover/templates/${pkgname}-template.hcl"
-  install -Dm 644 "${srcdir}/alertmanager.ctmpl" \
+  install -Dm 644 "${srcdir}/alertmanager.yml.ctmpl" \
     "${pkgdir}/etc/zextras/service-discover/templates/alertmanager.yml.ctmpl"  
 
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
