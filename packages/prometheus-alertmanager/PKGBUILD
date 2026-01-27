@@ -10,10 +10,13 @@ arch=('x86_64')
 license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/alertmanager/releases/download/v${pkgver}/alertmanager-${pkgver}.linux-amd64.tar.gz"
+  "131-carbonio-prometheus-alertmanager.sh"
   "alertmanager.yml"
+  "alertmanager.yml.ctmpl"
   "email.tmpl"
   "telegram.tmpl"
   "${pkgname}-consul.hcl"
+  "${pkgname}-template.hcl"
   "${pkgname}.default"
   "${pkgname}.service"
 )
@@ -51,6 +54,10 @@ package() {
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+  install -Dm 644 "${srcdir}/${pkgname}-template.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/templates/${pkgname}-template.hcl"
+  install -Dm 644 "${srcdir}/alertmanager.ctmpl" \
+    "${pkgdir}/etc/zextras/service-discover/templates/alertmanager.ctmpl"  
 
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
@@ -63,7 +70,7 @@ package() {
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/templates"
 
   install -Dm 644 "${srcdir}/alertmanager.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
+    "${pkgdir}/etc/carbonio/${pkgname}/config-templates/alertmanager.yml"
 
   install -Dm 644 "${srcdir}/telegram.tmpl" \
     "${pkgdir}/etc/carbonio/${pkgname}/templates/"
