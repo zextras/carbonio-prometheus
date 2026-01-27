@@ -13,6 +13,7 @@ source=(
   "131-carbonio-prometheus-alertmanager.sh"
   "alertmanager.yml"
   "alertmanager.yml.ctmpl"
+  "consul-template-alertmanager.service"
   "email.tmpl"
   "telegram.tmpl"
   "${pkgname}-consul.hcl"
@@ -26,6 +27,7 @@ sha256sums=(
   'bd35fe84bffc5abb5c5795d7b24675fc3735a8d478bd115ac2ed59777712c20d'
   'cd844277260d051b69ce0a922c5131ebce3d6164138928dcb23ce577c8c8440c'
   '45e4867821a0484c12398ba2ad0193cdb287108f12e9e78fcda77a9bf727663b'
+  'ea85b3453b308282e877b669a8f1604cc62d5b3abd1f131c1708a9959794f109'
   '75011b38f76481bf1e498c2865fc737c5a3303da15d286602c1edba157336bce'
   '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
   '8ca890f9482a55b613f25d120f4099d97109e189324085e971cd02c0b6ea6174'
@@ -53,6 +55,8 @@ package() {
 
   install -Dm 644 "${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm 644 "${pkgname}.service" \
+    "${pkgdir}/usr/lib/systemd/system/consul-template-alertmanager.service"
   install -Dm 644 "${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
@@ -102,6 +106,9 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable consul-template-alertmanager >/dev/null 2>&1 || :
+    systemctl start consul-template-alertmanager >/dev/null 2>&1 || :
+
     systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
     systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
   fi
