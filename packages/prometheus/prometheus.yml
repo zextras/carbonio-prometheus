@@ -1,18 +1,18 @@
 #Global config
 global:
-  scrape_interval: 35s # Set the scrape interval to every 30 seconds. Default is every 1 minute.
+  scrape_interval: 30s # Set the scrape interval to every 30 seconds. Default is every 1 minute.
   evaluation_interval: 60s # Evaluate rules every 60 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
-# alerting:
-#   alertmanagers:
-#   - static_configs:
-#     - targets:
-#       - localhost:9095
+alerting:
+  alertmanagers:
+    - file_sd_configs:
+        - files:
+            - /etc/carbonio/carbonio-prometheus/alermanager/*.yml
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-# rule_files:
-#         - "/etc/carbonio/carbonio-prometheus/rules/*.yaml"
+rule_files:
+        - "/etc/carbonio/carbonio-prometheus/rules/*.yml"
 
 
 # A scrape configuration containing exactly one endpoint to scrape:
@@ -42,6 +42,27 @@ scrape_configs:
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
 
+  - job_name: "blackbox-ldap"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+    relabel_configs:
+      - source_labels: [__meta_consul_service]
+        regex: carbonio-prometheus-openldap-exporter
+        action: keep
+      - source_labels: [__meta_consul_tagged_address_lan_ipv4]
+        regex: (.*)
+        replacement: $1:389
+        target_label: __param_target
+      - source_labels: [__meta_consul_node]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115
+        
   - job_name: "postgres"
     consul_sd_configs:
       - server: "localhost:8500"

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. 
 
-### [0.12.1] (2026-3-10)
+### [0.13.0] (2026-3-10)
 
 
 ### Features
@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 * Upgraded Carbonio Prometheus Alertmanager to 0.30.1 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.30.1)
 * Upgraded Carbonio Prometheus Blackbox exporter to 0.28.0 version (based on https://github.com/prometheus/blackbox_exporter/releases/tag/v0.28.0)
 * Implemented metrics collection for monitoring installed Carbonio package versions
+* Added TCP availability monitoring for LDAP using Blackbox Exporter
+* Added Consul monitoring for missing nodes and services
+* Centralized Alertmanager configuration management via Consul KV
 
 
 ### Bug Fixes

@@ -18,8 +18,8 @@ source=(
 sha256sums=(
   'c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b'
   '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
-  '262489445e566e4bc6bd7fe26110650df5bf5a523823d227d676b8b48120123d'
-  '18d4ffb8963b6abbc293376171f5a1bb5b062bd566177bafcd6a873481a446b4'
+  '56115ebf7c79921ba3ce82e020eefe0e7fff6fcad96948238a1408f95cbd9240'
+  'd8751db667bfa48f0582d2d1f2d6a574d8e6cbe1c4942433ef44eab1f791f7ff'
   'c0759b34a7232f04c08c343fdbdc4785efea7376c0cc8371af3f215342dbf495'
 )
 
@@ -109,7 +109,7 @@ postinst__yum() {
   # configuring DNF post-transaction hook for node_packages.sh
   if [ -x /usr/local/sbin/node_packages.sh ]; then
     mkdir -p /etc/dnf/plugins/post-transaction-actions.d
-    echo '*:in:/usr/local/sbin/node_packages.sh' \
+    echo '*:any:/usr/local/sbin/node_packages.sh' \
       > /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
     chmod 644 /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
   fi
