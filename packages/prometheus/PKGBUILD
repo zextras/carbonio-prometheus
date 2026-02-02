@@ -81,19 +81,19 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
     
   # Prometheus sample-rules:
-  install -Dm 640 "${srcdir}/clamav.yaml" \
+  install -Dm 640 "${srcdir}/clamav.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/consul.yaml" \
+  install -Dm 640 "${srcdir}/consul.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/mta_queues.yaml" \
+  install -Dm 640 "${srcdir}/mta_queues.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/mysql.yaml" \
+  install -Dm 640 "${srcdir}/mysql.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/nginx.yaml" \
+  install -Dm 640 "${srcdir}/nginx.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/node-exporter.yaml" \
+  install -Dm 640 "${srcdir}/node-exporter.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/postgres.yaml" \
+  install -Dm 640 "${srcdir}/postgres.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
 
   install -Dm 640 "${srcdir}/alertmanager.yml" \
