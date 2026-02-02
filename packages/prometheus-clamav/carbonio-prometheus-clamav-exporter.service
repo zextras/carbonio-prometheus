@@ -13,4 +13,4 @@ EnvironmentFile=/etc/default/carbonio-prometheus-clamav-exporter
 ExecStart=/usr/bin/carbonio-prometheus-clamav-exporter
 
 [Install]
-WantedBy=carbonio.target
+WantedBy=multi-user.target

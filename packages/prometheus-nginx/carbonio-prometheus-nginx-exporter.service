@@ -16,4 +16,4 @@ ExecStart=/usr/bin/carbonio-prometheus-nginx-exporter $ARGS
 Restart=always
 
 [Install]
-WantedBy=carbonio.target
+WantedBy=multi-user.target
