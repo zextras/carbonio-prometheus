@@ -30,7 +30,7 @@ echo "Validating Alertmanager configuration"
 amtool check-config /etc/carbonio/carbonio-prometheus-alertmanager/alertmanager.yml
 
 echo "Reloading Alertmanager"
-systemctl reload carbonio-prometheus-alertmanager
+systemctl restart carbonio-prometheus-alertmanager
 
 export -n CONSUL_HTTP_TOKEN
 
