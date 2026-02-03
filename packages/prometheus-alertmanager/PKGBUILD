@@ -57,6 +57,9 @@ package() {
   install -Dm 644 "${srcdir}/alertmanager.yml.ctmpl" \
     "${pkgdir}/etc/zextras/service-discover/templates/alertmanager.yml.ctmpl"  
 
+  install -Dm 755 "131-carbonio-prometheus-alertmanager.sh" \
+    "${pkgdir}/etc/zextras/pending-setups.d/131-carbonio-prometheus-alertmanager.sh"
+
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
   install -Dm 755 alertmanager \
