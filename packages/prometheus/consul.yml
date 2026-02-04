@@ -60,7 +60,7 @@ groups:
             max_over_time(
               count by (node)(
                 consul_health_node_status{check="serfHealth", status="passing"}
-              )[15m]
+              )[15m:]
             )
           )
           and
@@ -71,7 +71,7 @@ groups:
                   check="serfHealth",
                   status=~"critical|warning|maintenance"
                 }
-              )[15m]
+              )[15m:]
             ) == 0
           )
         for: 2m
@@ -94,7 +94,7 @@ groups:
             max_over_time(
               count by (service)(
                 consul_health_check_status{status="passing"}
-              )[15m]
+              )[15m:]
             )
           )
           and
@@ -102,7 +102,7 @@ groups:
             increase(
               count by (service)(
                 consul_health_check_status{status=~"critical|warning|maintenance"}
-              )[15m]
+              )[15m:]
             ) == 0
           )
         for: 2m
