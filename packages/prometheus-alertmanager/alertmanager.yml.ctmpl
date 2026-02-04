@@ -1,1 +1,1 @@
-{{ key "carbonio/alertmanager/config" }}
+{{ key "carbonio-alertmanager/config" }}
