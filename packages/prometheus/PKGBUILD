@@ -83,6 +83,8 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
     
   # Prometheus sample-rules:
+  install -Dm 640 "${srcdir}/blackbox-ldap.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
   install -Dm 640 "${srcdir}/clamav.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
   install -Dm 640 "${srcdir}/consul.yml" \
