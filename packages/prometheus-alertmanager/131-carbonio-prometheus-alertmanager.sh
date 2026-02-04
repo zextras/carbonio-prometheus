@@ -29,8 +29,11 @@ consul-template -once \
 echo "Validating Alertmanager configuration"
 amtool check-config /etc/carbonio/carbonio-prometheus-alertmanager/alertmanager.yml
 
-echo "Reloading Alertmanager"
+echo "Restart Alertmanager service"
 systemctl restart carbonio-prometheus-alertmanager
+
+echo "Reloading Service Discover"
+consul reload
 
 export -n CONSUL_HTTP_TOKEN
 
