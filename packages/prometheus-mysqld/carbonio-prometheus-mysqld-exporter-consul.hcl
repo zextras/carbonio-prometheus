@@ -4,10 +4,10 @@ service = {
   "port" = 9104
 
   check = {
-    id       = "mysqld-exporter-health"
-    name     = "MySQL Exporter Health Check"
-    http     = "http://localhost:9104/metrics"
-    interval = "30s"
+    id       = "mysqld-exporter-tcp"
+    name     = "MySQL Exporter TCP Check"
+    tcp      = "localhost:9104"
+    interval = "40s"
     timeout  = "5s"
   }
 }

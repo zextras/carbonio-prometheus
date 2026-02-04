@@ -4,10 +4,10 @@ service {
   port = 9100
 
   check {
-    id       = "node-exporter-health"
-    name     = "Node Exporter Health Check"
-    http     = "http://localhost:9100/metrics"
-    interval = "30s"
+    id       = "node-exporter-tcp"
+    name     = "Node Exporter TCP Check"
+    tcp      = "localhost:9100"
+    interval = "40s"
     timeout  = "5s"
   }
 }
