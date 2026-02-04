@@ -84,34 +84,3 @@ groups:
           description: |
             Node {{ $labels.node }} lost serfHealth passing status without
             transitioning to critical, warning, or maintenance.
-      - alert: ConsulServicePassingInstancesMissing
-        expr: |
-          (
-            count by (service)(
-              consul_health_check_status{status="passing"}
-            )
-            <
-            max_over_time(
-              count by (service)(
-                consul_health_check_status{status="passing"}
-              )[15m:]
-            )
-          )
-          and
-          (
-            increase(
-              count by (service)(
-                consul_health_check_status{status=~"critical|warning|maintenance"}
-              )[15m:]
-            ) == 0
-          )
-        for: 2m
-        labels:
-          severity: critical
-          component: consul
-          scope: service
-        annotations:
-          summary: "Consul service lost passing instances"
-          description: |
-            Service {{ $labels.service }} lost passing instances without any
-            transition to critical, warning, or maintenance.
