@@ -17,10 +17,10 @@ export -n SETUP_CONSUL_TOKEN
 SRC_CFG="/etc/carbonio/carbonio-prometheus-alertmanager/config-templates/alertmanager.yml"
 
 echo "Uploading Alertmanager config to Consul KV"
-consul kv put carbonio/alertmanager/config @"${SRC_CFG}"
+consul kv put carbonio-alertmanager/config @"${SRC_CFG}"
 
 echo "Verifying Consul KV entry"
-consul kv get carbonio/alertmanager/config >/dev/null
+consul kv get carbonio-alertmanager/config >/dev/null
 
 echo "Rendering Alertmanager config from Consul KV"
 consul-template -once \
