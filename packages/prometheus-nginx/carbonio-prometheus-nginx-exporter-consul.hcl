@@ -4,10 +4,10 @@ service = {
   "port" = 9113
 
   check = {
-    id       = "nginx-exporter-health"
-    name     = "NGINX Exporter Health Check"
-    http     = "http://localhost:9113/metrics"
-    interval = "30s"
+    id       = "nginx-exporter-tcp"
+    name     = "NGINX Exporter TCP Check"
+    tcp      = "localhost:9113"
+    interval = "40s"
     timeout  = "5s"
   }
 }

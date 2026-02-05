@@ -4,10 +4,10 @@ service {
   port = 9256
 
   check {
-    id       = "process-exporter-health"
-    name     = "Process Exporter Health Check"
-    http     = "http://localhost:9256/metrics"
-    interval = "30s"
+    id       = "process-exporter-tcp"
+    name     = "Process Exporter TCP Check"
+    tcp      = "localhost:9256"
+    interval = "40s"
     timeout  = "5s"
   }
 }

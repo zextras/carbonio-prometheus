@@ -4,10 +4,10 @@ service = {
   tags = ["prometheus-exporter"]
 
   check = {
-    id       = "blackbox-exporter-health"
-    name     = "Blackbox Exporter Health Check"
-    http     = "http://localhost:9115/metrics"
-    interval = "30s"
+    id       = "blackbox-exporter-tcp"
+    name     = "Blackbox Exporter TCP Check"
+    tcp      = "localhost:9115"
+    interval = "40s"
     timeout  = "5s"
   }
 }

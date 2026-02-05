@@ -4,10 +4,10 @@ service = {
   "port" = 9107
 
   check = {
-    id       = "consul-exporter-health"
-    name     = "Consul Exporter Health Check"
-    http     = "http://localhost:9107/metrics"
-    interval = "30s"
+    id       = "consul-exporter-tcp"
+    name     = "Consul Exporter TCP Check"
+    tcp      = "localhost:9107"
+    interval = "40s"
     timeout  = "5s"
   }
 }

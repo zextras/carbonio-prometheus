@@ -4,10 +4,10 @@ service {
   port = 9187
 
   check {
-    id       = "postgres-exporter-health"
-    name     = "Postgres Exporter Health Check"
-    http     = "http://localhost:9187/metrics"
-    interval = "30s"
+    id       = "postgres-exporter-tcp"
+    name     = "Postgres Exporter TCP Check"
+    tcp      = "localhost:9187"
+    interval = "40s"
     timeout  = "5s"
   }
 }

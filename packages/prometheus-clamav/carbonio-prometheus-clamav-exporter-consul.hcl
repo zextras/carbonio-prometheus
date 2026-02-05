@@ -4,10 +4,10 @@ service = {
   "port" = 9810
 
   check = {
-    id       = "clamav-exporter-health"
-    name     = "ClamAV Exporter Health Check"
-    http     = "http://localhost:9810/metrics"
-    interval = "30s"
+    id       = "clamav-exporter-tcp"
+    name     = "ClamAV Exporter TCP Check"
+    tcp      = "localhost:9810"
+    interval = "40s"
     timeout  = "5s"
   }
 }

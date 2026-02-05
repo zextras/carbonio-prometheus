@@ -9,7 +9,7 @@ alerting:
   alertmanagers:
     - file_sd_configs:
         - files:
-            - /etc/carbonio/carbonio-prometheus/alermanager/*.yml
+            - /etc/carbonio/carbonio-prometheus/alertmanager/*.yml
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
         - "/etc/carbonio/carbonio-prometheus/rules/*.yml"
