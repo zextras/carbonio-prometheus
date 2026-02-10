@@ -1,1 +1,3 @@
-ARGS=""
+ARGS="
+--consul.request-limit=5
+"

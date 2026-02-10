@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 * Fixed a bug in the carbonio-prometheus user directory: '/' replaced with the correct directory for existing infrastructures
+* Limited concurrent requests in the exporter with --consul.request-limit=5 to enhance monitoring reliability and reduce infrastructure load.
 
 
 ### [0.12.0] (2025-12-16)
