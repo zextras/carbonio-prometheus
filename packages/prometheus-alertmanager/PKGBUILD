@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-alertmanager"
-pkgver="0.30.1"
+pkgver="0.31.0"
 pkgrel="1"
 pkgdesc="Alert manager exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -21,7 +21,7 @@ source=(
 )
 
 sha256sums=(
-  '79bc54258ba9b039e2c3a23b3bc3d74b699f29070f5d67c41d68d5323e309a26'
+  '74fc59f4cb6bb2f17b72bbd23e18e067d558fa4529f0ee43603e26b8f495cede'
   '3f566f466133af9670b21df5eb8507d8ccadc966a31cee22a72762d4c0b8abab'
   'cd844277260d051b69ce0a922c5131ebce3d6164138928dcb23ce577c8c8440c'
   '48fb73fe642efc3a59cd54545873484870bb40fac002564ae1bafc826c7bde67'
@@ -106,9 +106,9 @@ postinst() {
   fi
 
   echo "======================================================"
-  echo "Carbonio Prometheus Alert Manager installed successfully!"
-  echo "Edit /etc/carbonio/carbonio-prometheus-alertmanager/config-templates/alertmanager.yml"
-  echo "And run pending-setups to complete the installation"
+  echo "Carbonio Prometheus Alertmanager installed successfully!"
+  echo "Run pending-setups to complete the installation"
+  echo "Configure the alertmanager in Consul Key Value Store" 
   echo "======================================================"
 }
 
