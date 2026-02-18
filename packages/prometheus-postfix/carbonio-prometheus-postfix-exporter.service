@@ -1,0 +1,28 @@
+[Unit]
+Description=Postfix Queue Prometheus Exporter
+Documentation=https://prometheus.io/docs/instrumenting/exporters/
+After=network.target postfix.service
+
+[Service]
+Type=simple
+User=carbonio-prometheus
+Group=carbonio-prometheus
+ExecStart=/usr/bin/python3 /opt/zextras/libexec/postfix_queue_exporter.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/
+ReadWritePaths=/opt/zextras/common/sbin
+
+# Environment
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target

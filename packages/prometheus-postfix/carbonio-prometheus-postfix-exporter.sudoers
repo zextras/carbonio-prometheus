@@ -1,0 +1,2 @@
+carbonio-prometheus ALL=(root) NOPASSWD: /opt/zextras/common/sbin/postqueue -j
+carbonio-prometheus ALL=(root) NOPASSWD: /opt/zextras/common/sbin/postqueue -p
