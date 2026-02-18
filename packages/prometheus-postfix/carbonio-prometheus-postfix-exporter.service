@@ -1,7 +1,8 @@
 [Unit]
-Description=Postfix Queue Prometheus Exporter
-Documentation=https://prometheus.io/docs/instrumenting/exporters/
-After=network.target postfix.service
+Description=Carbonio Postfix Queue Prometheus Exporter
+Wants=network-online.target
+After=network.target
+PartOf=carbonio.target
 
 [Service]
 Type=simple
@@ -12,16 +13,6 @@ Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-
-# Security settings
-NoNewPrivileges=true
-PrivateTmp=true
-ProtectSystem=strict
-ProtectHome=true
-ReadOnlyPaths=/
-ReadWritePaths=/opt/zextras/common/sbin
-
-# Environment
 Environment="PYTHONUNBUFFERED=1"
 
 [Install]

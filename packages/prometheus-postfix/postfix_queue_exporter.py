@@ -9,6 +9,8 @@ import re
 import subprocess
 import time
 import logging
+import os
+import pwd
 from prometheus_client import start_http_server, Gauge, Info
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
 
@@ -17,6 +19,7 @@ LISTEN_ADDRESS = '0.0.0.0'
 LISTEN_PORT = 9154
 POSTQUEUE_PATH = '/opt/zextras/common/sbin/postqueue'
 SCRAPE_TIMEOUT = 30  # seconds
+POSTFIX_USER = 'carbonio-prometheus'  # User that has access to postfix queue
 
 # Setup logging
 logging.basicConfig(
@@ -24,6 +27,38 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger('postfix_exporter')
+
+
+def drop_privileges_and_run(command):
+    """
+    Run command as postfix user using subprocess with preexec_fn.
+    This avoids sudo entirely.
+    """
+    try:
+        # Get postfix user's uid/gid
+        postfix_pwd = pwd.getpwnam(POSTFIX_USER)
+        postfix_uid = postfix_pwd.pw_uid
+        postfix_gid = postfix_pwd.pw_gid
+        
+        def demote():
+            """Demote process to postfix user"""
+            os.setgid(postfix_gid)
+            os.setuid(postfix_uid)
+        
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            timeout=SCRAPE_TIMEOUT,
+            preexec_fn=demote
+        )
+        return result
+    except KeyError:
+        logger.error(f"User '{POSTFIX_USER}' does not exist")
+        return None
+    except PermissionError:
+        logger.error(f"Cannot change to user '{POSTFIX_USER}' - insufficient privileges")
+        return None
 
 
 class PostfixQueueCollector:
@@ -40,24 +75,26 @@ class PostfixQueueCollector:
         queue_counts = {queue: 0 for queue in self.queue_types}
 
         try:
-            result = subprocess.run(
-                ['/usr/bin/sudo', POSTQUEUE_PATH, '-j'],
-                capture_output=True,
-                text=True,
-                timeout=SCRAPE_TIMEOUT
-            )
+            result = drop_privileges_and_run([POSTQUEUE_PATH, '-j'])
+            
+            if result is None:
+                logger.error("Failed to run postqueue -j")
+                return queue_counts
 
-            if result.returncode == 0 and result.stdout:
+            if result.returncode == 0 and result.stdout and result.stdout.strip():
                 for line in result.stdout.strip().split('\n'):
-                    if line:
+                    if line.strip():
                         try:
                             queue_item = json.loads(line)
                             queue_name = queue_item.get('queue_name', '')
                             if queue_name in queue_counts:
                                 queue_counts[queue_name] += 1
                         except json.JSONDecodeError:
-                            logger.warning(f"Failed to parse JSON line: {line}")
+                            logger.warning(f"Failed to parse JSON line: {line[:100]}")
                             continue
+            elif result.returncode != 0:
+                logger.error(f"postqueue -j failed with return code {result.returncode}: {result.stderr}")
+
         except subprocess.TimeoutExpired:
             logger.error("postqueue -j command timed out")
         except FileNotFoundError:
@@ -73,23 +110,25 @@ class PostfixQueueCollector:
         requests = 0
 
         try:
-            result = subprocess.run(
-                ['/usr/bin/sudo', POSTQUEUE_PATH, '-p'],
-                capture_output=True,
-                text=True,
-                timeout=SCRAPE_TIMEOUT
-            )
+            result = drop_privileges_and_run([POSTQUEUE_PATH, '-p'])
+            
+            if result is None:
+                logger.error("Failed to run postqueue -p")
+                return size_kb, requests
 
-            if result.returncode == 0 and result.stdout:
+            if result.returncode == 0 and result.stdout and result.stdout.strip():
                 lines = result.stdout.strip().split('\n')
                 if lines:
                     last_line = lines[-1]
-
+                    
                     # Parse: "-- 1234 Kbytes in 56 Request(s)."
                     match = re.search(r'(\d+)\s+Kbytes\s+in\s+(\d+)\s+Request', last_line)
                     if match:
                         size_kb = int(match.group(1))
                         requests = int(match.group(2))
+            elif result.returncode != 0:
+                logger.error(f"postqueue -p failed with return code {result.returncode}: {result.stderr}")
+
         except subprocess.TimeoutExpired:
             logger.error("postqueue -p command timed out")
         except FileNotFoundError:
@@ -156,7 +195,7 @@ class PostfixExporter:
         # Add exporter info
         self.exporter_info = Info('postfix_exporter', 'Postfix Queue Statistics Exporter')
         self.exporter_info.info({
-            'version': '2.0.0',
+            'version': '1.0.0',
             'postqueue_path': POSTQUEUE_PATH,
         })
 
