@@ -7,8 +7,9 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 * Upgraded Carbonio Prometheus to 3.9.1 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.9.1)
-* Upgraded Carbonio Prometheus Alertmanager to 0.30.1 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.30.1)
+* Upgraded Carbonio Prometheus Alertmanager to 0.31.0 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.30.1)
 * Upgraded Carbonio Prometheus Blackbox exporter to 0.28.0 version (based on https://github.com/prometheus/blackbox_exporter/releases/tag/v0.28.0)
+* Upgraded Carbonio Prometheus Postgres exporter to 0.19.0 version (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.19.0)
 * Implemented metrics collection for monitoring installed Carbonio package versions
 * Added TCP availability monitoring for LDAP using Blackbox Exporter
 * Added Consul monitoring for missing nodes and services
@@ -17,6 +18,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 * Fixed a bug in the carbonio-prometheus user directory: '/' replaced with the correct directory for existing infrastructures
+* Limited concurrent requests in the exporter with --consul.request-limit=5 to enhance monitoring reliability and reduce infrastructure load.
 
 
 ### [0.12.0] (2025-12-16)
