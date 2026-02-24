@@ -41,7 +41,22 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
-        
+
+  - job_name: "postfix"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-postfix-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+
   - job_name: "postgres"
     consul_sd_configs:
       - server: "localhost:8500"
@@ -146,6 +161,23 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+
+  - job_name: "docs"
+    metrics_path: /services/docs/editor/cool/getMetrics
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        services:
+          - "carbonio-docs-editor"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - source_labels:
+          [__meta_consul_address, __meta_consul_service_metadata_prom_port]
+        separator: ":"
+        target_label: __address__
 
   - job_name: "files"
     consul_sd_configs:
