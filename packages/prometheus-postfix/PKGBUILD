@@ -79,6 +79,7 @@ postinst() {
   echo "======================================================"
   echo "Carbonio Prometheus Postfix Exporter installed successfully!"
   echo "Metrics available at: http://localhost:9154/metrics"
+  echo "You must reload service discover or add this host to prometheus.yml"
   echo "======================================================"
 }
 

@@ -29,6 +29,9 @@
             "name": "packages/prometheus-openldap"
         },
         {
+            "name": "packages/prometheus-postfix"
+        },
+        {
             "name": "packages/prometheus-postgres"
         },
         {
