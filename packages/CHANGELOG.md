@@ -11,9 +11,9 @@ All notable changes to this project will be documented in this file.
 * Upgraded Carbonio Prometheus Blackbox exporter to 0.28.0 version (based on https://github.com/prometheus/blackbox_exporter/releases/tag/v0.28.0)
 * Upgraded Carbonio Prometheus Postgres exporter to 0.19.0 version (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.19.0)
 * Implemented metrics collection for monitoring installed Carbonio package versions
-* Added TCP availability monitoring for LDAP using Blackbox Exporter
 * Added Consul monitoring for missing nodes and services
 * Centralized Alertmanager configuration management via Consul KV
+* Added new carbonio-prometheus-postfix-exporter to monitor Postfix mail queues and statistics
 
 
 ### Bug Fixes
