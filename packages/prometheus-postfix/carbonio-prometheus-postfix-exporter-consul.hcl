@@ -1,6 +1,6 @@
 service {
   name = "carbonio-prometheus-postfix-exporter"
-  tags = ["prometheus-postfix-exporter"]
+  tags = ["prometheus-exporter"]
   port = 9154
   check {
     id       = "postfix-exporter-tcp"
