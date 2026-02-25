@@ -17,7 +17,7 @@ source=(
 
 sha256sums=(
   'bd0efcb77995ea5f1cf314778c0bfc54e085ed877f75d580805266bcff81c32d'
-  'fe98427dc69e78a7edfa2a986a55a6466f3df98a7bb70d5b29c98cf98576c45d'
+  'b876f3fb7cdf3888eb444c755799166c0f596879d6856eab00d49465774c68dc'
   '07bb9ee63a93798d825ce5a19368bf5640ac479b563c42f4aa75ba21c25aef9b'
   'd73fe9e4bd494e81d712bed5868a06e77470d74505cd2f7bfa47cf4e8ce146d5'
 )
@@ -61,9 +61,13 @@ postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
-  # Create carbonio-prometheus user if it doesn't exist
+  # Create carbonio-prometheus user if it doesn't exist/fix home directory if exists
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
   fi
 
   if hash initctl 2>/dev/null; then
@@ -72,8 +76,8 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl start ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
@@ -85,8 +89,8 @@ postinst() {
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable ${pkgname}.service >/dev/null 2>&1 || :
-    systemctl stop ${pkgname}.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
