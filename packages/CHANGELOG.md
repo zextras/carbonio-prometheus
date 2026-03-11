@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. 
 
+### [0.13.0] (2026-3-11)
+
+
+### Features
+* Upgraded Carbonio Prometheus to 3.9.1 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.9.1)
+* Upgraded Carbonio Prometheus Alertmanager to 0.31.0 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.30.1)
+* Upgraded Carbonio Prometheus Blackbox exporter to 0.28.0 version (based on https://github.com/prometheus/blackbox_exporter/releases/tag/v0.28.0)
+* Upgraded Carbonio Prometheus Postgres exporter to 0.19.0 version (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.19.0)
+* Implemented metrics collection for monitoring installed Carbonio package versions
+* Added Consul monitoring for missing nodes and services
+* Centralized Alertmanager configuration management via Consul KV
+* Added new carbonio-prometheus-postfix-exporter to monitor Postfix mail queues and statistics
+
+
+### Bug Fixes
+* Fixed a bug in the carbonio-prometheus user directory: '/' replaced with the correct directory for existing infrastructures
+* Limited concurrent requests in the exporter with --consul.request-limit=5 to enhance monitoring reliability and reduce infrastructure load.
+
+
 ### [0.12.0] (2025-12-16)
 
 
@@ -13,8 +32,9 @@ All notable changes to this project will be documented in this file.
 * Upgraded Carbonio Prometheus Nginx exporter to 1.5.1 (based on https://github.com/nginx/nginx-prometheus-exporter/releases/tag/v1.5.1)
 * Upgraded Carbonio Prometheus Node exporter to 1.10.2 (based on https://github.com/prometheus/node_exporter/releases/tag/v1.10.2)
 * Upgraded Carbonio Prometheus Postgres exporter to 0.18.1 (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.18.1)
-* Enabled Alertmanager service by default.
+* Enabled Alertmanager service by default
 * Added basic Prometheus alerting rules
+
 
 ### Bug Fixes
 * Fixed carbonio-prometheus user HOME: replaced '/' with a proper directory

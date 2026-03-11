@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus"
-pkgver="3.7.3"
+pkgver="3.9.1"
 pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -11,13 +11,14 @@ license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
   "131-${pkgname}.sh"
-  "clamav.yaml"
-  "consul.yaml"
-  "mta_queues.yaml"
-  "mysql.yaml"
-  "nginx.yaml"
-  "node-exporter.yaml"
-  "postgres.yaml"
+  "alertmanager.yml"
+  "clamav.yml"
+  "consul.yml"
+  "mta_queues.yml"
+  "mysql.yml"
+  "nginx.yml"
+  "node-exporter.yml"
+  "postgres.yml"
   "prometheus.default"
   "prometheus.service"
   "prometheus.yml"
@@ -25,19 +26,20 @@ source=(
   "policies.json"
 )
 sha256sums=(
-'fc9e5da126817438cf2820d9a7206c75e3122802ba8d20add3a6219a59ca6913'
+'86a6999dd6aacbd994acde93c77cfa314d4be1c8e7b7c58f444355c77b32c584'
 'cdb7b2b2f5ac90c4f3958e584a4c5899c250db1b4775e34f1a242e5713443192'
+'866472d0a45a42bba0f1a6ba0b8665bd648e0c2ca5024df044185eaf38cff99d'
 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-'e8e9196fbec24f25f2835d7537681f9cccb2a6a1635360eed052ec811f03e56c'
+'3ef85a8cd1a4447cc931f4caeb1707ecba13fde500f0281efd024b753c34a15a'
 '9385cdb96cff5095ba59dc56a0c57803f34d7df65c6533bb3731a64f6b4bfa6a'
 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 '0bc7ab4807e9e6be3a4b3005de6b3476875744e26e4ac7d66b449a5852d7a493'
 '8f12b9c502397728e4ee022bb12196d85f8b233379f797a9074760dbb770f9ed'
 '67fcdf44fae34618789f93d43285cd4bcbf6c5915ed5deee66af970673fef075'
-'a5c63b4f47a74e1c938879f7789c029f6a17c00cf70c57f74f60a308e341666a'
-'0edde018f3b9dd0412ffdd9812b38d3e1f0f87381be100ec1cb27917b8b9ae19'
-'d9608270b162862f3eaade13095ab5c44454da664f829c80ce84e88c797ef97d'
+'097356ac60b8275e72c7190118903ed2c1e902bba90a3d4d1dd489fdac64d6be'
+'7d038c4771dc694818189ffd0dcb009e44a5c772252769bc49d7c8785887217d'
+'96266d8f5a75414eb5e0b3b52dcc7f7845049bab3b8b7759c3a77d72897c77aa'
 '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
 )
 
@@ -71,38 +73,47 @@ package() {
   install -dm 750 "${pkgdir}/var/lib/prometheus"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/rules"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
+  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/alertmanager"
   install -Dm 640 "${srcdir}/prometheus.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
   install -Dm 640 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
     
   # Prometheus sample-rules:
-  install -Dm 640 "${srcdir}/clamav.yaml" \
+  install -Dm 640 "${srcdir}/clamav.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/consul.yaml" \
+  install -Dm 640 "${srcdir}/consul.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/mta_queues.yaml" \
+  install -Dm 640 "${srcdir}/mta_queues.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/mysql.yaml" \
+  install -Dm 640 "${srcdir}/mysql.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/nginx.yaml" \
+  install -Dm 640 "${srcdir}/nginx.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/node-exporter.yaml" \
+  install -Dm 640 "${srcdir}/node-exporter.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -Dm 640 "${srcdir}/postgres.yaml" \
+  install -Dm 640 "${srcdir}/postgres.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+
+  install -Dm 640 "${srcdir}/alertmanager.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
 }
 
 postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
-  getent passwd 'carbonio-prometheus' >/dev/null ||
-    useradd -r -m -d /home/carbonio-prometheus -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus
   chown -R carbonio-prometheus:carbonio-prometheus /var/lib/prometheus
-  chown -R carbonio-prometheus:carbonio-prometheus /home/carbonio-prometheus
 
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true

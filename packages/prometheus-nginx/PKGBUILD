@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-nginx-exporter"
 pkgver="1.5.1"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Nginx exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -17,8 +17,8 @@ source=(
 sha256sums=(
   '42ddc7ac31c70021d2a5c10414d473526490769632c1ef430b95d76dd1e3c187'
   '6927553baccafe09cb9ba0a9117020c9099b2edc68865b5e8a7b78797fafcf08'
-  '51e20c6ee91a336e234a0203894f134bd36b6dd4f7f6a566240e31eb7d017063'
-  'be8e25a6cc4dba290c6039b7c27f0e22e030c4a70320b8f71dde03492dca538e'
+  '195baf15dcab360b6093d9d918b8b8cdba7df9abd12dad2973e104c3e1ca3cee'
+  '9e0174bfd8187d9b324cce8b70f47b10c12522629e97dbb1cd239281d3f608f1'
 )
 
 depends=(
@@ -48,8 +48,13 @@ package() {
 postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
-  getent passwd 'carbonio-prometheus' >/dev/null ||
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true

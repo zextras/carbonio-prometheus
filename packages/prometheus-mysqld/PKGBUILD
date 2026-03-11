@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-mysqld-exporter"
 pkgver="0.18.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Mysqld exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -21,8 +21,8 @@ sha256sums=(
   '46e8f45654352bdd42d162b2b4a68f00055d45acc168f9c068235b9e3acc39c1'
   '14c6cf3017a3b31fff77215f79e89d1c83bf994f2e78fa97d9b8e4ccdf613f29'
   'd6c82a6c806a25a87d4bda6aa6a08af0af7a2528f4773dc6ee78e98f6d7b587e'
-  '265a0d85cddaffa505436469a92eb6bd01389bebcb047dff36d3f1e0f1b43e6e'
-  '8f7f35a1ca4fdbfea351f9dad62b5f50ec059b7e18314c9137ab655eca336064'
+  'd065bb421fdd27d4678fd68f720b10b9403f682a623846b97f64c402d7688578'
+  '66148952a85c25ed6fc1e825bcfcd972be6ce4d31cbca682256e0e5639f4c0cc'
   '334736e422cbcc875f1c6d87c5e2f885ea3daa4ee4c981205314e64581c2e68e'
 )
 
@@ -60,8 +60,13 @@ postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
-  getent passwd 'carbonio-prometheus' >/dev/null ||
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-mysqld-exporter
 

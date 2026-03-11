@@ -1,0 +1,101 @@
+pkgname="carbonio-prometheus-postfix-exporter"
+pkgver="1.0.0"
+pkgrel="1"
+pkgdesc="Prometheus exporter for Postfix mail queue statistics"
+maintainer="Zextras <packages@zextras.com>"
+url="https://zextras.com"
+section="mail"
+priority="optional"
+arch=('x86_64')
+license=('Apache-2.0')
+source=(
+  "postfix_queue_exporter.py"
+  "${pkgname}-consul.hcl"
+  "${pkgname}.service"
+  "${pkgname}.sudoers"
+)
+
+sha256sums=(
+  'bd0efcb77995ea5f1cf314778c0bfc54e085ed877f75d580805266bcff81c32d'
+  'b876f3fb7cdf3888eb444c755799166c0f596879d6856eab00d49465774c68dc'
+  '07bb9ee63a93798d825ce5a19368bf5640ac479b563c42f4aa75ba21c25aef9b'
+  'd73fe9e4bd494e81d712bed5868a06e77470d74505cd2f7bfa47cf4e8ce146d5'
+)
+
+depends=(
+  "systemd"
+  "python3"
+  "python3-prometheus-client"
+)
+
+conflicts=(
+  "postfix-queue-exporter"
+)
+
+backup=(
+  "etc/sudoers.d/carbonio-prometheus-postfix"
+)
+
+package() {
+  cd "${srcdir}"
+
+  # Install the exporter script
+  install -Dm 755 "postfix_queue_exporter.py" \
+    "${pkgdir}/opt/zextras/libexec/postfix_queue_exporter.py"
+
+  # Install systemd service
+  install -Dm 644 "${pkgname}.service" \
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+
+  # Install consul service discovery config
+  install -Dm 644 "${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+
+  # Install sudoers file (0440 required)
+  install -Dm 440 "${pkgname}.sudoers" \
+    "${pkgdir}/etc/sudoers.d/carbonio-prometheus-postfix"
+}
+
+postinst() {
+  # Create carbonio-prometheus group if it doesn't exist
+  getent group 'carbonio-prometheus' >/dev/null ||
+    groupadd -r 'carbonio-prometheus'
+
+  # Create carbonio-prometheus user if it doesn't exist/fix home directory if exists
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
+
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+  fi
+
+  echo "======================================================"
+  echo "Carbonio Prometheus Postfix Exporter installed successfully!"
+  echo "Metrics available at: http://localhost:9154/metrics"
+  echo "You must reload service discover or add this host to prometheus.yml"
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+  fi
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
+}

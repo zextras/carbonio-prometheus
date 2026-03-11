@@ -1,0 +1,86 @@
+groups:
+  - name: carbonio_service_down
+    interval: 30s
+    rules:
+      - alert: ServiceDown1h
+        expr: consul_catalog_service_node_healthy{job="consul"} == 0
+        for: 1h
+        labels:
+          severity: blocker
+        annotations:
+          summary: Consul service healthcheck failed (node {{ $labels.node }})
+          description: "Service {{ $labels.service_name }} (ID: {{ $labels.service_id }}) on {{ $labels.node }} has been down for over 1 hour."
+      - alert: ServiceDown30m
+        expr: consul_catalog_service_node_healthy{job="consul"} == 0
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: Consul service healthcheck failed (node {{ $labels.node }})
+          description: "Service {{ $labels.service_name }} (ID: {{ $labels.service_id }}) on {{ $labels.node }} has been down for over 30 minutes."
+      - alert: ServiceDown1m
+        expr: consul_catalog_service_node_healthy{job="consul"} == 0
+        for: 1m
+        labels:
+          severity: alert
+        annotations:
+          summary: Consul service healthcheck failed (node {{ $labels.node }})
+          description: "Service {{ $labels.service_name }} (ID: {{ $labels.service_id }}) on {{ $labels.node }} has been down for over 1 minute."
+      - alert: ConsulRaftPeersDropped
+        expr: |
+          consul_raft_peers
+            < avg_over_time(consul_raft_peers[15m])
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Consul raft peers count dropped"
+          description: |
+            The number of Consul raft peers is lower than the average value
+            over the last 15 minutes.
+      - alert: ConsulNodeCountDropped
+        expr: |
+          consul_serf_lan_members
+            < avg_over_time(consul_serf_lan_members[15m])
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Consul node count dropped"
+          description: |
+            The number of Consul LAN members is lower than the average value
+            over the last 15 minutes.
+      - alert: ConsulNodeSerfHealthMissing
+        expr: |
+          (
+            count by (node)(
+              consul_health_node_status{check="serfHealth", status="passing"}
+            )
+            <
+            max_over_time(
+              count by (node)(
+                consul_health_node_status{check="serfHealth", status="passing"}
+              )[15m:]
+            )
+          )
+          and
+          (
+            increase(
+              count by (node)(
+                consul_health_node_status{
+                  check="serfHealth",
+                  status=~"critical|warning|maintenance"
+                }
+              )[15m:]
+            ) == 0
+          )
+        for: 2m
+        labels:
+          severity: critical
+          component: consul
+          scope: node
+        annotations:
+          summary: "Consul node became unavailable"
+          description: |
+            Node {{ $labels.node }} lost serfHealth passing status without
+            transitioning to critical, warning, or maintenance.

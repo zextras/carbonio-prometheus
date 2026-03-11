@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-postgres-exporter"
-pkgver="0.18.1"
+pkgver="0.19.0"
 pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -17,11 +17,11 @@ source=(
   "set-${pkgname}.sh"
 )
 sha256sums=(
-  '1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272'
+  '11033f9016d0c5a5b91742d17aa37490b170f055ec1bb0d7d69509d223952ed0'
   'ceb07622ff5e2483b92b6b7acc9c190e00c56dd347278c64f1e080ac0830632b'
-  'd3161b75e8ab4d08dd49ffbf258b47c80a1e2f76c0ad5e9fa5b17690e387af4b'
+  '2307d2bed92d80c41cdcf3c65cdc95e57329dd28c7fa9913b0c1571598e3cc70'
   'cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b'
-  'c4c0f71ab8d441a51ad0cfcdf0732ec10dbb1df6563f8cc8a43afd2a2300c46a'
+  '634fd8048f73aeb1e92b4f700b82615b1cc2e0f634dd202eac4b58c419d4ec00'
   '7f9e5658369bb5524fef1129e52d02af6fb05a627ac59aa032d9ede3b42efd78'
 )
 
@@ -60,8 +60,13 @@ package() {
 postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
-  getent passwd 'carbonio-prometheus' >/dev/null ||
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-postgres-exporter
 

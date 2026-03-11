@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-blackbox-exporter"
-pkgver="0.27.0"
-pkgrel="2"
+pkgver="0.28.0"
+pkgrel="1"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -17,11 +17,11 @@ source=(
 )
 
 sha256sums=(
-  '507a77ff411822fd6b543e8b8d9e00e1cc49408df465588cd746753bf05046e2'
+  'caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329'
   '926085ac345712705f4ee202e1b6f751f5e9a7283e45a5e1ded4509a6cd14e47'
-  '30abb35c4cb4ebfdbf78646b97380a27c6e06a54dead050f1522a34b73a01c86'
+  'c34316d2f81b877cb32e9337dc8cd39cafde70f486a2fe0e275629e8715b7b6c'
   '3d7990bdb5597dac26f80a52a3fbd6c7165dcb039ce68db2065dca4f8d75c36b'
-  'a02eea9a30c53b70e5d85f720dc79dfb3ae4da72a133cefaae0cb35559128833'
+  'd54cafdd9d744c96b3a333951cfb82db49d6c35ff6ea9c5a137f05187ae682ce'
 )
 
 depends=(
@@ -57,8 +57,13 @@ postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
-  getent passwd 'carbonio-prometheus' >/dev/null ||
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-blackbox-exporter
 

@@ -1,18 +1,18 @@
 #Global config
 global:
-  scrape_interval: 35s # Set the scrape interval to every 30 seconds. Default is every 1 minute.
+  scrape_interval: 30s # Set the scrape interval to every 30 seconds. Default is every 1 minute.
   evaluation_interval: 60s # Evaluate rules every 60 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
-# alerting:
-#   alertmanagers:
-#   - static_configs:
-#     - targets:
-#       - localhost:9095
+alerting:
+  alertmanagers:
+    - file_sd_configs:
+        - files:
+            - /etc/carbonio/carbonio-prometheus/alertmanager/*.yml
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-# rule_files:
-#         - "/etc/carbonio/carbonio-prometheus/rules/*.yaml"
+rule_files:
+        - "/etc/carbonio/carbonio-prometheus/rules/*.yml"
 
 
 # A scrape configuration containing exactly one endpoint to scrape:
@@ -34,6 +34,21 @@ scrape_configs:
         datacenter: "dc1"
         services:
           - "carbonio-prometheus-openldap-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+
+  - job_name: "postfix"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-postfix-exporter"
         tags:
           - "prometheus-exporter"
     relabel_configs:
@@ -146,6 +161,23 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+
+  - job_name: "docs"
+    metrics_path: /services/docs/editor/cool/getMetrics
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        services:
+          - "carbonio-docs-editor"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - source_labels:
+          [__meta_consul_address, __meta_consul_service_metadata_prom_port]
+        separator: ":"
+        target_label: __address__
 
   - job_name: "files"
     consul_sd_configs:

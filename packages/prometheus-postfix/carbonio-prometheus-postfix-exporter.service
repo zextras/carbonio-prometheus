@@ -1,0 +1,19 @@
+[Unit]
+Description=Carbonio Postfix Queue Prometheus Exporter
+Wants=network-online.target
+After=network.target
+PartOf=carbonio.target
+
+[Service]
+Type=simple
+User=carbonio-prometheus
+Group=carbonio-prometheus
+ExecStart=/usr/bin/python3 /opt/zextras/libexec/postfix_queue_exporter.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-alertmanager"
-pkgver="0.29.0"
+pkgver="0.31.0"
 pkgrel="1"
 pkgdesc="Alert manager exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -10,7 +10,9 @@ arch=('x86_64')
 license=('Apache-2.0')
 source=(
   "https://github.com/prometheus/alertmanager/releases/download/v${pkgver}/alertmanager-${pkgver}.linux-amd64.tar.gz"
+  "131-carbonio-prometheus-alertmanager.sh"
   "alertmanager.yml"
+  "alertmanager.yml.ctmpl"
   "email.tmpl"
   "telegram.tmpl"
   "${pkgname}-consul.hcl"
@@ -19,13 +21,15 @@ source=(
 )
 
 sha256sums=(
-  '3b12d6dac67eef1cfbe42c6153f156e7b968e6f04298b4d966d51ba5e271a1b3'
-  'cd844277260d051b69ce0a922c5131ebce3d6164138928dcb23ce577c8c8440c'
+  '74fc59f4cb6bb2f17b72bbd23e18e067d558fa4529f0ee43603e26b8f495cede'
+  '3f566f466133af9670b21df5eb8507d8ccadc966a31cee22a72762d4c0b8abab'
+  '59d7e8cceb8de9ce37228b403faa04c394619b21d0657ba6504d41ea248c96f9'
+  '48fb73fe642efc3a59cd54545873484870bb40fac002564ae1bafc826c7bde67'
   '75011b38f76481bf1e498c2865fc737c5a3303da15d286602c1edba157336bce'
   '34b0850a3afd77765fe4b3cca2fffd95564087fb465a39bd8a4e3a7a98a3c17f'
-  'ac22004390edd067345a3869ad70b783eccff74d4eb57c0ab50b4a542baf7603'
+  '8ca890f9482a55b613f25d120f4099d97109e189324085e971cd02c0b6ea6174'
   '59285ebe2d49e29a295fa787bb248a8df91413da51aaa47f97e2b714ef197426'
-  'cc2484463d95f7bdbcf66f3644e5022f395459b94bd7cfabbf1877ca94c61be1'
+  '11ccd9b69987a8821e20dd56ab68d5b1cadf12bfdc4ef312b1a3c872d7994bb5'
 )
 
 depends=(
@@ -37,7 +41,6 @@ conflicts=(
 )
 
 backup=(
-  "etc/carbonio/${pkgname}/alertmanager.yml"
   "etc/carbonio/${pkgname}/templates/email.tmpl"
   "etc/carbonio/${pkgname}/templates/telegram.tmpl"
 )
@@ -51,6 +54,11 @@ package() {
     "${pkgdir}/etc/default/${pkgname}"
   install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+  install -Dm 644 "${srcdir}/alertmanager.yml.ctmpl" \
+    "${pkgdir}/etc/zextras/service-discover/templates/alertmanager.yml.ctmpl"  
+
+  install -Dm 755 "131-carbonio-prometheus-alertmanager.sh" \
+    "${pkgdir}/etc/zextras/pending-setups.d/131-carbonio-prometheus-alertmanager.sh"
 
   cd "${srcdir}/alertmanager-${pkgver}.linux-amd64"
 
@@ -63,7 +71,7 @@ package() {
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/templates"
 
   install -Dm 644 "${srcdir}/alertmanager.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/alertmanager.yml"
+    "${pkgdir}/etc/carbonio/${pkgname}/config-templates/alertmanager.yml"
 
   install -Dm 644 "${srcdir}/telegram.tmpl" \
     "${pkgdir}/etc/carbonio/${pkgname}/templates/"
@@ -75,8 +83,13 @@ postinst() {
   getent group 'carbonio-prometheus' >/dev/null ||
     groupadd -r 'carbonio-prometheus'
 
-  getent passwd 'carbonio-prometheus' >/dev/null ||
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
 
   chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-alertmanager
   chown -R carbonio-prometheus:carbonio-prometheus /var/lib/alertmanager
@@ -87,13 +100,15 @@ postinst() {
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
+
     systemctl enable carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
     systemctl start carbonio-prometheus-alertmanager.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
-  echo "Carbonio Prometheus Alert Manager installed successfully!"
-  echo "You can configure it in alertmanager.yml"
+  echo "Carbonio Prometheus Alertmanager installed successfully!"
+  echo "Run pending-setups to complete the installation"
+  echo "Configure the alertmanager in Consul Key Value Store" 
   echo "======================================================"
 }
 
