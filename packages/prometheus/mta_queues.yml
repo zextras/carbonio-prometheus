@@ -3,7 +3,7 @@ groups:
     interval: 30s
     rules:
       - alert: More_Than_300_Deferred
-        expr: postfix_queue_stat{job="node"} >= 300
+        expr: postfix_queue_stat{job="postfix"} >= 300
         for: 2m
         labels:
           severity: blocker
@@ -11,7 +11,7 @@ groups:
           summary: Mail queue size exceeded 300 messages (instance {{ $labels.instance }})
           description: "Mail queue on {{ $labels.instance }} has {{ $value }} messages pending in the {{ $labels.queue }} queue."
       - alert: More_Than_200_Deferred
-        expr: postfix_queue_stat{job="node"} >= 200
+        expr: postfix_queue_stat{job="postfix"} >= 200
         for: 2m
         labels:
           severity: warning
@@ -19,7 +19,7 @@ groups:
           summary: Mail queue size exceeded 200 messages (instance {{ $labels.instance }})
           description: "Mail queue on {{ $labels.instance }} has {{ $value }} messages pending in the {{ $labels.queue }} queue."
       - alert: More_Than_100_Deferred
-        expr: postfix_queue_stat{job="node"} >= 10
+        expr: postfix_queue_stat{job="postfix"} >= 10
         for: 2m
         labels:
           severity: warning
