@@ -1,0 +1,34 @@
+groups:
+  - name: ldap_service_down
+    interval: 15s
+    rules:
+      - alert: ldap_service_down_1h
+        expr: max_over_time(probe_success{job="blackbox-ldap"}[1m]) == 0
+        for: 1h
+        labels:
+          severity: blocker
+          service: ldap
+          job: blackbox-ldap
+        annotations:
+          summary: "LDAP service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to LDAP (port 389) failed for {{ $labels.instance }} for more than 1 hour. Check slapd service, firewall rules, and network connectivity."
+      - alert: ldap_service_down_30m
+        expr: max_over_time(probe_success{job="blackbox-ldap"}[1m]) == 0
+        for: 30m
+        labels:
+          severity: warning
+          service: ldap
+          job: blackbox-ldap
+        annotations:
+          summary: "LDAP service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to LDAP (port 389) failed for {{ $labels.instance }} for more than 30 minutes."
+      - alert: ldap_service_down_1m
+        expr: max_over_time(probe_success{job="blackbox-ldap"}[1m]) == 0
+        for: 1m
+        labels:
+          severity: alert
+          service: ldap
+          job: blackbox-ldap
+        annotations:
+          summary: "LDAP service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to LDAP (port 389) failed for {{ $labels.instance }} for more than 1 minute."
