@@ -104,3 +104,27 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: localhost:9115
+
+  - job_name: "blackbox_ssl_expiry"
+    metrics_path: /probe
+    params:
+      module: [https_2xx]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "ddc46924-2fa6-2a9f-64a7-da81e60eb883"
+    relabel_configs:
+      - source_labels: [__meta_consul_address, __meta_consul_service_port]
+        separator: ":"
+        regex: "(.*)"
+        replacement: "https://$1"
+        target_label: __param_target
+      - source_labels: [__meta_consul_service_id]
+        target_label: carbonio_service
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-demo-zextras-io"
+        replacement: "$2.demo.zextras.io"
+        target_label: target
+      - target_label: __address__
+        replacement: 127.0.0.1:9115
+      - source_labels: [__param_target]
+        target_label: instance
