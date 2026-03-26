@@ -2,22 +2,22 @@ groups:
   - name: carbonio_service_down
     interval: 30s
     rules:
-      - alert: ServiceDown1h
+      - alert: ServiceDown10m
         expr: consul_catalog_service_node_healthy{job="consul"} == 0
-        for: 1h
+        for: 10m
         labels:
           severity: blocker
         annotations:
           summary: Consul service healthcheck failed (node {{ $labels.node }})
-          description: "Service {{ $labels.service_name }} (ID: {{ $labels.service_id }}) on {{ $labels.node }} has been down for over 1 hour."
-      - alert: ServiceDown30m
+          description: "Service {{ $labels.service_name }} (ID: {{ $labels.service_id }}) on {{ $labels.node }} has been down for over 10 minutes."
+      - alert: ServiceDown5m
         expr: consul_catalog_service_node_healthy{job="consul"} == 0
-        for: 30m
+        for: 5m
         labels:
           severity: warning
         annotations:
           summary: Consul service healthcheck failed (node {{ $labels.node }})
-          description: "Service {{ $labels.service_name }} (ID: {{ $labels.service_id }}) on {{ $labels.node }} has been down for over 30 minutes."
+          description: "Service {{ $labels.service_name }} (ID: {{ $labels.service_id }}) on {{ $labels.node }} has been down for over 5 minutes."
       - alert: ServiceDown1m
         expr: consul_catalog_service_node_healthy{job="consul"} == 0
         for: 1m
