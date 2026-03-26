@@ -167,4 +167,3 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
-/etc/carbonio/carbonio-prometheus/scr
