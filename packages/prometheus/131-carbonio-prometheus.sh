@@ -30,7 +30,7 @@ if ! consul acl policy create -name "${POLICY_NAME}" -description "${POLICY_DESC
   fi
 fi
 
-if [[ ! -f "/etc/carbonio/prometheus/service-discover/token" ]]; then
+if [[ ! -f "/etc/carbonio/carbonio-prometheus/service-discover/token" ]]; then
   # Create the token
   consul acl token create -format json -policy-name "${POLICY_NAME}" -description "Token for carbonio-prometheus/$(hostname -A)" |
     jq -r '.SecretID' >/etc/carbonio/carbonio-prometheus/service-discover/token
@@ -38,16 +38,23 @@ if [[ ! -f "/etc/carbonio/prometheus/service-discover/token" ]]; then
   chmod 0600 /etc/carbonio/carbonio-prometheus/service-discover/token
 fi
 
-#cp /etc/carbonio/carbonio-prometheus/prometheus.yml.template /etc/carbonio/carbonio-prometheus/prometheus.yml
-
 HTTP_TOKEN=$(cat /etc/carbonio/carbonio-prometheus/service-discover/token)
 sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/prometheus.yml
+sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-exporters.yml
+sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-services.yml
+sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-blackbox.yml
 
 domain=$(hostname -d)
 sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/prometheus.yml
+sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-exporters.yml
+sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-services.yml
+sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-blackbox.yml
 
 consuldom=$(hostname -d | sed s/\\\./-/g)
 sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/prometheus.yml
+sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-exporters.yml
+sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-services.yml
+sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-blackbox.yml
 
 echo "Restarting Carbonio Prometheus Service"
 systemctl restart carbonio-prometheus
