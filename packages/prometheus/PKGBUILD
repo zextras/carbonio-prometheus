@@ -12,6 +12,12 @@ source=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
   "131-${pkgname}.sh"
   "alertmanager.yml"
+  "blackbox-consul.yml"
+  "blackbox-imap.yml"
+  "blackbox-ldap.yml"
+  "blackbox-mysql.yml"
+  "blackbox-postfix.yml"
+  "blackbox-ssl.yml"
   "clamav.yml"
   "consul.yml"
   "mta_queues.yml"
@@ -22,25 +28,37 @@ source=(
   "prometheus.default"
   "prometheus.service"
   "prometheus.yml"
+  "scrape-blackbox.yml"
+  "scrape-exporters.yml"
+  "scrape-services.yml"
   "${pkgname}-consul.hcl"
   "policies.json"
 )
 sha256sums=(
-'86a6999dd6aacbd994acde93c77cfa314d4be1c8e7b7c58f444355c77b32c584'
-'cdb7b2b2f5ac90c4f3958e584a4c5899c250db1b4775e34f1a242e5713443192'
-'866472d0a45a42bba0f1a6ba0b8665bd648e0c2ca5024df044185eaf38cff99d'
-'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-'3ef85a8cd1a4447cc931f4caeb1707ecba13fde500f0281efd024b753c34a15a'
-'35ee57106295b5d58273d1148805ad435da5929ca5541a6b0ac728d88e85206a'
-'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-'0bc7ab4807e9e6be3a4b3005de6b3476875744e26e4ac7d66b449a5852d7a493'
-'8f12b9c502397728e4ee022bb12196d85f8b233379f797a9074760dbb770f9ed'
-'67fcdf44fae34618789f93d43285cd4bcbf6c5915ed5deee66af970673fef075'
-'097356ac60b8275e72c7190118903ed2c1e902bba90a3d4d1dd489fdac64d6be'
-'7d038c4771dc694818189ffd0dcb009e44a5c772252769bc49d7c8785887217d'
-'96266d8f5a75414eb5e0b3b52dcc7f7845049bab3b8b7759c3a77d72897c77aa'
-'9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
+  '86a6999dd6aacbd994acde93c77cfa314d4be1c8e7b7c58f444355c77b32c584'
+  'cdb7b2b2f5ac90c4f3958e584a4c5899c250db1b4775e34f1a242e5713443192'
+  '866472d0a45a42bba0f1a6ba0b8665bd648e0c2ca5024df044185eaf38cff99d'
+  '226270e3ab01935dd720a8ec0d7cf1ced5ee87dd361def709b4c554c73461a21'
+  '7f138348f2497df9756b4a198236d9e3cfbbb3bf434b9cac2d74ca21bfd992b5'
+  '450dc27a359b497d895cc62b1032c9803f0fb91c5683aac289ef3469c1df6c03'
+  '421bc5333c8a5514426641d31c57ca401125c5ce4b2cabdc8cd4e028a265dc0d'
+  'e05b67afb82515d4b1cc764bd6a8edfb9cf7b7ce55bb5f76d55a4c387dc4a538'
+  'a9b920ca5d5ab5ecf531949346d2df2ff06e470f9824d2254e7ba6910ff107a0'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'd4b0d31846d3f81659bb0f719ebc1955b5ed1e92740c04642b439ffdba5792d9'
+  '35ee57106295b5d58273d1148805ad435da5929ca5541a6b0ac728d88e85206a'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  '0bc7ab4807e9e6be3a4b3005de6b3476875744e26e4ac7d66b449a5852d7a493'
+  '8f12b9c502397728e4ee022bb12196d85f8b233379f797a9074760dbb770f9ed'
+  '67fcdf44fae34618789f93d43285cd4bcbf6c5915ed5deee66af970673fef075'
+  '097356ac60b8275e72c7190118903ed2c1e902bba90a3d4d1dd489fdac64d6be'
+  '0b03c286ee0ebf856bb92b1fadb482da94ec31756d3db3098646f016e9994e6b'
+  'ad54e5739ff3f83e69699de554da126f9b4bf50a14e50f6dac91fd68ca6ecc2e'
+  '75ade167e90ecfb613ba76c9b85f6c7d9d997cf5d967b908c34a0de37d1ffdc4'
+  '2e3401413b83d7ea6023ffe04543ff6498bd8369b7ce65b01be3278d099baec8'
+  '96266d8f5a75414eb5e0b3b52dcc7f7845049bab3b8b7759c3a77d72897c77aa'
+  '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
 )
 
 depends=(
@@ -75,29 +93,51 @@ package() {
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
   install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/alertmanager"
+  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d"
+  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/service-discover"
+
   install -Dm 640 "${srcdir}/prometheus.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
+  install -Dm 640 "${srcdir}/scrape-blackbox.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-blackbox.yml"
+  install -Dm 640 "${srcdir}/scrape-exporters.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-exporters.yml"
+  install -Dm 640 "${srcdir}/scrape-services.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-services.yml"
+
   install -Dm 640 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
     
   # Prometheus sample-rules:
+  install -Dm 640 "${srcdir}/blackbox-consul.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-consul.yml"
+  install -Dm 640 "${srcdir}/blackbox-imap.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-imap.yml"
+  install -Dm 640 "${srcdir}/blackbox-ldap.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-ldap.yml"
+  install -Dm 640 "${srcdir}/blackbox-mysql.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-mysql.yml"
+  install -Dm 640 "${srcdir}/blackbox-postfix.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-postfix.yml"
+  install -Dm 640 "${srcdir}/blackbox-ssl.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-ssl.yml"
   install -Dm 640 "${srcdir}/clamav.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/clamav.yml"
   install -Dm 640 "${srcdir}/consul.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/consul.yml"
   install -Dm 640 "${srcdir}/mta_queues.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/mta_queues.yml"
   install -Dm 640 "${srcdir}/mysql.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/mysql.yml"
   install -Dm 640 "${srcdir}/nginx.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/nginx.yml"
   install -Dm 640 "${srcdir}/node-exporter.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/node-exporter.yml"
   install -Dm 640 "${srcdir}/postgres.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/postgres.yml"
 
   install -Dm 640 "${srcdir}/alertmanager.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager/alertmanager.yml"
 }
 
 postinst() {

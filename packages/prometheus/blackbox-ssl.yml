@@ -1,0 +1,28 @@
+groups:
+  - name: ssl_check
+    interval: 15s
+    rules:
+      - alert: SSL_Expiry_5_days_left
+        expr: 0 <= round((last_over_time(probe_ssl_earliest_cert_expiry[10m]) - time()) / 86400, 0.1) < 6
+        for: 1m
+        labels:
+          severity: blocker
+        annotations:
+          summary: SSL certificate will expire soon (instance {{ $labels.instance }})
+          description: "SSL certificate expires in less than 5 days\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      - alert: SSL_Expiry_10_days_left
+        expr: 6 <= round((last_over_time(probe_ssl_earliest_cert_expiry[10m]) - time()) / 86400, 0.1) < 11
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: SSL certificate will expire soon (instance {{ $labels.instance }})
+          description: "SSL certificate expires in less than 10 days\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      - alert: mail_queue_100_plus
+        expr: 11 <= round((last_over_time(probe_ssl_earliest_cert_expiry[10m]) - time()) / 86400, 0.1) < 21
+        for: 1m
+        labels:
+          severity: alert
+        annotations:
+          summary: SSL certificate will expire soon (instance {{ $labels.instance }})
+          description: "SSL certificate expires in less than 20 days\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

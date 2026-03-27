@@ -1,0 +1,34 @@
+groups:
+  - name: imap_service_down
+    interval: 15s
+    rules:
+      - alert: imap_service_down_10m
+        expr: probe_success{job="blackbox-imap"} == 0
+        for: 10m
+        labels:
+          severity: blocker
+          service: imap
+          job: blackbox-imap
+        annotations:
+          summary: "IMAP service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to IMAP (port 143) failed for {{ $labels.instance }} for more than 10 minutes. Check the mailbox service, firewall, and network connectivity."
+      - alert: imap_service_down_5m
+        expr: probe_success{job="blackbox-imap"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          service: imap
+          job: blackbox-imap
+        annotations:
+          summary: "IMAP service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to IMAP (port 143) failed for {{ $labels.instance }} for more than 5 minutes."
+      - alert: imap_service_down_1m
+        expr: probe_success{job="blackbox-imap"} == 0
+        for: 1m
+        labels:
+          severity: alert
+          service: imap
+          job: blackbox-imap
+        annotations:
+          summary: "IMAP service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to IMAP (port 143) failed for {{ $labels.instance }} for more than 1 minute."

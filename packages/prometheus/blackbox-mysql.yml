@@ -1,0 +1,34 @@
+groups:
+  - name: mysql_service_down
+    interval: 15s
+    rules:
+      - alert: mysql_service_down_10m
+        expr: probe_success{job="blackbox-mysql"} == 0
+        for: 10m
+        labels:
+          severity: blocker
+          service: mysql
+          job: blackbox-mysql
+        annotations:
+          summary: "MySQL service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to MySQL failed for {{ $labels.instance }} for more than 10 minutes. Check the MySQL process, firewall, and network connectivity."
+      - alert: mysql_service_down_5m
+        expr: probe_success{job="blackbox-mysql"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          service: mysql
+          job: blackbox-mysql
+        annotations:
+          summary: "MySQL service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to MySQL failed for {{ $labels.instance }} for more than 5 minutes."
+      - alert: mysql_service_down_1m
+        expr: probe_success{job="blackbox-mysql"} == 0
+        for: 1m
+        labels:
+          severity: alert
+          service: mysql
+          job: blackbox-mysql
+        annotations:
+          summary: "MySQL service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to MySQL failed for {{ $labels.instance }} for more than 1 minute."
