@@ -20,7 +20,8 @@ source=(
   "blackbox-ssl.yml"
   "clamav.yml"
   "consul.yml"
-  "mta_queues.yml"
+  "exporter-availability.yml"
+  "mta-queues.yml"
   "mysql.yml"
   "nginx.yml"
   "node-exporter.yml"
@@ -46,6 +47,7 @@ sha256sums=(
   'a9b920ca5d5ab5ecf531949346d2df2ff06e470f9824d2254e7ba6910ff107a0'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'd4b0d31846d3f81659bb0f719ebc1955b5ed1e92740c04642b439ffdba5792d9'
+  'c11c6524a154f0df44798f9e302fd05994af73c38b20662852cd48f7a86a9c1b'
   '35ee57106295b5d58273d1148805ad435da5929ca5541a6b0ac728d88e85206a'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
@@ -55,7 +57,7 @@ sha256sums=(
   '097356ac60b8275e72c7190118903ed2c1e902bba90a3d4d1dd489fdac64d6be'
   '0b03c286ee0ebf856bb92b1fadb482da94ec31756d3db3098646f016e9994e6b'
   '31860c034cfea31279d24703a39101ec5e65b6aa7a63c96c395df81d27f7ff4e'
-  '75ade167e90ecfb613ba76c9b85f6c7d9d997cf5d967b908c34a0de37d1ffdc4'
+  '76fe0847d1eba74d6767bfc07670eeaa174dcb49232447a03ef032816a4d4b81'
   '2e3401413b83d7ea6023ffe04543ff6498bd8369b7ce65b01be3278d099baec8'
   '96266d8f5a75414eb5e0b3b52dcc7f7845049bab3b8b7759c3a77d72897c77aa'
   '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
@@ -125,8 +127,10 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/clamav.yml"
   install -Dm 640 "${srcdir}/consul.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/consul.yml"
-  install -Dm 640 "${srcdir}/mta_queues.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/mta_queues.yml"
+  install -Dm 640 "${srcdir}/exporter-availability.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/exporter-availability.yml"
+  install -Dm 640 "${srcdir}/mta-queues.yml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/mta-queues.yml"
   install -Dm 640 "${srcdir}/mysql.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/mysql.yml"
   install -Dm 640 "${srcdir}/nginx.yml" \

@@ -17,6 +17,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "postgres"
     consul_sd_configs:
@@ -32,6 +34,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "consul"
     consul_sd_configs:
@@ -47,6 +51,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "rabbitmq"
     consul_sd_configs:
@@ -62,6 +68,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "postfix"
     consul_sd_configs:
@@ -77,6 +85,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "clamav"
     consul_sd_configs:
@@ -92,6 +102,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "node"
     consul_sd_configs:
@@ -107,6 +119,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "nginx"
     consul_sd_configs:
@@ -122,6 +136,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "mysql"
     consul_sd_configs:
@@ -137,6 +153,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "haproxy"
     consul_sd_configs:
@@ -152,6 +170,8 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
 
   - job_name: "process"
     consul_sd_configs:
@@ -167,3 +187,5 @@ scrape_configs:
         regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
         replacement: "$2.{{ hostsdomain }}"
         target_label: instance
+      - target_label: target_type
+        replacement: exporter
