@@ -111,7 +111,7 @@ scrape_configs:
       module: [https_2xx]
     consul_sd_configs:
       - server: "localhost:8500"
-        token: "ddc46924-2fa6-2a9f-64a7-da81e60eb883"
+        token: "{{ consultoken }}"
     relabel_configs:
       - source_labels: [__meta_consul_address, __meta_consul_service_port]
         separator: ":"
