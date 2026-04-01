@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * Split Prometheus scrape jobs into separate configuration files under /etc/carbonio/carbonio-prometheus/scrape_config.d/ and enabled loading them via scrape_config_files.
 * Added Blackbox monitoring jobs and rules for additional service endpoint checks.
 * Updated MTA queue alert rules to use job="postfix" metrics instead of job="node".
+* Added alerting rules for exporter endpoint availability monitorings.
 
 
 ### [0.13.0] (2026-3-11)
