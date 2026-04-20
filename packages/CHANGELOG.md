@@ -14,6 +14,10 @@ All notable changes to this project will be documented in this file.
 * Switched OpenLDAP exporter source from mlorenzo-stratio/openldap_exporter to markusmazurczak/openldap_exporter due to lack of maintenance in the previous upstream.
 
 
+### Bug Fixes
+* Fixed Prometheus Python client dependency for RHEL-based distributions.
+
+
 ### [0.13.0] (2026-3-11)
 
 
