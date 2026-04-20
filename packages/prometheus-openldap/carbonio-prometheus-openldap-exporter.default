@@ -1,1 +1,0 @@
-ARGS="--config /etc/carbonio/carbonio-prometheus-openldap-exporter/carbonio-prometheus-openldap-exporter.yml"

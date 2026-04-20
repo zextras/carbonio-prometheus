@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 * Added Blackbox monitoring jobs and rules for additional service endpoint checks.
 * Updated MTA queue alert rules to use job="postfix" metrics instead of job="node".
 * Added alerting rules for exporter endpoint availability monitorings.
+* Switched OpenLDAP exporter source from mlorenzo-stratio/openldap_exporter to markusmazurczak/openldap_exporter due to lack of maintenance in the previous upstream.
 
 
 ### [0.13.0] (2026-3-11)
