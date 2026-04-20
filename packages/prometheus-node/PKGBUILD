@@ -1,7 +1,7 @@
-pkgname="carbonio-prometheus-node-exporter"
-pkgver="1.10.2"
-pkgrel="3"
-pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
+pkgname="carbonio-prometheus-postfix-exporter"
+pkgver="1.0.0"
+pkgrel="2"
+pkgdesc="Prometheus exporter for Postfix mail queue statistics"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
@@ -9,57 +9,57 @@ priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
 source=(
-  "https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz"
-  "${pkgname}.default"
+  "postfix_queue_exporter.py"
   "${pkgname}-consul.hcl"
   "${pkgname}.service"
-  "node_packages.sh"
+  "${pkgname}.sudoers"
 )
+
 sha256sums=(
-  'c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b'
-  '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
-  '15d9ea91aac5a244cb26dfa5f0965dd97bc00a022e2176ceeaeeab4064995bae'
-  'd8751db667bfa48f0582d2d1f2d6a574d8e6cbe1c4942433ef44eab1f791f7ff'
-  'c0759b34a7232f04c08c343fdbdc4785efea7376c0cc8371af3f215342dbf495'
+  'bd0efcb77995ea5f1cf314778c0bfc54e085ed877f75d580805266bcff81c32d'
+  'b876f3fb7cdf3888eb444c755799166c0f596879d6856eab00d49465774c68dc'
+  '07bb9ee63a93798d825ce5a19368bf5640ac479b563c42f4aa75ba21c25aef9b'
+  'd73fe9e4bd494e81d712bed5868a06e77470d74505cd2f7bfa47cf4e8ce146d5'
 )
 
 depends_apt=(
   "systemd"
+  "python3"
+  "python3-prometheus-client"
 )
 
 depends__yum=(
   "systemd"
-  "python3-dnf-plugin-post-transaction-actions"
-)
-
-backup=(
-  "etc/default/${pkgname}"
+  "python3"
+  "python3-prometheus_client"
 )
 
 conflicts=(
-  "prometheus-node-exporter"
+  "postfix-queue-exporter"
+)
+
+backup=(
+  "etc/sudoers.d/carbonio-prometheus-postfix"
 )
 
 package() {
-  cd "${srcdir}/node_exporter-${pkgver}.linux-amd64"
+  cd "${srcdir}"
 
-  install -Dm 755 node_exporter \
-    "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm 755 "postfix_queue_exporter.py" \
+    "${pkgdir}/opt/zextras/libexec/postfix_queue_exporter.py"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" \
+  install -Dm 644 "${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" \
-    "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm 644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
-  install -Dm 755 "${srcdir}/node_packages.sh" \
-    "${pkgdir}/usr/local/sbin/node_packages.sh"
+  install -Dm 440 "${pkgname}.sudoers" \
+    "${pkgdir}/etc/sudoers.d/carbonio-prometheus-postfix"
 }
 
-postinst__apt() {
-  getent group 'carbonio-prometheus' >/dev/null ||
+postinst() {
+  getent group 'carbonio-prometheus' >/dev/null || \
     groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
@@ -70,84 +70,31 @@ postinst__apt() {
     fi
   fi
 
- # Configure post-apt hook for node_packages.sh
-  if [ -x /usr/local/sbin/node_packages.sh ]; then
-    mkdir -p /etc/apt/apt.conf.d
-    echo 'DPkg::Post-Invoke {"/usr/local/sbin/node_packages.sh";};' \
-      > /etc/apt/apt.conf.d/100post-apt
-    chmod 644 /etc/apt/apt.conf.d/100post-apt
-  fi
-
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
+    systemctl enable carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+    systemctl start carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"
-  echo "Carbonio Node Exporter installed successfully!"
-  echo "You must reload service discover or add this host to prometheus.yml"
-  echo "======================================================"
-}
-
-postinst__yum() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
-
-  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
-    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
-  else
-    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
-      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
-    fi
-  fi
-
-  # configuring DNF post-transaction hook for node_packages.sh
-  if [ -x /usr/local/sbin/node_packages.sh ]; then
-    mkdir -p /etc/dnf/plugins/post-transaction-actions.d
-    echo '*:any:/usr/local/sbin/node_packages.sh' \
-      > /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
-    chmod 644 /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
-  fi
-
-  if hash initctl 2>/dev/null; then
-    initctl reload-configuration 2>/dev/null || true
-  fi
-
-  if [ -d /run/systemd/system ]; then
-    systemctl daemon-reload >/dev/null 2>&1 || :
-    systemctl enable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
-  fi
-  
-  echo "======================================================"
-  echo "Carbonio Node Exporter installed successfully!"
+  echo "Carbonio Prometheus Postfix Exporter installed successfully!"
+  echo "Metrics available at: http://localhost:9154/metrics"
   echo "You must reload service discover or add this host to prometheus.yml"
   echo "======================================================"
 }
 
 prerm() {
   if [ -d /run/systemd/system ]; then
-    systemctl --no-reload disable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
-    systemctl stop carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
+    systemctl --no-reload disable carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
+    systemctl stop carbonio-prometheus-postfix-exporter.service >/dev/null 2>&1 || :
   fi
 }
 
-postrm__apt() {
-  rm -f /etc/apt/apt.conf.d/100post-apt
-
-  if [ -d /run/systemd/system ]; then
-    systemctl daemon-reload >/dev/null 2>&1 || :
-  fi
-}
-
-postrm__yum() {
-  rm -f /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
-
+postrm() {
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
   fi
