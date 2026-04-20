@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 pkgname="carbonio-prometheus-openldap-exporter"
 default_file="/etc/default/${pkgname}"
 

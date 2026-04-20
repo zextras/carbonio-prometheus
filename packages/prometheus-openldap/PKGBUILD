@@ -11,7 +11,7 @@ arch=('x86_64')
 license=('Apache-2.0')
 
 source=(
-  "openldap_exporter-v${upstream_ver}.zip::https://github.com/markusmazurczak/openldap_exporter/archive/refs/tags/v${upstream_ver}.zip"
+  "https://github.com/markusmazurczak/openldap_exporter/archive/refs/tags/v${upstream_ver}.zip"
   "131-set-${pkgname}.sh"
   "${pkgname}.default"
   "${pkgname}.service"
@@ -20,7 +20,7 @@ source=(
 
 sha256sums=(
   '4af2e6901b2fc3dde4acdb143653d79e06a18bf8fd0138c7a3c6f8aeb10a2dde'
-  'a99f57290f832fdcd402de91b49c8fa53f537bad558bb670aa4c19bc8a5c1c1f'
+  'd5ed3d6f000e0497e056ac12f31b61d456a03d627d1dbbc5e0a37bb3730106f9'
   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
   'b200beac97a3840adefbd6431ebd9107646f1353b438f970c6281a2bc0db1dac'
   '17a5cd3593b709a124206658c17f2c7b57598e7e20166e2becad6ef6497d999c'
