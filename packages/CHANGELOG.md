@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 * Upgraded Carbonio Prometheus to 3.11.3 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.11.3)
 * Move the 30-day TSDB retention setting from the deprecated CLI flag to `prometheus.yml`
 * Upgraded Carbonio Prometheus Alertmanager to 0.32.1 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.32.1)
+* Upgraded Carbonio Prometheus ClamAV to 1.0.1 version (based on https://github.com/r3kzi/clamav-prometheus-exporter/releases/tag/v1.0.1)
 
 
 ### Bug Fixes
