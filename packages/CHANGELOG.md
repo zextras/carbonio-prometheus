@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 * Upgraded Carbonio Prometheus Alertmanager to 0.32.1 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.32.1)
 * Upgraded Carbonio Prometheus ClamAV to 1.0.1 version (based on https://github.com/r3kzi/clamav-prometheus-exporter/releases/tag/v1.0.1)
 * Upgraded Carbonio Prometheus Mysqld exporter to 0.19.0 (based on https://github.com/prometheus/mysqld_exporter/releases/tag/v0.19.0)
+* Upgraded Carbonio Prometheus Node exporter to 1.11.1 (based on https://github.com/prometheus/node_exporter/releases/tag/v1.11.1)
 
 
 ### Bug Fixes
