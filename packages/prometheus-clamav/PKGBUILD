@@ -37,7 +37,7 @@ makedepends=(
 
 build() {
 
-  cd "${srcdir}/clamav-prometheus-exporter-1.0.0/"
+  cd "${srcdir}/clamav-prometheus-exporter-${pkgver}/"
 
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
@@ -51,7 +51,7 @@ build() {
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "./clamav-prometheus-exporter-1.0.0/carbonio-prometheus-clamav-exporter" \
+  install -Dm 755 "./clamav-prometheus-exporter-${pkgver}/carbonio-prometheus-clamav-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \
