@@ -7,15 +7,22 @@ All notable changes to this project will be documented in this file.
 
 
 ### Features
-* Split Prometheus scrape jobs into separate configuration files under /etc/carbonio/carbonio-prometheus/scrape_config.d/ and enabled loading them via scrape_config_files.
-* Added Blackbox monitoring jobs and rules for additional service endpoint checks.
-* Updated MTA queue alert rules to use job="postfix" metrics instead of job="node".
-* Added alerting rules for exporter endpoint availability monitorings.
-* Switched OpenLDAP exporter source from mlorenzo-stratio/openldap_exporter to markusmazurczak/openldap_exporter due to lack of maintenance in the previous upstream.
+* Split Prometheus scrape jobs into separate configuration files under /etc/carbonio/carbonio-prometheus/scrape_config.d/ and enabled loading them via scrape_config_files
+* Added Blackbox monitoring jobs and rules for additional service endpoint checks
+* Updated MTA queue alert rules to use job="postfix" metrics instead of job="node"
+* Added alerting rules for exporter endpoint availability monitorings
+* Switched OpenLDAP exporter source from mlorenzo-stratio/openldap_exporter to markusmazurczak/openldap_exporter due to lack of maintenance in the previous upstream
+* Upgraded Carbonio Prometheus to 3.11.3 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.11.3)
+* Move the 30-day TSDB retention setting from the deprecated CLI flag to `prometheus.yml`
+* Upgraded Carbonio Prometheus Alertmanager to 0.32.1 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.32.1)
+* Upgraded Carbonio Prometheus ClamAV to 1.0.1 version (based on https://github.com/r3kzi/clamav-prometheus-exporter/releases/tag/v1.0.1)
+* Upgraded Carbonio Prometheus Mysqld exporter to 0.19.0 (based on https://github.com/prometheus/mysqld_exporter/releases/tag/v0.19.0)
+* Upgraded Carbonio Prometheus Node exporter to 1.11.1 (based on https://github.com/prometheus/node_exporter/releases/tag/v1.11.1)
+* Upgraded Carbonio Prometheus Postgres exporter to 0.19.1 version (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.19.1)
 
 
 ### Bug Fixes
-* Fixed Prometheus Python client dependency for RHEL-based distributions.
+* Fixed Prometheus Python client dependency for RHEL-based distributions
 
 
 ### [0.13.0] (2026-3-11)
