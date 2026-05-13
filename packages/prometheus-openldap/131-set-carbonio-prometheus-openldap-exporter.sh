@@ -3,7 +3,7 @@
 pkgname="carbonio-prometheus-openldap-exporter"
 default_file="/etc/default/${pkgname}"
 
-ldap_host=$(/opt/zextras/bin/zmlocalconfig -s -m nokey ldap_host)
+ldap_host=$(/opt/zextras/bin/zmhostname)
 ldap_port=$(/opt/zextras/bin/zmlocalconfig -s -m nokey ldap_port)
 ldap_userdn=$(/opt/zextras/bin/zmlocalconfig -s -m nokey zimbra_ldap_userdn)
 ldap_password=$(/opt/zextras/bin/zmlocalconfig -s -m nokey zimbra_ldap_password)
