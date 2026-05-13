@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 * Fixed Prometheus Python client dependency for RHEL-based distributions
+* Fixed OpenLDAP exporter configuration to use the local LDAP host FQDN instead of the global LDAP host in HA deployments
 
 
 ### [0.13.0] (2026-3-11)
