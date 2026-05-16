@@ -6,61 +6,58 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends_apt=("systemd")
+depends__yum=(
+  "systemd"
+  "python3-dnf-plugin-post-transaction-actions"
+)
+backup=("etc/default/${pkgname}")
+conflicts=("prometheus-node-exporter")
+
 source=(
-  "https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}-consul.hcl"
   "${pkgname}.service"
   "node_packages.sh"
 )
+source_aarch64=("https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-arm64.tar.gz")
+source_x86_64=("https://github.com/prometheus/node_exporter/releases/download/v${pkgver}/node_exporter-${pkgver}.linux-amd64.tar.gz")
 sha256sums=(
-  '9f5ea48e5bc7b656f8a91a32e7d7deb89f70f73dabd0d974418aca15f37d6810'
   '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
   '15d9ea91aac5a244cb26dfa5f0965dd97bc00a022e2176ceeaeeab4064995bae'
   'd8751db667bfa48f0582d2d1f2d6a574d8e6cbe1c4942433ef44eab1f791f7ff'
   'c0759b34a7232f04c08c343fdbdc4785efea7376c0cc8371af3f215342dbf495'
 )
-
-depends_apt=(
-  "systemd"
-)
-
-depends__yum=(
-  "systemd"
-  "python3-dnf-plugin-post-transaction-actions"
-)
-
-backup=(
-  "etc/default/${pkgname}"
-)
-
-conflicts=(
-  "prometheus-node-exporter"
-)
+sha256sums_aarch64=('ba1886efbd76cb96b0087c695ea8d1b9cb6e8aa946c996d744e9ee16c8e3591a')
+sha256sums_x86_64=('9f5ea48e5bc7b656f8a91a32e7d7deb89f70f73dabd0d974418aca15f37d6810')
 
 package() {
-  cd "${srcdir}/node_exporter-${pkgver}.linux-amd64"
+  if [ "${CARCH}" = "aarch64" ]; then
+    cd "${srcdir}/node_exporter-${pkgver}.linux-arm64"
+  else
+    cd "${srcdir}/node_exporter-${pkgver}.linux-amd64"
+  fi
 
-  install -Dm 755 node_exporter \
+  install -Dm755 node_exporter \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" \
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
-  install -Dm 755 "${srcdir}/node_packages.sh" \
+  install -Dm755 "${srcdir}/node_packages.sh" \
     "${pkgdir}/usr/local/sbin/node_packages.sh"
 }
 
 postinst__apt() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
@@ -70,11 +67,11 @@ postinst__apt() {
     fi
   fi
 
- # Configure post-apt hook for node_packages.sh
+  # Configure post-apt hook for node_packages.sh
   if [ -x /usr/local/sbin/node_packages.sh ]; then
     mkdir -p /etc/apt/apt.conf.d
     echo 'DPkg::Post-Invoke {"/usr/local/sbin/node_packages.sh";};' \
-      > /etc/apt/apt.conf.d/100post-apt
+      >/etc/apt/apt.conf.d/100post-apt
     chmod 644 /etc/apt/apt.conf.d/100post-apt
   fi
 
@@ -95,8 +92,8 @@ postinst__apt() {
 }
 
 postinst__yum() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
@@ -110,7 +107,7 @@ postinst__yum() {
   if [ -x /usr/local/sbin/node_packages.sh ]; then
     mkdir -p /etc/dnf/plugins/post-transaction-actions.d
     echo '*:any:/usr/local/sbin/node_packages.sh' \
-      > /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
+      >/etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
     chmod 644 /etc/dnf/plugins/post-transaction-actions.d/post-dnf.action
   fi
 
@@ -123,7 +120,7 @@ postinst__yum() {
     systemctl enable carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
     systemctl start carbonio-prometheus-node-exporter.service >/dev/null 2>&1 || :
   fi
-  
+
   echo "======================================================"
   echo "Carbonio Node Exporter installed successfully!"
   echo "You must reload service discover or add this host to prometheus.yml"

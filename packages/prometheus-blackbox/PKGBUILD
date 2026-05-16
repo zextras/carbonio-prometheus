@@ -6,56 +6,53 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends=("systemd")
+conflicts=("prometheus-blackbox-exporter")
+backup=("etc/carbonio/${pkgname}/${pkgname}.yml")
+
 source=(
-  "https://github.com/prometheus/blackbox_exporter/releases/download/v${pkgver}/blackbox_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
 )
-
+source_x86_64=("https://github.com/prometheus/blackbox_exporter/releases/download/v${pkgver}/blackbox_exporter-${pkgver}.linux-amd64.tar.gz")
+source_aarch64=("https://github.com/prometheus/blackbox_exporter/releases/download/v${pkgver}/blackbox_exporter-${pkgver}.linux-arm64.tar.gz")
 sha256sums=(
-  'caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329'
   '926085ac345712705f4ee202e1b6f751f5e9a7283e45a5e1ded4509a6cd14e47'
   'c34316d2f81b877cb32e9337dc8cd39cafde70f486a2fe0e275629e8715b7b6c'
   '214351f9e85a8056b650e1bbe9631ca9c94bb786832c5c6b5a7df83f11093571'
   'd54cafdd9d744c96b3a333951cfb82db49d6c35ff6ea9c5a137f05187ae682ce'
 )
-
-depends=(
-  "systemd"
-)
-
-conflicts=(
-  "prometheus-blackbox-exporter"
-)
-
-backup=(
-  "etc/carbonio/${pkgname}/${pkgname}.yml"
-)
+sha256sums_aarch64=('63312be0983d85e5109710a7dc93df3051157ae581853fa3655d171cc1b2806e')
+sha256sums_x86_64=('caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329')
 
 package() {
-  cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64/"
+  if [ "${CARCH}" = "aarch64" ]; then
+    cd "${srcdir}/blackbox_exporter-${pkgver}.linux-arm64/"
+  else
+    cd "${srcdir}/blackbox_exporter-${pkgver}.linux-amd64/"
+  fi
 
-  install -Dm 755 blackbox_exporter \
+  install -Dm755 blackbox_exporter \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" \
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}/${pkgname}.yml" \
+  install -Dm644 "${srcdir}/${pkgname}.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
@@ -74,7 +71,7 @@ postinst() {
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
-    systemctl start carbonio-prometheus-blackbox-exporter.service >/dev_null 2>&1 || :
+    systemctl start carbonio-prometheus-blackbox-exporter.service >/dev/null 2>&1 || :
   fi
 
   echo "======================================================"

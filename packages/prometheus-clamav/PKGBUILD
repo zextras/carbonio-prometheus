@@ -6,16 +6,19 @@ maintainer="Zextras <packages@zextras.com>"
 pkgrel="1"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 url="https://zextras.com"
 license=("Apache-2.0")
+depends=("systemd")
+makedepends=("git")
+conflicts=('prometheus-clamav-exporter')
+
 source=(
   "https://github.com/r3kzi/clamav-prometheus-exporter/archive/refs/tags/v${pkgver}.zip"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
   "${pkgname}.default"
 )
-
 sha256sums=(
   '61c03a22c520d391e3f462f04d9b2075e234b9d372ba8c8afab74dd31188f7ae'
   '7719a32622d122af74962caeddd5eeba95ff42a7ac514b87b122d3939bbd16b6'
@@ -23,50 +26,32 @@ sha256sums=(
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
 )
 
-depends=(
-  "systemd"
-)
-
-conflicts=(
-  'prometheus-clamav-exporter'
-)
-
-makedepends=(
-  "git" 
-)
-
 build() {
-
   cd "${srcdir}/clamav-prometheus-exporter-${pkgver}/"
 
-  export CGO_CPPFLAGS="${CPPFLAGS}"
-  export CGO_CFLAGS="${CFLAGS}"
-  export CGO_CXXFLAGS="${CXXFLAGS}"
-  export CGO_LDFLAGS="${LDFLAGS}"
-  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly"
-
-  go build -o "carbonio-prometheus-clamav-exporter"
+  CGO_ENABLED=0 go build -trimpath -mod=readonly \
+    -o "carbonio-prometheus-clamav-exporter"
 }
 
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "./clamav-prometheus-exporter-${pkgver}/carbonio-prometheus-clamav-exporter" \
+  install -Dm755 "./clamav-prometheus-exporter-${pkgver}/carbonio-prometheus-clamav-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${pkgname}.service" \
+  install -Dm644 "${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${pkgname}.default" \
+  install -Dm644 "${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${pkgname}-consul.hcl" \
+  install -Dm644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'

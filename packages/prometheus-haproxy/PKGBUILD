@@ -6,52 +6,50 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends=("systemd")
+conflicts=("prometheus-haproxy-exporter")
+backup=("etc/zextras/service-discover/${pkgname}.hcl")
+
 source=(
-  "https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
 )
+source_aarch64=("https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-arm64.tar.gz")
+source_x86_64=("https://github.com/prometheus/haproxy_exporter/releases/download/v${pkgver}/haproxy_exporter-${pkgver}.linux-amd64.tar.gz")
 sha256sums=(
-  'ac200872b734e2f9c0211997f7f9c0ca5ad6522996c37aed39a732d5f3c0de16'
   '9e5134ce9352d5f70f84b3748e477423eaf3efa4471afcdfc54b45add154d16f'
   'fe724dfd60af884009d2938d267a7a30aa8dcc76832707da77414fdebe8d6d2e'
   'bc706d8b9310d40576edc681889b89991308c2fa3da9e9e73cfa920fddb17acb'
 )
-
-depends=(
-  "systemd"
-)
-
-conflicts=(
-  "prometheus-haproxy-exporter"
-)
-
-backup=(
-  "etc/zextras/service-discover/${pkgname}.hcl"
-)
+sha256sums_aarch64=('58dfc17236c8a6f74ccdc290de976a0aa79d50e47a8d1b35bde038190391ce5d')
+sha256sums_x86_64=('ac200872b734e2f9c0211997f7f9c0ca5ad6522996c37aed39a732d5f3c0de16')
 
 package() {
 
-  cd "${srcdir}/haproxy_exporter-${pkgver}.linux-amd64/"
+  if [ "${CARCH}" = "aarch64" ]; then
+    cd "${srcdir}/haproxy_exporter-${pkgver}.linux-arm64/"
+  else
+    cd "${srcdir}/haproxy_exporter-${pkgver}.linux-amd64/"
+  fi
 
-  install -Dm 755 "haproxy_exporter" \
+  install -Dm755 "haproxy_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" \
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
   else
@@ -63,7 +61,7 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-  
+
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable carbonio-prometheus-haproxy-exporter.service >/dev/null 2>&1 || :
