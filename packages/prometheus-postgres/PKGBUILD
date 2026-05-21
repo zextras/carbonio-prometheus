@@ -6,60 +6,58 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends=("systemd")
+conflicts=('prometheus-postgres-exporter')
+backup=("etc/default/${pkgname}")
+
 source=(
-  "https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
   "set-${pkgname}.sh"
 )
+source_aarch64=("https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-arm64.tar.gz")
+source_x86_64=("https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz")
 sha256sums=(
-  '229096c7988df6ca41fe5b4bf66865089971535e7f0d819c12c920ec64dd2bd0'
   'ceb07622ff5e2483b92b6b7acc9c190e00c56dd347278c64f1e080ac0830632b'
   '2307d2bed92d80c41cdcf3c65cdc95e57329dd28c7fa9913b0c1571598e3cc70'
   'cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b'
   '634fd8048f73aeb1e92b4f700b82615b1cc2e0f634dd202eac4b58c419d4ec00'
   '7f9e5658369bb5524fef1129e52d02af6fb05a627ac59aa032d9ede3b42efd78'
 )
-
-depends=(
-  "systemd"
-)
-
-conflicts=(
-  'prometheus-postgres-exporter'
-)
-
-backup=(
-  "etc/default/${pkgname}"
-)
+sha256sums_aarch64=('0ac6fe8c1f66f13b12adb8da282d248d9e1a48df6684e453ca232fd8fd62a11a')
+sha256sums_x86_64=('229096c7988df6ca41fe5b4bf66865089971535e7f0d819c12c920ec64dd2bd0')
 
 package() {
-  cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
+  if [ "${CARCH}" = "aarch64" ]; then
+    cd "${srcdir}/postgres_exporter-${pkgver}.linux-arm64"
+  else
+    cd "${srcdir}/postgres_exporter-${pkgver}.linux-amd64"
+  fi
 
-  install -Dm 755 "postgres_exporter" \
+  install -Dm755 "postgres_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 755 "${srcdir}/set-${pkgname}.sh" \
+  install -Dm755 "${srcdir}/set-${pkgname}.sh" \
     "${pkgdir}/usr/bin/set-${pkgname}.sh"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" \
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}/${pkgname}.yml" \
+  install -Dm644 "${srcdir}/${pkgname}.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
   else

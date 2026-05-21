@@ -1,11 +1,13 @@
 library(
-    identifier: 'jenkins-lib-common@1.6.2',
+    identifier: 'jenkins-lib-common@v2.6.1',
     retriever: modernSCM([
         $class: 'GitSCMSource',
         credentialsId: 'jenkins-integration-with-github-account',
         remote: 'git@github.com:zextras/jenkins-lib-common.git',
     ])
 )
+
+properties(defaultPipelineProperties())
 
 pipeline {
     agent {
@@ -16,6 +18,7 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '5'))
+        parallelsAlwaysFailFast()
         skipDefaultCheckout()
         timeout(time: 1, unit: 'HOURS')
     }
@@ -26,17 +29,25 @@ pipeline {
                 checkout scm
                 script {
                     gitMetadata()
-                    properties(defaultPipelineProperties())
                 }
             }
         }
 
-        stage('Build deb/rpm') {
+        stage('Build') {
             steps {
                 echo 'Building deb/rpm packages'
                 buildStage([
+                    buildFlags: ' -ds ',
                     prepare: true,
-                    prepareFlags: '-g',
+                    prepareFlags: ' -g ',
+                ])
+                buildStage([
+                    buildFlags: ' -ds ',
+                    architecture: 'aarch64',
+                    distros: ['ubuntu-jammy'],
+                    parallelBuilds: false,
+                    prepare: true,
+                    prepareFlags: ' -g ',
                 ])
             }
         }
@@ -53,7 +64,27 @@ pipeline {
                         'carbonio-prometheus': ['.*alertmanager.*\\.rpm', '.*exporter.*\\.rpm']
                     ]
                 )
+                uploadStage(
+                    architecture: 'aarch64',
+                    distros: ['ubuntu-jammy'],
+                    packages: yapHelper.resolvePackageNames(),
+                    exclusions: [
+                        'carbonio-prometheus': ['.*alertmanager.*\\.rpm', '.*exporter.*\\.rpm']
+                    ]
+                )
             }
+        }
+    }
+
+    post {
+        always {
+            emailext([
+                attachLog: true,
+                body: '$DEFAULT_CONTENT',
+                recipientProviders: [requestor()],
+                subject: '$DEFAULT_SUBJECT',
+                to: env.GIT_COMMIT_EMAIL
+            ])
         }
     }
 }

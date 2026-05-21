@@ -6,59 +6,59 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends=("systemd")
+conflicts=('prometheus-mysqld-exporter')
+
 source=(
-  "https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-amd64.tar.gz"
   "131-set-${pkgname}.sh"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
   "${pkgname}.cnf"
 )
-
+source_aarch64=("https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-arm64.tar.gz")
+source_x86_64=("https://github.com/prometheus/mysqld_exporter/releases/download/v${pkgver}/mysqld_exporter-${pkgver}.linux-amd64.tar.gz")
 sha256sums=(
-  '97238be558bd1a6aa6b9a927fa21d91dc5cabe6b9e00678b5cafa2bbb3899e72'
   '14c6cf3017a3b31fff77215f79e89d1c83bf994f2e78fa97d9b8e4ccdf613f29'
   'd6c82a6c806a25a87d4bda6aa6a08af0af7a2528f4773dc6ee78e98f6d7b587e'
   'd065bb421fdd27d4678fd68f720b10b9403f682a623846b97f64c402d7688578'
   '66148952a85c25ed6fc1e825bcfcd972be6ce4d31cbca682256e0e5639f4c0cc'
   '334736e422cbcc875f1c6d87c5e2f885ea3daa4ee4c981205314e64581c2e68e'
 )
-
-depends=(
-  "systemd"
-)
-
-conflicts=(
-  'prometheus-mysqld-exporter'
-)
+sha256sums_aarch64=('c0ced018825d9e8c69619df4995132f7256c1bc9e947acd31978351723b72557')
+sha256sums_x86_64=('97238be558bd1a6aa6b9a927fa21d91dc5cabe6b9e00678b5cafa2bbb3899e72')
 
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "${srcdir}/131-set-${pkgname}.sh" \
+  install -Dm755 "${srcdir}/131-set-${pkgname}.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/131-set-${pkgname}.sh"
 
-  cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
+  if [ "${CARCH}" = "aarch64" ]; then
+    cd "${srcdir}/mysqld_exporter-${pkgver}.linux-arm64"
+  else
+    cd "${srcdir}/mysqld_exporter-${pkgver}.linux-amd64"
+  fi
 
-  install -Dm 755 mysqld_exporter \
+  install -Dm755 mysqld_exporter \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" \
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}/${pkgname}.cnf" \
+  install -Dm644 "${srcdir}/${pkgname}.cnf" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.cnf"
 
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'

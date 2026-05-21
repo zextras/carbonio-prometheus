@@ -7,8 +7,15 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends=("systemd")
+conflicts=('openldap-exporter')
+makedepends=("git")
+backup=(
+  "etc/default/${pkgname}"
+  "etc/zextras/service-discover/${pkgname}.hcl"
+)
 
 source=(
   "https://github.com/markusmazurczak/openldap_exporter/archive/refs/tags/v${upstream_ver}.zip"
@@ -17,7 +24,6 @@ source=(
   "${pkgname}.service"
   "${pkgname}-consul.hcl"
 )
-
 sha256sums=(
   '4af2e6901b2fc3dde4acdb143653d79e06a18bf8fd0138c7a3c6f8aeb10a2dde'
   '7ec0ee86cfb67b268f12c2d76f986a9ad321874a169ba3814ee8e9fa956248b7'
@@ -26,50 +32,33 @@ sha256sums=(
   '17a5cd3593b709a124206658c17f2c7b57598e7e20166e2becad6ef6497d999c'
 )
 
-depends=(
-  "systemd"
-)
-
-conflicts=(
-  'openldap-exporter'
-)
-
-makedepends=(
-  "git"
-)
-
-backup=(
-  "etc/default/${pkgname}"
-  "etc/zextras/service-discover/${pkgname}.hcl"
-)
-
 build() {
   cd "${srcdir}/openldap_exporter-${upstream_ver}/"
-  make build
+  CGO_ENABLED=0 make build
 }
 
 package() {
   cd "${srcdir}/"
 
-  install -Dm 644 "131-set-${pkgname}.sh" \
+  install -Dm644 "131-set-${pkgname}.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/131-set-${pkgname}.sh"
 
-  install -Dm 755 "./openldap_exporter-${upstream_ver}/target/openldap_exporter" \
+  install -Dm755 "./openldap_exporter-${upstream_ver}/target/openldap_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${pkgname}.service" \
+  install -Dm644 "${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
 
-  install -Dm 644 "${pkgname}.default" \
+  install -Dm644 "${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
 
-  install -Dm 644 "${pkgname}-consul.hcl" \
+  install -Dm644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
