@@ -1,9 +1,9 @@
 # _gitname="clamav-prometheus-exporter-master"
 pkgname="carbonio-prometheus-clamav-exporter"
 pkgdesc="Prometheus-Exporter for ClamAV"
-pkgver="1.0.0"
+pkgver="1.0.1"
 maintainer="Zextras <packages@zextras.com>"
-pkgrel="2"
+pkgrel="1"
 section="mail"
 priority="optional"
 arch=('x86_64')
@@ -17,7 +17,7 @@ source=(
 )
 
 sha256sums=(
-  'a2f1dac67a9e84591cd7f8e99d9ce4b695813bc61590e3047ac5596b4104f674'
+  '61c03a22c520d391e3f462f04d9b2075e234b9d372ba8c8afab74dd31188f7ae'
   '7719a32622d122af74962caeddd5eeba95ff42a7ac514b87b122d3939bbd16b6'
   '0fad2f12077e9065ab08daf91d49c67cf7cca98cd77b940242759c7bbf4ab404'
   '0fc91310e2c3140bd90b2fad62f497d8e7432cf3a2a8ab3a034b45958e01012a'
@@ -37,7 +37,7 @@ makedepends=(
 
 build() {
 
-  cd "${srcdir}/clamav-prometheus-exporter-1.0.0/"
+  cd "${srcdir}/clamav-prometheus-exporter-${pkgver}/"
 
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
@@ -51,7 +51,7 @@ build() {
 package() {
   cd "${srcdir}/"
 
-  install -Dm 755 "./clamav-prometheus-exporter-1.0.0/carbonio-prometheus-clamav-exporter" \
+  install -Dm 755 "./clamav-prometheus-exporter-${pkgver}/carbonio-prometheus-clamav-exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \

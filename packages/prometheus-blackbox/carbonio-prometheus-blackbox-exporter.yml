@@ -28,3 +28,9 @@ modules:
     prober: icmp
     icmp:
       preferred_ip_protocol: ip4
+  smtp_banner:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      query_response:
+        - expect: "^220"

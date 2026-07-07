@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-blackbox-exporter"
 pkgver="0.28.0"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Blackbox exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -20,7 +20,7 @@ sha256sums=(
   'caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329'
   '926085ac345712705f4ee202e1b6f751f5e9a7283e45a5e1ded4509a6cd14e47'
   'c34316d2f81b877cb32e9337dc8cd39cafde70f486a2fe0e275629e8715b7b6c'
-  '3d7990bdb5597dac26f80a52a3fbd6c7165dcb039ce68db2065dca4f8d75c36b'
+  '214351f9e85a8056b650e1bbe9631ca9c94bb786832c5c6b5a7df83f11093571'
   'd54cafdd9d744c96b3a333951cfb82db49d6c35ff6ea9c5a137f05187ae682ce'
 )
 

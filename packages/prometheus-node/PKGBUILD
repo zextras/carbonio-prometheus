@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-node-exporter"
-pkgver="1.10.2"
-pkgrel="3"
+pkgver="1.11.1"
+pkgrel="1"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -16,7 +16,7 @@ source=(
   "node_packages.sh"
 )
 sha256sums=(
-  'c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b'
+  '9f5ea48e5bc7b656f8a91a32e7d7deb89f70f73dabd0d974418aca15f37d6810'
   '8f7ca757c4a98ce33e77c41c1915c6699173dc5535af3c6006b6e091ef7f9d11'
   '15d9ea91aac5a244cb26dfa5f0965dd97bc00a022e2176ceeaeeab4064995bae'
   'd8751db667bfa48f0582d2d1f2d6a574d8e6cbe1c4942433ef44eab1f791f7ff'

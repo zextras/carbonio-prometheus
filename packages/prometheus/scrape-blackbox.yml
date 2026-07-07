@@ -1,0 +1,130 @@
+# This file must not be edited manually.
+# To add a new scrape job, create a separate file in:
+# /etc/carbonio/carbonio-prometheus/scrape_config.d/
+
+scrape_configs:
+  - job_name: "blackbox"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+    relabel_configs:
+      - source_labels: [__meta_consul_address, __meta_consul_service_port]
+        separator: ":"
+        target_label: __param_target
+      - source_labels: [__meta_consul_service_id]
+        target_label: carbonio_service
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: target
+      - target_label: __address__
+        replacement: 127.0.0.1:9115
+
+  - job_name: "blackbox-ldap"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+    relabel_configs:
+      - source_labels: [__meta_consul_service]
+        regex: carbonio-prometheus-openldap-exporter
+        action: keep
+      - source_labels: [__meta_consul_tagged_address_lan_ipv4]
+        regex: (.*)
+        replacement: $1:389
+        target_label: __param_target
+      - source_labels: [__meta_consul_node]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115
+
+  - job_name: "blackbox-postfix"
+    metrics_path: /probe
+    params:
+      module: [smtp_banner]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+    relabel_configs:
+      - source_labels: [__meta_consul_service]
+        regex: carbonio-mta-sidecar-proxy
+        action: keep
+      - source_labels: [__meta_consul_tagged_address_lan_ipv4]
+        regex: (.*)
+        replacement: $1:25
+        target_label: __param_target
+      - source_labels: [__meta_consul_node]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115
+
+  - job_name: "blackbox-mysql"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+    relabel_configs:
+      - source_labels: [__meta_consul_service]
+        regex: carbonio-mailbox
+        action: keep
+      - source_labels: [__meta_consul_tagged_address_lan_ipv4]
+        regex: (.*)
+        replacement: localhost:7306
+        target_label: __param_target
+      - source_labels: [__meta_consul_node]
+        target_label: instance
+      - source_labels: [__meta_consul_tagged_address_lan_ipv4]
+        regex: (.*)
+        replacement: "${1}:9115"
+        target_label: __address__
+
+  - job_name: "blackbox-imap"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+    relabel_configs:
+      - source_labels: [__meta_consul_service]
+        regex: carbonio-proxy-sidecar-proxy
+        action: keep
+      - source_labels: [__meta_consul_tagged_address_lan_ipv4]
+        regex: (.*)
+        replacement: $1:143
+        target_label: __param_target
+      - source_labels: [__meta_consul_node]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115
+
+  - job_name: "blackbox_ssl_expiry"
+    metrics_path: /probe
+    params:
+      module: [https_2xx]
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+    relabel_configs:
+      - source_labels: [__meta_consul_address, __meta_consul_service_port]
+        separator: ":"
+        regex: "(.*)"
+        replacement: "https://$1"
+        target_label: __param_target
+      - source_labels: [__meta_consul_service_id]
+        target_label: carbonio_service
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-demo-zextras-io"
+        replacement: "$2.demo.zextras.io"
+        target_label: target
+      - target_label: __address__
+        replacement: 127.0.0.1:9115
+      - source_labels: [__param_target]
+        target_label: instance

@@ -1,6 +1,7 @@
 pkgname="carbonio-prometheus-openldap-exporter"
-pkgver="2.2.4"
-pkgrel="6"
+pkgver="3.0.0"
+upstream_ver="2.0.1"
+pkgrel="1"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -8,20 +9,20 @@ section="mail"
 priority="optional"
 arch=('x86_64')
 license=('Apache-2.0')
+
 source=(
-  "https://github.com/mlorenzo-stratio/openldap_exporter/archive/refs/tags/v${pkgver}.zip"
+  "https://github.com/markusmazurczak/openldap_exporter/archive/refs/tags/v${upstream_ver}.zip"
   "131-set-${pkgname}.sh"
   "${pkgname}.default"
   "${pkgname}.service"
-  "${pkgname}.yml"
   "${pkgname}-consul.hcl"
 )
+
 sha256sums=(
-  '4615e0e422109af6bdba6488092b5b651b8a014ef9bdf91f37978234d8484ce3'
-  '234bb5e0dbd37d24ffa16b4f0c9f0697382bc2dac096e38dd9feefeb8966a1c3'
-  '9269776a1c768234c78dc2791bc576c55984aef2986e9d16255d23cc47c1b20f'
-  'c8b40e6127e45e9adfa3c5c78a2e3f22dd86d5e805dae18392796b1f2c3162dc'
-  '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+  '4af2e6901b2fc3dde4acdb143653d79e06a18bf8fd0138c7a3c6f8aeb10a2dde'
+  '7ec0ee86cfb67b268f12c2d76f986a9ad321874a169ba3814ee8e9fa956248b7'
+  'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  'b200beac97a3840adefbd6431ebd9107646f1353b438f970c6281a2bc0db1dac'
   '17a5cd3593b709a124206658c17f2c7b57598e7e20166e2becad6ef6497d999c'
 )
 
@@ -39,31 +40,28 @@ makedepends=(
 
 backup=(
   "etc/default/${pkgname}"
-  "etc/carbonio/${pkgname}/${pkgname}.yml"
   "etc/zextras/service-discover/${pkgname}.hcl"
 )
 
 build() {
-  cd "${srcdir}/openldap_exporter-${pkgver}/"
-  make build-linux
+  cd "${srcdir}/openldap_exporter-${upstream_ver}/"
+  make build
 }
 
 package() {
-
   cd "${srcdir}/"
 
   install -Dm 644 "131-set-${pkgname}.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/131-set-${pkgname}.sh"
 
-  install -Dm 755 "./openldap_exporter-${pkgver}/target/openldap_exporter-linux" \
+  install -Dm 755 "./openldap_exporter-${upstream_ver}/target/openldap_exporter" \
     "${pkgdir}/usr/bin/${pkgname}"
 
   install -Dm 644 "${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+
   install -Dm 644 "${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${pkgname}.yml" \
-    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
   install -Dm 644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
@@ -86,8 +84,6 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-
-  #/usr/set-carbonio-prometheus-openldap-exporter.sh
 
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :

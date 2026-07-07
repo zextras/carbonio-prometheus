@@ -1,0 +1,23 @@
+  - name: postfix_service_down
+    interval: 15s
+    rules:
+      - alert: postfix_service_down_5m
+        expr: max_over_time(probe_success{job="blackbox-postfix"}[1m]) == 0
+        for: 5m
+        labels:
+          severity: blocker
+          service: postfix
+          job: blackbox-postfix
+        annotations:
+          summary: "Postfix service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to Postfix (port 25) failed for {{ $labels.instance }} for more than 5 minutes. Check MTA process, firewall, and network."
+      - alert: postfix_service_down_1m
+        expr: max_over_time(probe_success{job="blackbox-postfix"}[1m]) == 0
+        for: 1m
+        labels:
+          severity: warning
+          service: postfix
+          job: blackbox-postfix
+        annotations:
+          summary: "Postfix service is unreachable on {{ $labels.instance }}"
+          description: "Blackbox probe to Postfix failed for {{ $labels.instance }} for more than 1 minute."

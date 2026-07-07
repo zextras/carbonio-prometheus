@@ -1,0 +1,26 @@
+groups:
+  - name: carbonio_exporter_availability
+    rules:
+      - alert: ExporterEndpointDownWarning
+        expr: up{target_type="exporter"} == 0
+        for: 3m
+        labels:
+          severity: warning
+          category: infrastructure
+        annotations:
+          summary: "Exporter down: {{ $labels.job }} on {{ $labels.instance }}"
+          description: >
+            Prometheus failed to scrape the exporter endpoint for job {{ $labels.job }}
+            on instance {{ $labels.instance }} for more than 3 minutes.
+
+      - alert: ExporterEndpointDownBlocker
+        expr: up{target_type="exporter"} == 0
+        for: 10m
+        labels:
+          severity: blocker
+          category: infrastructure
+        annotations:
+          summary: "Exporter still down: {{ $labels.job }} on {{ $labels.instance }}"
+          description: >
+            Prometheus failed to scrape the exporter endpoint for job {{ $labels.job }}
+            on instance {{ $labels.instance }} for more than 10 minutes.

@@ -1,0 +1,191 @@
+# This file must not be edited manually.
+# To add a new scrape job, create a separate file in:
+# /etc/carbonio/carbonio-prometheus/scrape_config.d/
+
+scrape_configs:
+  - job_name: "ldap"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-openldap-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "postgres"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-postgres-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "consul"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-consul-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "rabbitmq"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-rabbit-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "postfix"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-postfix-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "clamav"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-clamav-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "node"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-node-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "nginx"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-nginx-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "mysql"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-mysqld-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "haproxy"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-haproxy-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
+
+  - job_name: "process"
+    consul_sd_configs:
+      - server: "localhost:8500"
+        token: "{{ consultoken }}"
+        datacenter: "dc1"
+        services:
+          - "carbonio-prometheus-process-exporter"
+        tags:
+          - "prometheus-exporter"
+    relabel_configs:
+      - source_labels: ["__meta_consul_node"]
+        regex: "(agent|server)-(.+)-{{ consulhostsdomain }}"
+        replacement: "$2.{{ hostsdomain }}"
+        target_label: instance
+      - target_label: target_type
+        replacement: exporter
