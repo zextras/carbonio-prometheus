@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-node-exporter"
 pkgver="1.11.1"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -8,7 +8,7 @@ section="mail"
 priority="optional"
 arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
-depends_apt=("systemd")
+depends__apt=("systemd")
 depends__yum=(
   "systemd"
   "python3-dnf-plugin-post-transaction-actions"

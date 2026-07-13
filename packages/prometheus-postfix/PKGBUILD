@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-postfix-exporter"
 pkgver="1.0.0"
-pkgrel="2"
+pkgrel="3"
 pkgdesc="Prometheus exporter for Postfix mail queue statistics"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -8,7 +8,7 @@ section="mail"
 priority="optional"
 arch=('any')
 license=('Apache-2.0')
-depends_apt=(
+depends__apt=(
   "systemd"
   "python3"
   "python3-prometheus-client"
