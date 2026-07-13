@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
 * Fixed the APT dependency declaration to ensure required packages are installed automatically
 
 
-### [0.14.0] (2026-6-10)
+### [0.14.0] (2026-7-07)
 
 
 ### Features
