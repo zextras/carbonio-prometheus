@@ -1,5 +1,5 @@
 library(
-    identifier: 'jenkins-lib-common@v2.6.1',
+    identifier: 'jenkins-lib-common@v3.3.0',
     retriever: modernSCM([
         $class: 'GitSCMSource',
         credentialsId: 'jenkins-integration-with-github-account',
@@ -45,7 +45,7 @@ pipeline {
                     buildFlags: ' -ds ',
                     architecture: 'aarch64',
                     distros: ['ubuntu-jammy'],
-                    parallelBuilds: false,
+                    parallel: false,
                     prepare: true,
                     prepareFlags: ' -g ',
                 ])
@@ -59,16 +59,14 @@ pipeline {
             }
             steps {
                 uploadStage(
-                    packages: yapHelper.resolvePackageNames(),
-                    exclusions: [
+                    exclusionMap: [
                         'carbonio-prometheus': ['.*alertmanager.*\\.rpm', '.*exporter.*\\.rpm']
                     ]
                 )
                 uploadStage(
                     architecture: 'aarch64',
                     distros: ['ubuntu-jammy'],
-                    packages: yapHelper.resolvePackageNames(),
-                    exclusions: [
+                    exclusionMap: [
                         'carbonio-prometheus': ['.*alertmanager.*\\.rpm', '.*exporter.*\\.rpm']
                     ]
                 )
