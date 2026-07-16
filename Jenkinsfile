@@ -37,17 +37,17 @@ pipeline {
             steps {
                 echo 'Building deb/rpm packages'
                 buildStage([
-                    buildFlags: ' -ds ',
+                    buildFlags: '-ds',
                     prepare: true,
-                    prepareFlags: ' -g ',
+                    prepareFlags: '-g',
                 ])
                 buildStage([
-                    buildFlags: ' -ds ',
+                    buildFlags: '-ds',
                     architecture: 'aarch64',
                     distros: ['ubuntu-jammy'],
                     parallel: false,
                     prepare: true,
-                    prepareFlags: ' -g ',
+                    prepareFlags: '-g',
                 ])
             }
         }
