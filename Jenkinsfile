@@ -27,9 +27,13 @@ pipeline {
         stage('Setup') {
             steps {
                 checkout scm
-                script {
-                    gitMetadata()
-                }
+                gitMetadata()
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                gitleaksStage()
             }
         }
 
