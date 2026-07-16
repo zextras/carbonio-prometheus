@@ -6,38 +6,29 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends=("systemd")
+makedepends__apt=("libsystemd-dev")
+makedepends__yum=("systemd-devel")
+conflicts=("prometheus-process-exporter")
+
 source=(
-  "https://github.com/ncabatoff/process-exporter/releases/download/v${pkgver}/process-exporter-${pkgver}.linux-amd64.tar.gz"
   "${pkgname}.default"
   "${pkgname}.service"
   "${pkgname}.yml"
   "${pkgname}-consul.hcl"
 )
+source_aarch64=("https://github.com/ncabatoff/process-exporter/releases/download/v${pkgver}/process-exporter-${pkgver}.linux-arm64.tar.gz")
+source_x86_64=("https://github.com/ncabatoff/process-exporter/releases/download/v${pkgver}/process-exporter-${pkgver}.linux-amd64.tar.gz")
 sha256sums=(
-  '6d274cca5e94c6a25e55ec05762a472561859ce0a05b984aaedb67dd857ceee2'
   '6212db4a4388ab4ecb32276edafa2cad62a836bcec790f3c5cb8c722448e50c1'
   '7727215456f2825902c0381a5fc05f0841461a29255f25ec71faad7ce821cd38'
   '3128b696bb86b7ee0db39d464a7e1500625671b46cf7317eb4f0750b5c888827'
   'ed8e5a1f92abab5d746f15daf916cdee890c76ac33444f70499c1ea13b7c9c45'
 )
-
-depends=(
-  "systemd"
-)
-
-makedepends__apt=(
-  "libsystemd-dev"
-)
-
-makedepends__yum=(
-  "systemd-devel"
-)
-
-conflicts=(
-  "prometheus-process-exporter"
-)
+sha256sums_aarch64=('4a2502f290323e57eeeb070fc10e64047ad0cd838ae5a1b347868f75667b5ab0')
+sha256sums_x86_64=('6d274cca5e94c6a25e55ec05762a472561859ce0a05b984aaedb67dd857ceee2')
 
 backup=(
   "etc/default/${pkgname}"
@@ -45,25 +36,29 @@ backup=(
 )
 
 package() {
-  cd "${srcdir}/process-exporter-${pkgver}.linux-amd64"
+  if [ "${CARCH}" = "aarch64" ]; then
+    cd "${srcdir}/process-exporter-${pkgver}.linux-arm64"
+  else
+    cd "${srcdir}/process-exporter-${pkgver}.linux-amd64"
+  fi
 
-  install -Dm 755 process-exporter \
+  install -Dm755 process-exporter \
     "${pkgdir}/usr/bin/${pkgname}"
 
-  install -Dm 644 "${srcdir}/${pkgname}.service" \
+  install -Dm644 "${srcdir}/${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "${srcdir}/${pkgname}.default" \
+  install -Dm644 "${srcdir}/${pkgname}.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}/${pkgname}.yml" \
+  install -Dm644 "${srcdir}/${pkgname}.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yml"
 
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
@@ -78,7 +73,7 @@ postinst() {
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
   fi
-  
+
   if [ -d /run/systemd/system ]; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable carbonio-prometheus-process-exporter.service >/dev/null 2>&1 || :

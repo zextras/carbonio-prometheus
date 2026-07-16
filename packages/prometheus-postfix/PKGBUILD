@@ -1,20 +1,32 @@
 pkgname="carbonio-prometheus-postfix-exporter"
 pkgver="1.0.0"
-pkgrel="2"
+pkgrel="3"
 pkgdesc="Prometheus exporter for Postfix mail queue statistics"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('any')
 license=('Apache-2.0')
+depends__apt=(
+  "systemd"
+  "python3"
+  "python3-prometheus-client"
+)
+depends__yum=(
+  "systemd"
+  "python3"
+  "python3-prometheus_client"
+)
+conflicts=("postfix-queue-exporter")
+backup=("etc/sudoers.d/carbonio-prometheus-postfix")
+
 source=(
   "postfix_queue_exporter.py"
   "${pkgname}-consul.hcl"
   "${pkgname}.service"
   "${pkgname}.sudoers"
 )
-
 sha256sums=(
   'bd0efcb77995ea5f1cf314778c0bfc54e085ed877f75d580805266bcff81c32d'
   'b876f3fb7cdf3888eb444c755799166c0f596879d6856eab00d49465774c68dc'
@@ -22,45 +34,25 @@ sha256sums=(
   'd73fe9e4bd494e81d712bed5868a06e77470d74505cd2f7bfa47cf4e8ce146d5'
 )
 
-depends_apt=(
-  "systemd"
-  "python3"
-  "python3-prometheus-client"
-)
-
-depends__yum=(
-  "systemd"
-  "python3"
-  "python3-prometheus_client"
-)
-
-conflicts=(
-  "postfix-queue-exporter"
-)
-
-backup=(
-  "etc/sudoers.d/carbonio-prometheus-postfix"
-)
-
 package() {
   cd "${srcdir}"
 
-  install -Dm 755 "postfix_queue_exporter.py" \
+  install -Dm755 "postfix_queue_exporter.py" \
     "${pkgdir}/opt/zextras/libexec/postfix_queue_exporter.py"
 
-  install -Dm 644 "${pkgname}.service" \
+  install -Dm644 "${pkgname}.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
 
-  install -Dm 644 "${pkgname}-consul.hcl" \
+  install -Dm644 "${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
-  install -Dm 440 "${pkgname}.sudoers" \
+  install -Dm440 "${pkgname}.sudoers" \
     "${pkgdir}/etc/sudoers.d/carbonio-prometheus-postfix"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null || \
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'

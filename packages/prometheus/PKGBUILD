@@ -6,10 +6,13 @@ maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
 section="mail"
 priority="optional"
-arch=('x86_64')
+arch=('aarch64' 'x86_64')
 license=('Apache-2.0')
+depends=("systemd")
+conflicts=("prometheus")
+backup=("etc/carbonio/${pkgname}/prometheus.yml")
+
 source=(
-  "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
   "131-${pkgname}.sh"
   "alertmanager.yml"
   "blackbox-consul.yml"
@@ -35,8 +38,13 @@ source=(
   "${pkgname}-consul.hcl"
   "policies.json"
 )
+source_aarch64=(
+  "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-arm64.tar.gz"
+)
+source_x86_64=(
+  "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
+)
 sha256sums=(
-  '9479af67673316278958cda1f39b88a09f8921084e039c65acca060d0447bb38'
   '6a6b39e294858a67d41416ee26aab687b58d60630b0934d0968cb967a57a502c'
   '866472d0a45a42bba0f1a6ba0b8665bd648e0c2ca5024df044185eaf38cff99d'
   '50997775d819dddcbef5995453df4bc7535b075c91ec31d672dfa2a85176c57c'
@@ -62,91 +70,89 @@ sha256sums=(
   '96266d8f5a75414eb5e0b3b52dcc7f7845049bab3b8b7759c3a77d72897c77aa'
   '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
 )
-
-depends=(
-  "systemd"
+sha256sums_aarch64=(
+  'd2ec0a96259afde955ad1560ced303cef99cac4dac676bd4dd7614d76adb708a'
 )
-
-conflicts=(
-  "prometheus"
-)
-
-backup=(
-  "etc/carbonio/${pkgname}/prometheus.yml"
+sha256sums_x86_64=(
+  '9479af67673316278958cda1f39b88a09f8921084e039c65acca060d0447bb38'
 )
 
 package() {
   cd "${srcdir}"
 
-  install -Dm 755 "131-carbonio-prometheus.sh" \
+  install -Dm755 "131-carbonio-prometheus.sh" \
     "${pkgdir}/etc/zextras/pending-setups.d/131-carbonio-prometheus.sh"
-  install -Dm 644 "prometheus.service" \
+  install -Dm644 "prometheus.service" \
     "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
-  install -Dm 644 "prometheus.default" \
+  install -Dm644 "prometheus.default" \
     "${pkgdir}/etc/default/${pkgname}"
-  install -Dm 644 "${srcdir}/${pkgname}-consul.hcl" \
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
     "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
 
-  cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
-  install -Dm 755 prometheus "${pkgdir}/usr/bin/prometheus"
-  install -Dm 755 promtool "${pkgdir}/usr/bin/promtool"
-  install -dm 750 "${pkgdir}/var/lib/prometheus"
-  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/rules"
-  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
-  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
-  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/alertmanager"
-  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d"
-  install -dm 750 "${pkgdir}/etc/carbonio/${pkgname}/service-discover"
+  if [ "${CARCH}" = "aarch64" ]; then
+    cd "${srcdir}/prometheus-${pkgver}.linux-arm64"
+  else
+    cd "${srcdir}/prometheus-${pkgver}.linux-amd64"
+  fi
+  install -Dm755 prometheus "${pkgdir}/usr/bin/prometheus"
+  install -Dm755 promtool "${pkgdir}/usr/bin/promtool"
+  install -dm750 "${pkgdir}/var/lib/prometheus"
+  install -dm750 "${pkgdir}/etc/carbonio/${pkgname}/rules"
+  install -dm750 "${pkgdir}/etc/carbonio/${pkgname}/sample-rules"
+  install -dm750 "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager"
+  install -dm750 "${pkgdir}/etc/carbonio/${pkgname}/alertmanager"
+  install -dm750 "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d"
+  install -dm750 "${pkgdir}/etc/carbonio/${pkgname}/service-discover"
 
-  install -Dm 640 "${srcdir}/prometheus.yml" \
+  install -Dm640 "${srcdir}/prometheus.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/prometheus.yml"
-  install -Dm 640 "${srcdir}/scrape-blackbox.yml" \
+  install -Dm640 "${srcdir}/scrape-blackbox.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-blackbox.yml"
-  install -Dm 640 "${srcdir}/scrape-exporters.yml" \
+  install -Dm640 "${srcdir}/scrape-exporters.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-exporters.yml"
-  install -Dm 640 "${srcdir}/scrape-services.yml" \
+  install -Dm640 "${srcdir}/scrape-services.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-services.yml"
 
-  install -Dm 640 "${srcdir}/policies.json" \
+  install -Dm640 "${srcdir}/policies.json" \
     "${pkgdir}/etc/carbonio/${pkgname}/service-discover/policies.json"
-    
+
   # Prometheus sample-rules:
-  install -Dm 640 "${srcdir}/blackbox-consul.yml" \
+  install -Dm640 "${srcdir}/blackbox-consul.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-consul.yml"
-  install -Dm 640 "${srcdir}/blackbox-imap.yml" \
+  install -Dm640 "${srcdir}/blackbox-imap.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-imap.yml"
-  install -Dm 640 "${srcdir}/blackbox-ldap.yml" \
+  install -Dm640 "${srcdir}/blackbox-ldap.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-ldap.yml"
-  install -Dm 640 "${srcdir}/blackbox-mysql.yml" \
+  install -Dm640 "${srcdir}/blackbox-mysql.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-mysql.yml"
-  install -Dm 640 "${srcdir}/blackbox-postfix.yml" \
+  install -Dm640 "${srcdir}/blackbox-postfix.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-postfix.yml"
-  install -Dm 640 "${srcdir}/blackbox-ssl.yml" \
+  install -Dm640 "${srcdir}/blackbox-ssl.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/blackbox-ssl.yml"
-  install -Dm 640 "${srcdir}/clamav.yml" \
+  install -Dm640 "${srcdir}/clamav.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/clamav.yml"
-  install -Dm 640 "${srcdir}/consul.yml" \
+  install -Dm640 "${srcdir}/consul.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/consul.yml"
-  install -Dm 640 "${srcdir}/exporter-availability.yml" \
+  install -Dm640 "${srcdir}/exporter-availability.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/exporter-availability.yml"
-  install -Dm 640 "${srcdir}/mta-queues.yml" \
+  install -Dm640 "${srcdir}/mta-queues.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/mta-queues.yml"
-  install -Dm 640 "${srcdir}/mysql.yml" \
+  install -Dm640 "${srcdir}/mysql.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/mysql.yml"
-  install -Dm 640 "${srcdir}/nginx.yml" \
+  install -Dm640 "${srcdir}/nginx.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/nginx.yml"
-  install -Dm 640 "${srcdir}/node-exporter.yml" \
+  install -Dm640 "${srcdir}/node-exporter.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/node-exporter.yml"
-  install -Dm 640 "${srcdir}/postgres.yml" \
+  install -Dm640 "${srcdir}/postgres.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/postgres.yml"
 
-  install -Dm 640 "${srcdir}/alertmanager.yml" \
+  install -Dm640 "${srcdir}/alertmanager.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-alertmanager/alertmanager.yml"
 }
 
 postinst() {
-  getent group 'carbonio-prometheus' >/dev/null ||
-    groupadd -r 'carbonio-prometheus'
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
 
   if ! getent passwd 'carbonio-prometheus' >/dev/null; then
     useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
