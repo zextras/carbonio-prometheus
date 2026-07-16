@@ -16,7 +16,7 @@
 # Configuration
 .DEFAULT_GOAL := build
 YAP_IMAGE_PREFIX ?= docker.io/m0rf30/yap
-YAP_VERSION ?= 1.49
+YAP_VERSION ?= 2.4.1
 CONTAINER_RUNTIME ?= $(shell command -v docker >/dev/null 2>&1 && echo docker || echo podman)
 
 # Build directories
