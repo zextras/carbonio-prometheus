@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 * Fixed the APT dependency declaration to ensure required packages are installed automatically
+* Removed obsolete chown command from the OpenLDAP exporter package postinst that targeted the deprecated configuration directory /etc/carbonio/carbonio-prometheus-openldap-exporter
 
 
 ### [0.14.0] (2026-7-07)

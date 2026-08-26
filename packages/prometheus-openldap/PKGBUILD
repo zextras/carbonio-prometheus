@@ -1,7 +1,7 @@
 pkgname="carbonio-prometheus-openldap-exporter"
 pkgver="3.0.0"
 upstream_ver="2.0.1"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="OpenLDAP exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -68,7 +68,6 @@ postinst() {
     fi
   fi
 
-  chown -R carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus-openldap-exporter
 
   if hash initctl 2>/dev/null; then
     initctl reload-configuration 2>/dev/null || true
