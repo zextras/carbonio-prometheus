@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-node-exporter"
-pkgver="1.11.1"
-pkgrel="2"
+pkgver="1.12.1"
+pkgrel="1"
 pkgdesc="Node exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -30,8 +30,8 @@ sha256sums=(
   'd8751db667bfa48f0582d2d1f2d6a574d8e6cbe1c4942433ef44eab1f791f7ff'
   'c0759b34a7232f04c08c343fdbdc4785efea7376c0cc8371af3f215342dbf495'
 )
-sha256sums_aarch64=('ba1886efbd76cb96b0087c695ea8d1b9cb6e8aa946c996d744e9ee16c8e3591a')
-sha256sums_x86_64=('9f5ea48e5bc7b656f8a91a32e7d7deb89f70f73dabd0d974418aca15f37d6810')
+sha256sums_aarch64=('ad35b605f9954b9f1ffddf5ba054bdc5a98d790b9eae5291e1eeb83f1ecbd0e7')
+sha256sums_x86_64=('b51d8a76aa2a9156a55d501aca6276fae09e262259a5e4e831d2c2222f084e63')
 
 package() {
   if [ "${CARCH}" = "aarch64" ]; then

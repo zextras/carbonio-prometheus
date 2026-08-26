@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus"
-pkgver="3.11.3"
+pkgver="3.14.0"
 pkgrel="1"
 pkgdesc="An open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -71,10 +71,10 @@ sha256sums=(
   '9a3cb3da73ca92b641e9ac31223deadc0587c9ea280884a8ac8e80ab4266aa25'
 )
 sha256sums_aarch64=(
-  'd2ec0a96259afde955ad1560ced303cef99cac4dac676bd4dd7614d76adb708a'
+  '077f3781ab7245dc04c9a3c9b78ba120fc8e41aa0dc97489b0af67247e50ba83'
 )
 sha256sums_x86_64=(
-  '9479af67673316278958cda1f39b88a09f8921084e039c65acca060d0447bb38'
+  'f665c6da19eb7ba399c915d30c7d9793c9b417bf8a749b504bc470678631478d'
 )
 
 package() {

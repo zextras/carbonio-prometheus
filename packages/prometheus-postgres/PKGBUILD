@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-postgres-exporter"
-pkgver="0.19.1"
+pkgver="0.20.1"
 pkgrel="1"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
@@ -28,8 +28,8 @@ sha256sums=(
   '634fd8048f73aeb1e92b4f700b82615b1cc2e0f634dd202eac4b58c419d4ec00'
   '7f9e5658369bb5524fef1129e52d02af6fb05a627ac59aa032d9ede3b42efd78'
 )
-sha256sums_aarch64=('0ac6fe8c1f66f13b12adb8da282d248d9e1a48df6684e453ca232fd8fd62a11a')
-sha256sums_x86_64=('229096c7988df6ca41fe5b4bf66865089971535e7f0d819c12c920ec64dd2bd0')
+sha256sums_aarch64=('d5d86fb98bb1f26b088d1a6fda07fd6b6f035cb5d40492f75ec3bfebb5ddfe9d')
+sha256sums_x86_64=('89d4f7e7920cad48fdc3133f789556ef5253c330a9f5fdace3bdb6344c0a8b5a')
 
 package() {
   if [ "${CARCH}" = "aarch64" ]; then

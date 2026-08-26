@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 
 
+### [0.15.0] (2026-9-30)
+
+
+### Features
+* Upgraded Carbonio Prometheus to 3.14.0 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.14.0)
+* Upgraded Carbonio Prometheus Mysqld exporter to 0.20.0 version (based on https://github.com/prometheus/mysqld_exporter/releases/tag/v0.20.0)
+* Upgraded Carbonio Prometheus Nginx exporter to 1.5.3 version (based on https://github.com/nginx/nginx-prometheus-exporter/releases/tag/v1.5.3)
+* Upgraded Carbonio Prometheus Node exporter to 1.12.1 version (based on https://github.com/prometheus/node_exporter/releases/tag/v1.12.1)
+* Upgraded Carbonio Prometheus Postgres exporter to 0.20.1 version (based on https://github.com/prometheus-community/postgres_exporter/releases/tag/v0.20.1)
+
+
 ### [0.14.1] (2026-7-13)
 
 
