@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 * Upgraded Carbonio Prometheus to 3.14.0 version (based on https://github.com/prometheus/prometheus/releases/tag/v3.14.0)
+* Upgraded Carbonio Prometheus Alertmanager to 0.34.0 version (based on https://github.com/prometheus/alertmanager/releases/tag/v0.34.0)
 * Upgraded Carbonio Prometheus Mysqld exporter to 0.20.0 version (based on https://github.com/prometheus/mysqld_exporter/releases/tag/v0.20.0)
 * Upgraded Carbonio Prometheus Nginx exporter to 1.5.3 version (based on https://github.com/nginx/nginx-prometheus-exporter/releases/tag/v1.5.3)
 * Upgraded Carbonio Prometheus Node exporter to 1.12.1 version (based on https://github.com/prometheus/node_exporter/releases/tag/v1.12.1)
