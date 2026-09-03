@@ -31,6 +31,12 @@ pipeline {
             }
         }
 
+        stage('Skip CI') {
+            steps {
+                script { semanticRelease.guard() }
+            }
+        }
+
         stage('Security Scan') {
             steps {
                 gitleaksStage()
@@ -74,6 +80,12 @@ pipeline {
                         'carbonio-prometheus': ['.*alertmanager.*\\.rpm', '.*exporter.*\\.rpm']
                     ]
                 )
+            }
+        }
+
+        stage('Semantic Release') {
+            steps {
+                semanticRelease()
             }
         }
     }
