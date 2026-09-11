@@ -3,8 +3,15 @@
 All notable changes to this project will be documented in this file. 
 
 
+### [0.15.1] (2026-9-11)
 
-### [0.15.0] (2026-9-30)
+
+### Bug Fixes
+* Fixed PostgreSQL exporter setup to reuse the existing `carbonio_prometheus` role during package upgrades
+* Improved PostgreSQL exporter security by generating a unique database password for each installation
+
+
+### [0.15.0] (2026-9-03)
 
 
 ### Features

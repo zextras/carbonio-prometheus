@@ -1,6 +1,6 @@
 pkgname="carbonio-prometheus-postgres-exporter"
 pkgver="0.20.1"
-pkgrel="1"
+pkgrel="2"
 pkgdesc="Postgres exporter for open-source systems monitoring and alerting toolkit"
 maintainer="Zextras <packages@zextras.com>"
 url="https://zextras.com"
@@ -22,11 +22,11 @@ source=(
 source_aarch64=("https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-arm64.tar.gz")
 source_x86_64=("https://github.com/prometheus-community/postgres_exporter/releases/download/v${pkgver}/postgres_exporter-${pkgver}.linux-amd64.tar.gz")
 sha256sums=(
-  'ceb07622ff5e2483b92b6b7acc9c190e00c56dd347278c64f1e080ac0830632b'
+  '0457f61bdf2818ee80d220a42a67d79f449c9caa47f7133b3ccab72a7db5dd71'
   '2307d2bed92d80c41cdcf3c65cdc95e57329dd28c7fa9913b0c1571598e3cc70'
   'cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b'
   '634fd8048f73aeb1e92b4f700b82615b1cc2e0f634dd202eac4b58c419d4ec00'
-  '7f9e5658369bb5524fef1129e52d02af6fb05a627ac59aa032d9ede3b42efd78'
+  'c3e7d64c4f1a579d0a9d7acb82499ec8d03370511824a4ed61293c28a7611515'
 )
 sha256sums_aarch64=('d5d86fb98bb1f26b088d1a6fda07fd6b6f035cb5d40492f75ec3bfebb5ddfe9d')
 sha256sums_x86_64=('89d4f7e7920cad48fdc3133f789556ef5253c330a9f5fdace3bdb6344c0a8b5a')
