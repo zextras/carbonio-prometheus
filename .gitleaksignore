@@ -1,3 +1,4 @@
 4fc74e1336447e3ff2e687b0d1d00b3794129168:packages/prometheus/scrape-blackbox.yml:generic-api-key:114
 b8f8f28c83ab4aedbf025c447eb1664ec3ae7608:packages/grafana-settings/grafana.ini:generic-api-key:169
 d30184c514cebd99de6ba630518cf6d3feedf719:packages/grafana-settings/grafana.ini:generic-api-key:251
+46c1ade615d65aad0fe93a662835b886dbdb4d72:packages/prometheus-postgres/set-carbonio-prometheus-postgres-exporter.sh:generic-api-key:5
