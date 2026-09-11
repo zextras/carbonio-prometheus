@@ -34,11 +34,13 @@ fi
 chown root:root "${CONFIG_FILE}"
 chmod 600 "${CONFIG_FILE}"
 
-DB_USER_EXISTS="$(
+if ! DB_USER_EXISTS="$(
   su - postgres -c \
-    "psql -tAc \"SELECT 1 FROM pg_roles WHERE rolname='${DB_USER}'\"" \
-    2>/dev/null
-)"
+    "psql -v ON_ERROR_STOP=1 -tAc \"SELECT 1 FROM pg_roles WHERE rolname='${DB_USER}'\""
+)"; then
+  echo "WARNING: Failed to query PostgreSQL roles. Skipping PostgreSQL exporter configuration." >&2
+  exit 0
+fi
 
 if [ "${DB_USER_EXISTS}" = "1" ]; then
   echo "PostgreSQL role '${DB_USER}' already exists. Skipping role creation."
