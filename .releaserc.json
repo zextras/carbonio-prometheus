@@ -1,7 +1,7 @@
 {
   "branches": ["main"],
   "repositoryUrl": "https://github.com/zextras/carbonio-prometheus",
-  "tagFormat": "${version}",
+  "tagFormat": "v${version}",
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
