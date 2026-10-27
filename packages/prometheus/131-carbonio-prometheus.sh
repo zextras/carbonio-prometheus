@@ -30,13 +30,8 @@ if ! consul acl policy create -name "${POLICY_NAME}" -description "${POLICY_DESC
   fi
 fi
 
-if [[ ! -f "/etc/carbonio/carbonio-prometheus/service-discover/token" ]]; then
-  # Create the token
-  consul acl token create -format json -policy-name "${POLICY_NAME}" -description "Token for carbonio-prometheus/$(hostname -A)" |
-    jq -r '.SecretID' >/etc/carbonio/carbonio-prometheus/service-discover/token
-  chown carbonio-prometheus:carbonio-prometheus /etc/carbonio/carbonio-prometheus/service-discover/token
-  chmod 0600 /etc/carbonio/carbonio-prometheus/service-discover/token
-fi
+service-discover service-token ensure --service carbonio-prometheus --policy "${POLICY_NAME}" \
+  --token-file /etc/carbonio/carbonio-prometheus/service-discover/token --owner carbonio-prometheus
 
 HTTP_TOKEN=$(cat /etc/carbonio/carbonio-prometheus/service-discover/token)
 sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/prometheus.yml
@@ -61,5 +56,7 @@ systemctl restart carbonio-prometheus
 
 echo "Reloading Service Discover"
 consul reload
+
+service-discover service-token prune-legacy --service carbonio-prometheus --policy "${POLICY_NAME}"
 
 export -n CONSUL_HTTP_TOKEN
