@@ -45,7 +45,7 @@ source_x86_64=(
   "https://github.com/prometheus/prometheus/releases/download/v${pkgver}/prometheus-${pkgver}.linux-amd64.tar.gz"
 )
 sha256sums=(
-  '6a6b39e294858a67d41416ee26aab687b58d60630b0934d0968cb967a57a502c'
+  '0f30a67938072cdf89e767d6e1be0d6ff90294693deb2db334b6e09a5ea0923c'
   '866472d0a45a42bba0f1a6ba0b8665bd648e0c2ca5024df044185eaf38cff99d'
   '50997775d819dddcbef5995453df4bc7535b075c91ec31d672dfa2a85176c57c'
   '2bd1e3939794652c286d33a81c7459b9d98a9dd3435204df7a2f1c81bbd4c5da'
