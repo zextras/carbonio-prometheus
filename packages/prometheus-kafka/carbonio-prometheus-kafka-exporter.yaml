@@ -1,0 +1,11 @@
+kafka:
+  brokers:
+    - "127.0.0.1:9092"
+
+exporter:
+  host: "0.0.0.0"
+  port: 8081
+
+minion:
+  consumerGroups:
+    enabled: true
