@@ -22,11 +22,11 @@ source_aarch64=("https://github.com/cloudhut/kminion/releases/download/v${pkgver
 source_x86_64=("https://github.com/cloudhut/kminion/releases/download/v${pkgver}/kminion_${pkgver}_linux_amd64.tar.gz")
 
 sha256sums=(
-  '5df68fe162d32566822a3735feb52dc7bf23acdba207ce6ef5adf99b7e96cec2'
+  'd2450b6df90f8ce1b124d4732606d0e4e89bba897e50aa6ca6f25f01178a503b'
   'd9b091ac67d24e1602b420ac7dfff117bf4458b7adc6a3a99a5b16884d39ec66'
   'f507fd5d0bc726ae17cc12c77e6b9b893fdf2359183f5e9c8566a86cba359916'
   '719a875475e6c94224c7126f457a5c9bb62efbaf7e020dd23c552ca9da53bb67'
-  '8b2197027e4f84e66994d75f598f182708a4a49a802e7b63079d47e6a70105f3'
+  '44a022e932ae7bccea22003dfaf47cb088ae94d5b229769adaf5e97894b9433b'
 )
 sha256sums_aarch64=('cd98c9af64455652f66cd526830cde6d6a57993000058d517d1d5ea2ad6392c6')
 sha256sums_x86_64=('a3d942d89f5c0760f6375a8599503eb38470f586eef652b15135bb2321cdfef2')

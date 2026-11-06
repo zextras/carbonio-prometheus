@@ -36,7 +36,7 @@ cat <<EOF >> "$config_file"
 
 exporter:
   host: "0.0.0.0"
-  port: 8081
+  port: 9081
 
 minion:
   consumerGroups:
