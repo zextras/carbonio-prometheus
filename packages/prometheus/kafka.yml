@@ -8,7 +8,7 @@ groups:
           service: kafka
         annotations:
           summary: "Kafka broker down in cluster {{ $labels.cluster_id }}"
-          description: "Active Kafka broker count dropped below 3 (current count: {{ $value }}). Check broker services on ha1-svc1, ha1-svc2, and ha1-svc3."
+          description: "Active Kafka broker count dropped below 3 (current count: {{ $value }}). Check broker services on kafka nodes."
 
       - alert: KafkaNoActiveController
         expr: sum(kminion_kafka_broker_info{is_controller="true"}) != 1
