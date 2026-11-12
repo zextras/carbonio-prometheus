@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. 
 
 
+### [0.16.0] (2026-11-12)
+
+
+### Features
+* Added `carbonio-prometheus-kafka-exporter` (KMinion) package for Kafka cluster monitoring
+
+
 ### [0.15.1] (2026-9-11)
 
 
