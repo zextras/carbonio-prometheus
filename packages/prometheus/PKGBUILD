@@ -116,7 +116,7 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-exporters.yml"
   install -Dm640 "${srcdir}/scrape-services.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-services.yml"
-  install -Dm640 "${srcdir}/scrape-services.yml" \
+  install -Dm640 "${srcdir}/scrape-kafka.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/scrape_config.d/scrape-kafka.yml"
 
   install -Dm640 "${srcdir}/policies.json" \
@@ -151,7 +151,7 @@ package() {
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/node-exporter.yml"
   install -Dm640 "${srcdir}/postgres.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/postgres.yml"
-  install -Dm640 "${srcdir}/postgres.yml" \
+  install -Dm640 "${srcdir}/kafka.yml" \
     "${pkgdir}/etc/carbonio/${pkgname}/sample-rules/kafka.yml"
 
   install -Dm640 "${srcdir}/alertmanager.yml" \
