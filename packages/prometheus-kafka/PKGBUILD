@@ -1,5 +1,5 @@
 pkgname="carbonio-prometheus-kafka-exporter"
-pkgver="2.2.4"
+pkgver="2.5.1"
 pkgrel="1"
 pkgdesc="Prometheus Kafka exporter (KMinion) for Carbonio infrastructure monitoring"
 maintainer="Zextras <packages@zextras.com>"
@@ -28,8 +28,8 @@ sha256sums=(
   '719a875475e6c94224c7126f457a5c9bb62efbaf7e020dd23c552ca9da53bb67'
   '44a022e932ae7bccea22003dfaf47cb088ae94d5b229769adaf5e97894b9433b'
 )
-sha256sums_aarch64=('cd98c9af64455652f66cd526830cde6d6a57993000058d517d1d5ea2ad6392c6')
-sha256sums_x86_64=('a3d942d89f5c0760f6375a8599503eb38470f586eef652b15135bb2321cdfef2')
+sha256sums_aarch64=('1e158f736571a6ed41f637d3fee4050750944d889fce88592b6c4b6847b7ef09')
+sha256sums_x86_64=('228c352f6bf1b6f10dd5737631ed96a6c0ea69d0b54322ad9eda90be6c543791')
 
 package() {
   cd "${srcdir}/"
