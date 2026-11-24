@@ -42,6 +42,9 @@
         },
         {
             "name": "packages/prometheus-haproxy"
+        },
+        {
+            "name": "packages/prometheus-kafka"
         }
     ]
 }

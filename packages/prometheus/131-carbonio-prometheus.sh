@@ -38,18 +38,21 @@ sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/pro
 sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-exporters.yml
 sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-services.yml
 sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-blackbox.yml
+sed -i s/"{{ consultoken }}"/$HTTP_TOKEN/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-kafka.yml
 
 domain=$(hostname -d)
 sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/prometheus.yml
 sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-exporters.yml
 sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-services.yml
 sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-blackbox.yml
+sed -i s/"{{ hostsdomain }}"/$domain/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-kafka.yml
 
 consuldom=$(hostname -d | sed s/\\\./-/g)
 sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/prometheus.yml
 sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-exporters.yml
 sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-services.yml
 sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-blackbox.yml
+sed -i s/"{{ consulhostsdomain }}"/$consuldom/g /etc/carbonio/carbonio-prometheus/scrape_config.d/scrape-kafka.yml
 
 echo "Restarting Carbonio Prometheus Service"
 systemctl restart carbonio-prometheus

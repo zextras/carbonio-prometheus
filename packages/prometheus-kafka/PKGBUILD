@@ -1,0 +1,99 @@
+pkgname="carbonio-prometheus-kafka-exporter"
+pkgver="2.5.1"
+pkgrel="1"
+pkgdesc="Prometheus Kafka exporter (KMinion) for Carbonio infrastructure monitoring"
+maintainer="Zextras <packages@zextras.com>"
+url="https://github.com/cloudhut/kminion"
+section="mail"
+priority="optional"
+arch=('aarch64' 'x86_64')
+license=('Apache-2.0')
+depends=("systemd")
+conflicts=('kminion')
+
+source=(
+  "132-set-${pkgname}.sh"
+  "${pkgname}.default"
+  "${pkgname}.service"
+  "${pkgname}-consul.hcl"
+  "${pkgname}.yaml"
+)
+source_aarch64=("https://github.com/cloudhut/kminion/releases/download/v${pkgver}/kminion_${pkgver}_linux_arm64.tar.gz")
+source_x86_64=("https://github.com/cloudhut/kminion/releases/download/v${pkgver}/kminion_${pkgver}_linux_amd64.tar.gz")
+
+sha256sums=(
+  'd2450b6df90f8ce1b124d4732606d0e4e89bba897e50aa6ca6f25f01178a503b'
+  'd9b091ac67d24e1602b420ac7dfff117bf4458b7adc6a3a99a5b16884d39ec66'
+  'f507fd5d0bc726ae17cc12c77e6b9b893fdf2359183f5e9c8566a86cba359916'
+  '719a875475e6c94224c7126f457a5c9bb62efbaf7e020dd23c552ca9da53bb67'
+  '44a022e932ae7bccea22003dfaf47cb088ae94d5b229769adaf5e97894b9433b'
+)
+sha256sums_aarch64=('1e158f736571a6ed41f637d3fee4050750944d889fce88592b6c4b6847b7ef09')
+sha256sums_x86_64=('228c352f6bf1b6f10dd5737631ed96a6c0ea69d0b54322ad9eda90be6c543791')
+
+package() {
+  cd "${srcdir}/"
+
+  install -Dm755 "${srcdir}/132-set-${pkgname}.sh" \
+    "${pkgdir}/etc/zextras/pending-setups.d/132-set-${pkgname}.sh"
+
+  # KMinion archive extracts the binary directly into srcdir
+  install -Dm755 "${srcdir}/kminion" \
+    "${pkgdir}/usr/bin/${pkgname}"
+
+  install -Dm644 "${srcdir}/${pkgname}.service" \
+    "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+  install -Dm644 "${srcdir}/${pkgname}.default" \
+    "${pkgdir}/etc/default/${pkgname}"
+  install -Dm644 "${srcdir}/${pkgname}.yaml" \
+    "${pkgdir}/etc/carbonio/${pkgname}/${pkgname}.yaml"
+
+  install -Dm644 "${srcdir}/${pkgname}-consul.hcl" \
+    "${pkgdir}/etc/zextras/service-discover/${pkgname}.hcl"
+}
+
+postinst() {
+  getent group 'carbonio-prometheus' >/dev/null \
+    || groupadd -r 'carbonio-prometheus'
+
+  if ! getent passwd 'carbonio-prometheus' >/dev/null; then
+    useradd -r -M -g 'carbonio-prometheus' -s /sbin/nologin 'carbonio-prometheus'
+  else
+    if [ "$(getent passwd 'carbonio-prometheus' | cut -d: -f6)" != "/home/carbonio-prometheus" ]; then
+      usermod -d /home/carbonio-prometheus 'carbonio-prometheus'
+    fi
+  fi
+
+  chown -R carbonio-prometheus:carbonio-prometheus "/etc/carbonio/${pkgname}"
+
+  if hash initctl 2>/dev/null; then
+    initctl reload-configuration 2>/dev/null || true
+  fi
+
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable "${pkgname}.service" >/dev/null 2>&1 || :
+    systemctl start "${pkgname}.service" >/dev/null 2>&1 || :
+  fi
+
+  echo "======================================================"
+  echo "Carbonio Kafka Exporter installed successfully!"
+  echo "You must run pending-setups to configure it correctly."
+  echo "======================================================"
+}
+
+prerm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl --no-reload disable "${pkgname}.service" >/dev/null 2>&1 || :
+    systemctl stop "${pkgname}.service" >/dev/null 2>&1 || :
+  fi
+
+  rm -f "/etc/zextras/pending-setups.d/132-set-${pkgname}.sh"
+  rm -f "/etc/zextras/pending-setups.d/done/132-set-${pkgname}.sh"
+}
+
+postrm() {
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+  fi
+}

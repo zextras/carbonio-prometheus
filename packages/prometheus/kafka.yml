@@ -1,0 +1,53 @@
+groups:
+      # 2. Broker Availability (Broker Down)
+      - alert: KafkaBrokerDown
+        expr: count by (cluster_id) (kminion_kafka_broker_info) < 3
+        for: 1m
+        labels:
+          severity: blocker
+          service: kafka
+        annotations:
+          summary: "Kafka broker down in cluster {{ $labels.cluster_id }}"
+          description: "Active Kafka broker count dropped below 3 (current count: {{ $value }}). Check broker services on kafka nodes."
+
+      - alert: KafkaNoActiveController
+        expr: sum(kminion_kafka_broker_info{is_controller="true"}) != 1
+        for: 1m
+        labels:
+          severity: blocker
+          service: kafka
+        annotations:
+          summary: "Kafka cluster has no active controller"
+          description: "Expected exactly 1 active Kafka controller broker, but found {{ $value }}. Cluster metadata operations are blocked."
+
+      # 3. Consumer Group Health (Consumer Down / Unstable)
+      - alert: KafkaConsumerGroupUnstable
+        expr: kminion_kafka_consumer_group_info != 1
+        for: 2m
+        labels:
+          severity: blocker
+          service: kafka
+        annotations:
+          summary: "Kafka consumer group {{ $labels.group_id }} is not Stable"
+          description: "Consumer group {{ $labels.group_id }} is currently in state '{{ $labels.state }}' (expected 'Stable') for over 2 minutes."
+
+      - alert: KafkaConsumerGroupMembersMissing
+        expr: kminion_kafka_consumer_group_members == 0
+        for: 2m
+        labels:
+          severity: blocker
+          service: kafka
+        annotations:
+          summary: "No active consumers in group {{ $labels.group_id }}"
+          description: "Consumer group {{ $labels.group_id }} has 0 active members. Carbonio HA cache or replication processing has stalled."
+
+      # 4. Consumer Lag (Replication / Cache Delay)
+      - alert: KafkaConsumerGroupLagHigh
+        expr: kminion_kafka_consumer_group_topic_lag > 100
+        for: 5m
+        labels:
+          severity: warning
+          service: kafka
+        annotations:
+          summary: "High consumer lag on topic {{ $labels.topic_name }}"
+          description: "Consumer group {{ $labels.group_id }} is lagging by {{ $value }} messages on topic {{ $labels.topic_name }}."

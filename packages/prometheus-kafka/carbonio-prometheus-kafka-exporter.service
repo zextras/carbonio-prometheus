@@ -1,0 +1,17 @@
+[Unit]
+Description=Carbonio Prometheus Kafka Exporter (KMinion)
+Wants=network-online.target
+After=network.target
+PartOf=carbonio.target
+
+[Service]
+User=carbonio-prometheus
+Group=carbonio-prometheus
+Type=simple
+EnvironmentFile=/etc/default/carbonio-prometheus-kafka-exporter
+ExecStart=/usr/bin/carbonio-prometheus-kafka-exporter
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
